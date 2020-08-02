@@ -2,7 +2,8 @@
 mod tests {
     use super::*;
 
-    const USER_AGENT: &str =  "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
+    const USER_AGENT: &str =
+        "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
 
     #[test]
     fn it_works() {
