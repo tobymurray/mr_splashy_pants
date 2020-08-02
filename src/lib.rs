@@ -1,7 +1,6 @@
 #[cfg(test)]
 mod tests {
     use super::*;
-    use dotenv::dotenv;
     use std::env;
 
     const USER_AGENT: &str =
@@ -55,7 +54,7 @@ impl Pants {
 
     pub async fn me(self) -> Result<(), Box<dyn std::error::Error>> {
         let client = reqwest::Client::builder()
-            .user_agent(self.client_configuration.user_agent)
+            .user_agent(&(self.client_configuration.user_agent))
             .build()
             .unwrap();
 
@@ -65,10 +64,10 @@ impl Pants {
     }
 
     pub async fn refresh_access_token(
-        self,
+        &self,
     ) -> Result<api_sections::oauth::RefreshToken, Box<dyn std::error::Error>> {
         let client = reqwest::Client::builder()
-            .user_agent(self.client_configuration.user_agent)
+            .user_agent(&self.client_configuration.user_agent)
             .build()
             .unwrap();
 
