@@ -20,3 +20,8 @@ jobs:
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
+      env:
+        ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
+        REFRESH_TOKEN: ${{secrets.REFRESH_TOKEN}}
+        CLIENT_ID: ${{secrets.CLIENT_ID}}
+        CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
