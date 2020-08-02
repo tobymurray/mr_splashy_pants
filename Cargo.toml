@@ -1,6 +1,6 @@
 [package]
 name = "mr_splashy_pants"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Toby Murray <toby.murray@protonmail.com>"]
 edition = "2018"
 description = "Rust bindings for the Reddit API"
