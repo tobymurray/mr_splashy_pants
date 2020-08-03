@@ -5,11 +5,12 @@ use crate::shared_models::models;
 // API is: '/api/v1/me'
 pub async fn api_v1_me(
   client: &reqwest::Client,
-  mut client_configuration: models::ClientConfiguration,
+  client_configuration: &models::ClientConfiguration,
+  mut refresh_token: &String,
 ) -> Result<MeResponse, Box<dyn std::error::Error>> {
   println!("Going to try and make a request");
 
-  let resp = match account::execute_get_api_v1_me(&client, &client_configuration.refresh_token).await {
+  let resp = match account::execute_get_api_v1_me(&client, refresh_token).await {
     Ok(response) => response,
     Err(error) => {
       return Err(Box::from(error));
@@ -17,10 +18,7 @@ pub async fn api_v1_me(
   };
 
   let resp = match handler(resp).await {
-    Ok(me_response) => {
-      println!("Got a me_response!");
-      me_response
-    }
+    Ok(me_response) => me_response,
     Err(error) => {
       if !error.is_status() {
         panic!("Panic!");
@@ -34,18 +32,18 @@ pub async fn api_v1_me(
         "The status code was UNAUTHORIZED ({}), so going to try and refresh it",
         reqwest::StatusCode::UNAUTHORIZED
       );
-      let refresh_token = oauth::refresh_access_token(
+      let refresh_access_token = oauth::refresh_access_token(
         &client,
-        &client_configuration.refresh_token,
+        refresh_token,
         &client_configuration.client_id,
         &client_configuration.client_password,
       )
       .await?;
 
-      println!("Refreshed the token, now it's {}", refresh_token.access_token);
-      client_configuration.refresh_token = refresh_token.access_token;
+      println!("Refreshed the token, now it's {}", refresh_access_token.access_token);
+      refresh_token = &refresh_access_token.access_token;
 
-      let new_result = match account::execute_get_api_v1_me(&client, &client_configuration.refresh_token).await {
+      let new_result = match account::execute_get_api_v1_me(&client, refresh_token).await {
         Ok(response) => response,
         Err(error) => {
           println!("Re-executed the call with a refreshed token, it didn't help");
