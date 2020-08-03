@@ -1,5 +1,5 @@
-pub async fn execute_get_api_v1_me(
 // API is: '/api/v1/me
+pub async fn execute_get_api_v1_me(
   client: &reqwest::Client,
   refresh_token: &str,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
