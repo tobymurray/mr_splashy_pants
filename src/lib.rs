@@ -3,8 +3,7 @@ mod tests {
     use super::*;
     use std::env;
 
-    const USER_AGENT: &str =
-        "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
+    const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
 
     #[test]
     fn it_works() {
@@ -51,10 +50,7 @@ impl Pants {
         client_password: &str,
     ) -> Pants {
         Pants {
-            client: reqwest::Client::builder()
-                .user_agent(user_agent)
-                .build()
-                .unwrap(),
+            client: reqwest::Client::builder().user_agent(user_agent).build().unwrap(),
             client_configuration: models::ClientConfiguration::new(
                 user_agent,
                 access_token,
@@ -68,16 +64,13 @@ impl Pants {
     pub async fn me(self) -> Result<(), Box<dyn std::error::Error>> {
         println!("Built client, going to invoke API");
 
-        let result =
-            generated_api_sections::account::api_v1_me(self.client, self.client_configuration).await?;
+        let result = generated_api_sections::account::api_v1_me(self.client, self.client_configuration).await?;
 
         // Ok(result)
         Ok(())
     }
 
-    pub async fn refresh_access_token(
-        &self,
-    ) -> Result<api_sections::oauth::RefreshToken, Box<dyn std::error::Error>> {
+    pub async fn refresh_access_token(&self) -> Result<api_sections::oauth::RefreshToken, Box<dyn std::error::Error>> {
         let client = reqwest::Client::builder()
             .user_agent(&self.client_configuration.user_agent)
             .build()
