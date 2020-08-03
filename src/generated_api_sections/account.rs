@@ -19,11 +19,6 @@ pub async fn api_v1_me(
       me_response
     }
     Err(error) => {
-      // if error.is_builder() {
-      //   println!("Error is_builder");
-      // } else if error.is_redirect() {
-      //   println!("Error is_redirect");
-      // } else
       if !error.is_status() {
         panic!("Panic!");
       }
@@ -44,10 +39,7 @@ pub async fn api_v1_me(
       )
       .await?;
 
-      println!(
-        "Refreshed the token, now it's {}",
-        refresh_token.access_token
-      );
+      println!("Refreshed the token, now it's {}", refresh_token.access_token);
       client_configuration.refresh_token = refresh_token.access_token;
 
       let new_result = client
@@ -69,10 +61,7 @@ async fn handler(res: reqwest::Response) -> Result<MeResponse, reqwest::Error> {
   match res.error_for_status() {
     Ok(res) => {
       let value = res.json::<MeResponse>().await?;
-      println!(
-        "Response itself is: {}",
-        serde_json::to_string_pretty(&value).unwrap()
-      );
+      println!("Response itself is: {}", serde_json::to_string_pretty(&value).unwrap());
       Ok(value)
     }
     Err(err) => {
