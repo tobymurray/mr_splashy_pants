@@ -51,7 +51,10 @@ impl Pants {
         client_password: &str,
     ) -> Pants {
         Pants {
-            client: Client::new(),
+            client: reqwest::Client::builder()
+                .user_agent(user_agent)
+                .build()
+                .unwrap(),
             client_configuration: models::ClientConfiguration::new(
                 user_agent,
                 access_token,
@@ -63,15 +66,10 @@ impl Pants {
     }
 
     pub async fn me(self) -> Result<(), Box<dyn std::error::Error>> {
-        let client = reqwest::Client::builder()
-            .user_agent(&(self.client_configuration.user_agent))
-            .build()
-            .unwrap();
-
         println!("Built client, going to invoke API");
 
         let result =
-            generated_api_sections::account::api_v1_me(client, self.client_configuration).await?;
+            generated_api_sections::account::api_v1_me(self.client, self.client_configuration).await?;
 
         // Ok(result)
         Ok(())
@@ -86,7 +84,7 @@ impl Pants {
             .unwrap();
 
         let refresh_token = api_sections::oauth::refresh_access_token(
-            client,
+            &client,
             &self.client_configuration.refresh_token,
             &self.client_configuration.client_id,
             &self.client_configuration.client_password,
