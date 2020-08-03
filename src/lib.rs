@@ -10,26 +10,36 @@ mod tests {
     fn it_works() {
         dotenv::dotenv().ok();
 
-        let pants = Pants::new(
+        let mut pants = Pants::new(
             USER_AGENT,
             &env::var("ACCESS_TOKEN").unwrap(),
             &env::var("REFRESH_TOKEN").unwrap(),
             &env::var("CLIENT_ID").unwrap(),
             &env::var("CLIENT_SECRET").unwrap(),
         );
-        
-        let refresh_token = tokio_test::block_on(pants.refresh_access_token()).unwrap();
-        println!("{:#?}", refresh_token);
+
+        // let refresh_token = tokio_test::block_on(pants.refresh_access_token()).unwrap();
+        // println!("{:#?}", refresh_token);
+
+        // pants.client_configuration.refresh_token = refresh_token.access_token;
+
+        match tokio_test::block_on(pants.me()) {
+            Ok(_) => println!("Everything was great!"),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
     }
 }
 
 use reqwest::Client;
 mod api_sections;
 mod generated_api_sections;
+mod shared_models;
+
+use shared_models::models;
 
 pub struct Pants {
     client: Client,
-    client_configuration: ClientConfiguration,
+    client_configuration: models::ClientConfiguration,
 }
 
 impl Pants {
@@ -42,7 +52,7 @@ impl Pants {
     ) -> Pants {
         Pants {
             client: Client::new(),
-            client_configuration: ClientConfiguration::new(
+            client_configuration: models::ClientConfiguration::new(
                 user_agent,
                 access_token,
                 refresh_token,
@@ -58,8 +68,12 @@ impl Pants {
             .build()
             .unwrap();
 
-        generated_api_sections::account::api_v1_me(client);
+        println!("Built client, going to invoke API");
 
+        let result =
+            generated_api_sections::account::api_v1_me(client, self.client_configuration).await?;
+
+        // Ok(result)
         Ok(())
     }
 
@@ -80,31 +94,5 @@ impl Pants {
         .await?;
 
         Ok(refresh_token)
-    }
-}
-
-pub struct ClientConfiguration {
-    user_agent: String,
-    access_token: String,
-    refresh_token: String,
-    client_id: String,
-    client_password: String,
-}
-
-impl ClientConfiguration {
-    pub fn new(
-        user_agent: &str,
-        access_token: &str,
-        refresh_token: &str,
-        client_id: &str,
-        client_password: &str,
-    ) -> ClientConfiguration {
-        ClientConfiguration {
-            user_agent: user_agent.to_string(),
-            access_token: access_token.to_string(),
-            refresh_token: refresh_token.to_string(),
-            client_id: client_id.to_string(),
-            client_password: client_password.to_string(),
-        }
     }
 }

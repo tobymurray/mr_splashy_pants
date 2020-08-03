@@ -3,10 +3,10 @@ use std::fmt;
 
 #[derive(Deserialize)]
 pub struct RefreshToken {
-  access_token: String,
-  token_type: String,
-  expires_in: u32,
-  scope: String,
+  pub access_token: String,
+  pub token_type: String,
+  pub expires_in: u32,
+  pub scope: String,
 }
 
 impl fmt::Debug for RefreshToken {
