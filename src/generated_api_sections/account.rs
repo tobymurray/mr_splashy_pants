@@ -1,133 +1,131 @@
-use crate::api_sections::oauth;
-use crate::shared_models::models;
-
-// API is: '/api/v1/me'
-pub async fn api_v1_me(
-  client: reqwest::Client,
-  mut client_configuration: models::ClientConfiguration,
-) -> Result<(), Box<dyn std::error::Error>> {
-  println!("Going to try and make a request");
-  let resp = client
+pub async fn execute_get_api_v1_me(
+// API is: '/api/v1/me
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
     .get("https://oauth.reddit.com/api/v1/me")
-    .bearer_auth(&client_configuration.refresh_token)
+    .bearer_auth(refresh_token)
     .send()
-    .await?;
-
-  let resp = match handler(resp).await {
-    Ok(me_response) => {
-      println!("Got a me_response!");
-      me_response
-    }
-    Err(error) => {
-      if !error.is_status() {
-        panic!("Panic!");
-      }
-
-      if error.status() != Some(reqwest::StatusCode::UNAUTHORIZED) {
-        panic!("Panic!");
-      }
-
-      println!(
-        "The status code was UNAUTHORIZED ({}), so going to try and refresh it",
-        reqwest::StatusCode::UNAUTHORIZED
-      );
-      let refresh_token = oauth::refresh_access_token(
-        &client,
-        &client_configuration.refresh_token,
-        &client_configuration.client_id,
-        &client_configuration.client_password,
-      )
-      .await?;
-
-      println!("Refreshed the token, now it's {}", refresh_token.access_token);
-      client_configuration.refresh_token = refresh_token.access_token;
-
-      let new_result = client
-        .get("https://oauth.reddit.com/api/v1/me")
-        .bearer_auth(&client_configuration.refresh_token)
-        .send()
-        .await?;
-      println!("Re-executed the call with the refreshed token!");
-      handler(new_result).await?
-    }
-  };
-
-  Ok(())
+    .await
 }
 
-async fn handler(res: reqwest::Response) -> Result<MeResponse, reqwest::Error> {
-  // println!("Response itself is: {:#?}", res);
-
-  match res.error_for_status() {
-    Ok(res) => {
-      let value = res.json::<MeResponse>().await?;
-      println!("Response itself is: {}", serde_json::to_string_pretty(&value).unwrap());
-      Ok(value)
-    }
-    Err(err) => {
-      // assert_eq!(err.status(), Some(reqwest::StatusCode::UNAUTHORIZED));
-      Err(err)
-    }
-  }
+// API is: '/api/v1/me/blocked
+pub async fn execute_get_api_v1_me_blocked(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/api/v1/me/blocked")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
 }
 
-#[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-pub struct MeResponse {
-  pub awardee_karma: i64,
-  pub awarder_karma: i64,
-  pub can_create_subreddit: bool,
-  pub can_edit_name: bool,
-  pub coins: i64,
-  pub comment_karma: i64,
-  pub created: f64,
-  pub created_utc: f64,
-  pub force_password_reset: bool,
-  pub gold_creddits: i64,
-  pub gold_expiration: ::serde_json::Value,
-  pub has_android_subscription: bool,
-  pub has_external_account: bool,
-  pub has_gold_subscription: bool,
-  pub has_ios_subscription: bool,
-  pub has_paypal_subscription: bool,
-  pub has_stripe_subscription: bool,
-  pub has_subscribed: bool,
-  pub has_subscribed_to_premium: bool,
-  pub has_verified_email: bool,
-  pub has_visited_new_profile: bool,
-  pub hide_from_robots: bool,
-  pub icon_img: String,
-  pub id: String,
-  pub in_beta: bool,
-  pub in_redesign_beta: bool,
-  pub inbox_count: i64,
-  pub is_employee: bool,
-  pub is_gold: bool,
-  pub is_mod: bool,
-  pub is_sponsor: bool,
-  pub is_suspended: bool,
-  pub link_karma: i64,
-  pub linked_identities: Vec<::serde_json::Value>,
-  pub name: String,
-  pub num_friends: i64,
-  pub oauth_client_id: String,
-  // pub over18: bool,
-  pub password_set: bool,
-  pub pref_autoplay: bool,
-  pub pref_clickgadget: i64,
-  pub pref_geopopular: String,
-  pub pref_nightmode: bool,
-  pub pref_no_profanity: bool,
-  pub pref_show_snoovatar: bool,
-  pub pref_show_trending: bool,
-  pub pref_show_twitter: bool,
-  pub pref_top_karma_subreddits: bool,
-  pub pref_video_autoplay: bool,
-  pub seen_give_award_tooltip: bool,
-  pub seen_layout_switch: bool,
-  pub seen_premium_adblock_modal: bool,
-  pub seen_redesign_modal: bool,
-  pub seen_subreddit_chat_ftux: bool,
-  pub suspension_expiration_utc: ::serde_json::Value,
-  pub total_karma: i64,
-  pub verified: bool,
+// API is: '/api/v1/me/friends
+pub async fn execute_get_api_v1_me_friends(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/api/v1/me/friends")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
+}
+
+// API is: '/api/v1/me/karma
+pub async fn execute_get_api_v1_me_karma(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/api/v1/me/karma")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
+}
+
+// API is: '/api/v1/me/prefs
+pub async fn execute_get_api_v1_me_prefs(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/api/v1/me/prefs")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
+}
+
+// API is: '/api/v1/me/trophies
+pub async fn execute_get_api_v1_me_trophies(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/api/v1/me/trophies")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
+}
+
+// API is: '/prefs/blocked
+pub async fn execute_get_prefs_blocked(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/prefs/blocked")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
+}
+
+// API is: '/prefs/friends
+pub async fn execute_get_prefs_friends(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/prefs/friends")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
+}
+
+// API is: '/prefs/messaging
+pub async fn execute_get_prefs_messaging(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/prefs/messaging")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
+}
+
+// API is: '/prefs/trusted
+pub async fn execute_get_prefs_trusted(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/prefs/trusted")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
+}
+
+// API is: '/prefs/where
+pub async fn execute_get_prefs_where(
+  client: &reqwest::Client,
+  refresh_token: &str,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/prefs/where")
+    .bearer_auth(refresh_token)
+    .send()
+    .await
 }

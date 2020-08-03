@@ -23,9 +23,14 @@ mod tests {
         // pants.client_configuration.refresh_token = refresh_token.access_token;
 
         match tokio_test::block_on(pants.me()) {
-            Ok(_) => println!("Everything was great!"),
+            Ok(_) => println!("Successfully got answer on first invocation!"),
             Err(e) => println!("An error ocurred: {}", e),
         };
+
+        // match tokio_test::block_on(pants.me()) {
+        //     Ok(_) => println!("Successfully go tanswer on second invocation!"),
+        //     Err(e) => println!("An error ocurred: {}", e),
+        // };
     }
 }
 
@@ -64,7 +69,7 @@ impl Pants {
     pub async fn me(self) -> Result<(), Box<dyn std::error::Error>> {
         println!("Built client, going to invoke API");
 
-        let result = generated_api_sections::account::api_v1_me(self.client, self.client_configuration).await?;
+        let result = api_sections::account::api_v1_me(self.client, self.client_configuration).await?;
 
         // Ok(result)
         Ok(())
