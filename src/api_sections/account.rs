@@ -4,7 +4,7 @@ use crate::shared_models::models;
 
 // API is: '/api/v1/me'
 pub async fn api_v1_me(
-  client: reqwest::Client,
+  client: &reqwest::Client,
   mut client_configuration: models::ClientConfiguration,
 ) -> Result<MeResponse, Box<dyn std::error::Error>> {
   println!("Going to try and make a request");

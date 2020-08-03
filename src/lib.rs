@@ -66,13 +66,12 @@ impl Pants {
         }
     }
 
-    pub async fn me(self) -> Result<(), Box<dyn std::error::Error>> {
+    pub async fn me(self) -> Result<api_sections::account::MeResponse, Box<dyn std::error::Error>> {
         println!("Built client, going to invoke API");
 
-        let result = api_sections::account::api_v1_me(self.client, self.client_configuration).await?;
+        let result = api_sections::account::api_v1_me(&self.client, self.client_configuration).await?;
 
-        // Ok(result)
-        Ok(())
+        Ok(result)
     }
 
     pub async fn refresh_access_token(&self) -> Result<api_sections::oauth::RefreshToken, Box<dyn std::error::Error>> {
