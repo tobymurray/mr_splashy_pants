@@ -9,7 +9,7 @@ mod tests {
     fn it_works() {
         dotenv::dotenv().ok();
 
-        let refresh_token = &env::var("REFRESH_TOKEN").unwrap();
+        let refresh_token = env::var("REFRESH_TOKEN").unwrap();
         let pants = Pants::new(
             USER_AGENT,
             &env::var("ACCESS_TOKEN").unwrap(),
@@ -17,15 +17,21 @@ mod tests {
             &env::var("CLIENT_SECRET").unwrap(),
         );
 
-        match tokio_test::block_on(pants.me(refresh_token)) {
+        println!("Before execution, the refresh token is: {}", refresh_token);
+
+        match tokio_test::block_on(pants.me(&refresh_token)) {
             Ok(_) => println!("Successfully got answer on first invocation!"),
             Err(e) => println!("An error ocurred: {}", e),
         };
 
-        match tokio_test::block_on(pants.me(refresh_token)) {
+        println!("Between execution, the refresh token is: {}", refresh_token);
+
+        match tokio_test::block_on(pants.me(&refresh_token)) {
             Ok(_) => println!("Successfully got answer on second invocation!"),
             Err(e) => println!("An error ocurred: {}", e),
         };
+
+        println!("After execution, the refresh token is: {}", refresh_token);
     }
 }
 

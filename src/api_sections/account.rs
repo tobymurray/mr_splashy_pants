@@ -17,60 +17,72 @@ pub async fn api_v1_me(
     }
   };
 
-  let resp = match handler(resp).await {
+  let resp = match handler(resp, client, client_configuration, refresh_token).await {
     Ok(me_response) => me_response,
-    Err(error) => {
-      if !error.is_status() {
-        panic!("Panic!");
-      }
-
-      if error.status() != Some(reqwest::StatusCode::UNAUTHORIZED) {
-        panic!("Panic!");
-      }
-
-      println!(
-        "The status code was UNAUTHORIZED ({}), so going to try and refresh it",
-        reqwest::StatusCode::UNAUTHORIZED
-      );
-      let refresh_access_token = oauth::refresh_access_token(
-        &client,
+    Err(new_refresh_token) => {
+      refresh_token = &new_refresh_token;
+      handler(
+        account::execute_get_api_v1_me(&client, refresh_token).await?,
+        client,
+        client_configuration,
         refresh_token,
-        &client_configuration.client_id,
-        &client_configuration.client_password,
       )
-      .await?;
-
-      println!("Refreshed the token, now it's {}", refresh_access_token.access_token);
-      refresh_token = &refresh_access_token.access_token;
-
-      let new_result = match account::execute_get_api_v1_me(&client, refresh_token).await {
-        Ok(response) => response,
-        Err(error) => {
-          println!("Re-executed the call with a refreshed token, it didn't help");
-          return Err(Box::from(error));
-        }
-      };
-
-      println!("Re-executed the call with the refreshed token!");
-      handler(new_result).await?
+      .await?
     }
   };
 
   Ok(resp)
 }
 
-async fn handler(res: reqwest::Response) -> Result<MeResponse, reqwest::Error> {
-  // println!("Response itself is: {:#?}", res);
+async fn refresh_access_token(
+  client: &reqwest::Client,
+  refresh_token: &str,
+  client_id: &str,
+  client_password: &str,
+) -> String {
+  println!("Refreshing token");
+  let refresh_access_token = match oauth::refresh_access_token(client, refresh_token, client_id, client_password).await
+  {
+    Ok(token) => token,
+    Err(error) => panic!("Error: {}", error),
+  };
 
+  // println!("Refreshed the token, now it's {}", refresh_access_token.access_token);
+  refresh_access_token.access_token
+}
+
+async fn handler(
+  res: reqwest::Response,
+  client: &reqwest::Client,
+  client_configuration: &models::ClientConfiguration,
+  refresh_token: &String,
+) -> Result<MeResponse, String> {
   match res.error_for_status() {
     Ok(res) => {
-      let value = res.json::<MeResponse>().await?;
-      println!("Response itself is: {}", serde_json::to_string_pretty(&value).unwrap());
+      let value = match res.json::<MeResponse>().await {
+        Ok(response) => response,
+        Err(error) => panic!("Error! {}", error),
+      };
+      // println!("Response itself is: {}", serde_json::to_string_pretty(&value).unwrap());
       Ok(value)
     }
-    Err(err) => {
-      // assert_eq!(err.status(), Some(reqwest::StatusCode::UNAUTHORIZED));
-      Err(err)
+    Err(error) => {
+      if !error.is_status() || error.status() != Some(reqwest::StatusCode::UNAUTHORIZED) {
+        panic!("Panic!");
+      }
+
+      let new_refresh_token = match refresh_access_token(
+        &client,
+        refresh_token,
+        &client_configuration.client_id,
+        &client_configuration.client_password,
+      )
+      .await
+      {
+        string => string,
+      };
+
+      Err(new_refresh_token)
     }
   }
 }
