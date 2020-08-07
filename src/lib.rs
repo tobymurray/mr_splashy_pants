@@ -9,29 +9,30 @@ mod tests {
     fn it_works() {
         dotenv::dotenv().ok();
 
-        let mut refresh_token = env::var("REFRESH_TOKEN").unwrap();
-        let pants = Pants::new(
+        
+        let mut pants = Pants::new(
             USER_AGENT,
             &env::var("ACCESS_TOKEN").unwrap(),
+            env::var("REFRESH_TOKEN").unwrap(),
             &env::var("CLIENT_ID").unwrap(),
             &env::var("CLIENT_SECRET").unwrap(),
         );
 
-        println!("Before execution, the refresh token is: {}", refresh_token);
+        println!("Before execution, the refresh token is: {}", pants.refresh_token);
 
-        match tokio_test::block_on(pants.me(&mut refresh_token)) {
+        match tokio_test::block_on(pants.me()) {
             Ok(_) => println!("Successfully got answer on first invocation!"),
             Err(e) => println!("An error ocurred: {}", e),
         };
 
-        println!("Between execution, the refresh token is: {}", refresh_token);
+        println!("Between execution, the refresh token is: {}", pants.refresh_token);
 
-        match tokio_test::block_on(pants.me(&mut refresh_token)) {
+        match tokio_test::block_on(pants.me()) {
             Ok(_) => println!("Successfully got answer on second invocation!"),
             Err(e) => println!("An error ocurred: {}", e),
         };
 
-        println!("After execution, the refresh token is: {}", refresh_token);
+        println!("After execution, the refresh token is: {}", pants.refresh_token);
     }
 }
 
@@ -45,12 +46,14 @@ use shared_models::models;
 pub struct Pants {
     client: Client,
     client_configuration: models::ClientConfiguration,
+    refresh_token: String,
 }
 
 impl Pants {
-    pub fn new(user_agent: &str, access_token: &str, client_id: &str, client_password: &str) -> Pants {
+    pub fn new(user_agent: &str, access_token: &str, refresh_token: String, client_id: &str, client_password: &str) -> Pants {
         Pants {
             client: reqwest::Client::builder().user_agent(user_agent).build().unwrap(),
+            refresh_token,
             client_configuration: models::ClientConfiguration::new(
                 user_agent,
                 access_token,
@@ -61,12 +64,11 @@ impl Pants {
     }
 
     pub async fn me(
-        &self,
-        refresh_token: &mut String,
+        &mut self,
     ) -> Result<api_sections::account::MeResponse, Box<dyn std::error::Error>> {
         println!("Built client, going to invoke API");
 
-        let result = api_sections::account::api_v1_me(&self.client, &self.client_configuration, refresh_token).await?;
+        let result = api_sections::account::api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token).await?;
 
         Ok(result)
     }

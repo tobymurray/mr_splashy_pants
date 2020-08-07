@@ -3,24 +3,35 @@
 [![Crate](https://img.shields.io/crates/v/mr_splashy_pants.svg)](https://crates.io/crates/mr_splashy_pants)
 
 # This is a WIP, don't use it
+Follow https://github.com/reddit-archive/reddit/wiki/OAuth2 for set up instructions.
 
 Set up a script with access to a Reddit account, collect the access token, the client ID, and the client secret. Once you have that, get a refresh token. Once you have that you can do:
 
 ```
-// Refresh token is mutable so it can be refreshed automatically
-let mut refresh_token = "<refresh-token>";
-
-let pants = Pants::new(
+// pants is mutable so the refresh token can be updated
+let mut pants = Pants::new(
     USER_AGENT,
     "<access-token>",
+    "<refresh_token>",
     "<client-id>",
     "<client-secret>",
+);
+```
+For example, if you're using dotenv and reading values from the environment:
+```
+// pants is mutable so the refresh token can be updated
+let mut pants = Pants::new(
+    USER_AGENT,
+    &env::var("ACCESS_TOKEN").unwrap(),
+    env::var("REFRESH_TOKEN").unwrap(),
+    &env::var("CLIENT_ID").unwrap(),
+    &env::var("CLIENT_SECRET").unwrap(),
 );
 ```
 Then you can invoke things, e.g:
 
 ```
-pants.me(&mut refresh_token)
+pants.me()
 ```
 
 If your refresh token expires, it should automatically refresh.
