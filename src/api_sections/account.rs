@@ -6,7 +6,7 @@ use crate::shared_models::models;
 pub async fn api_v1_me(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
-  mut refresh_token: &String,
+  refresh_token: &mut String,
 ) -> Result<MeResponse, Box<dyn std::error::Error>> {
   println!("Going to try and make a request");
 
@@ -20,7 +20,7 @@ pub async fn api_v1_me(
   let resp = match handler(resp, client, client_configuration, refresh_token).await {
     Ok(me_response) => me_response,
     Err(new_refresh_token) => {
-      refresh_token = &new_refresh_token;
+      *refresh_token = new_refresh_token;
       handler(
         account::execute_get_api_v1_me(&client, refresh_token).await?,
         client,

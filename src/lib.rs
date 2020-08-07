@@ -9,7 +9,7 @@ mod tests {
     fn it_works() {
         dotenv::dotenv().ok();
 
-        let refresh_token = env::var("REFRESH_TOKEN").unwrap();
+        let mut refresh_token = env::var("REFRESH_TOKEN").unwrap();
         let pants = Pants::new(
             USER_AGENT,
             &env::var("ACCESS_TOKEN").unwrap(),
@@ -19,14 +19,14 @@ mod tests {
 
         println!("Before execution, the refresh token is: {}", refresh_token);
 
-        match tokio_test::block_on(pants.me(&refresh_token)) {
+        match tokio_test::block_on(pants.me(&mut refresh_token)) {
             Ok(_) => println!("Successfully got answer on first invocation!"),
             Err(e) => println!("An error ocurred: {}", e),
         };
 
         println!("Between execution, the refresh token is: {}", refresh_token);
 
-        match tokio_test::block_on(pants.me(&refresh_token)) {
+        match tokio_test::block_on(pants.me(&mut refresh_token)) {
             Ok(_) => println!("Successfully got answer on second invocation!"),
             Err(e) => println!("An error ocurred: {}", e),
         };
@@ -62,7 +62,7 @@ impl Pants {
 
     pub async fn me(
         &self,
-        refresh_token: &String,
+        refresh_token: &mut String,
     ) -> Result<api_sections::account::MeResponse, Box<dyn std::error::Error>> {
         println!("Built client, going to invoke API");
 
