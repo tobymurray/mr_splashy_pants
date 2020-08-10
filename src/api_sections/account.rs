@@ -1,52 +1,7 @@
 use crate::api_sections::oauth;
 use crate::generated_api_sections::account;
 use crate::shared_models::models;
-
-use std::future::Future;
-
-async fn execute_with_refresh<'a, 'b, F, Fut>(
-  client: &'a reqwest::Client,
-  client_configuration: &'a models::ClientConfiguration,
-  refresh_token: &'a mut String,
-  f: F,
-) -> std::result::Result<reqwest::Response, reqwest::Error>
-where
-  F: Fn(&'a reqwest::Client, String) -> Fut,
-  Fut: Future<Output = std::result::Result<reqwest::Response, reqwest::Error>>,
-{
-  println!("Making initial request with refresh token {:#?}", refresh_token);
-  match f(client, refresh_token.clone()).await {
-    Ok(response) => {
-      println!("Successfully got a response");
-
-      match response.error_for_status() {
-        Ok(response) => return Ok(response),
-        Err(error) => {
-          if !error.is_status() || error.status() != Some(reqwest::StatusCode::UNAUTHORIZED) {
-            panic!("Panic!");
-          }
-          let new_refresh_token = match refresh_access_token(
-            &client,
-            refresh_token,
-            &client_configuration.client_id,
-            &client_configuration.client_password,
-          )
-          .await
-          {
-            string => string,
-          };
-          println!("Making backup request with refresh token {:#?}", new_refresh_token);
-          *refresh_token = new_refresh_token;
-          return f(client, refresh_token.clone()).await;
-        }
-      }
-    }
-    Err(error) => {
-      println!("Everything failed! {:#?}", error);
-      panic!("Panic!");
-    }
-  };
-}
+use crate::shared_models::utils;
 
 // API is: '/api/v1/me'
 pub async fn api_v1_me(
@@ -54,18 +9,16 @@ pub async fn api_v1_me(
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<MeResponse, reqwest::Error> {
-  execute_with_refresh(
+  utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     account::execute_get_api_v1_me,
   )
-  .await?
-  .json::<MeResponse>()
   .await
 }
 
-async fn refresh_access_token(
+pub async fn refresh_access_token(
   client: &reqwest::Client,
   refresh_token: &str,
   client_id: &str,

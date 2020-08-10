@@ -1,0 +1,54 @@
+use crate::api_sections::account;
+use crate::shared_models::models;
+
+use std::future::Future;
+
+pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize<'de>>(
+  client: &'a reqwest::Client,
+  client_configuration: &'a models::ClientConfiguration,
+  refresh_token: &'a mut String,
+  f: F,
+) -> std::result::Result<R, reqwest::Error>
+where
+  F: Fn(&'a reqwest::Client, String) -> Fut,
+  Fut: Future<Output = std::result::Result<reqwest::Response, reqwest::Error>>,
+{
+  println!("Making initial request with refresh token {:#?}", refresh_token);
+  match f(client, refresh_token.clone()).await {
+    Ok(response) => {
+      println!("Successfully got a response");
+
+      match response.error_for_status() {
+        Ok(response) => return Ok(deserialize(response).await?),
+        Err(error) => {
+          if !error.is_status() || error.status() != Some(reqwest::StatusCode::UNAUTHORIZED) {
+            panic!("Panic! Unrecognized error status: {:#?}", error.status());
+          }
+          let new_refresh_token = match account::refresh_access_token(
+            &client,
+            refresh_token,
+            &client_configuration.client_id,
+            &client_configuration.client_password,
+          )
+          .await
+          {
+            string => string,
+          };
+          *refresh_token = new_refresh_token;
+          let second_response = f(client, refresh_token.clone()).await?;
+          return deserialize(second_response).await;
+        }
+      }
+    }
+    Err(error) => {
+      println!("Everything failed! {:#?}", error);
+      panic!("Panic!");
+    }
+  };
+}
+
+pub async fn deserialize<T: for<'de> serde::Deserialize<'de>>(
+  response: reqwest::Response,
+) -> Result<T, reqwest::Error> {
+  response.json::<T>().await
+}
