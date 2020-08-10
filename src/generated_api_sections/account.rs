@@ -1,11 +1,11 @@
 // API is: '/api/v1/me
 pub async fn execute_get_api_v1_me(
   client: &reqwest::Client,
-  refresh_token: &String,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/api/v1/me")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
