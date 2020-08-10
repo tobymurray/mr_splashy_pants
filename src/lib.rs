@@ -66,8 +66,6 @@ impl Pants {
     pub async fn me(
         &mut self,
     ) -> Result<api_sections::account::MeResponse, Box<dyn std::error::Error>> {
-        println!("Built client, going to invoke API");
-
         let result = api_sections::account::api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token).await?;
 
         Ok(result)
