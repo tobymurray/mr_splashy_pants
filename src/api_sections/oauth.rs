@@ -39,7 +39,7 @@ pub async fn refresh_access_token(
 ) -> RefreshToken {
     match invoke_refresh_access_token(client, refresh_token, client_id, client_password).await {
         Ok(refresh_access_token) => refresh_access_token,
-        Err(err) => panic!("Panic!"),
+        Err(err) => panic!("Panic! {:#?}", err),
     }
 }
 

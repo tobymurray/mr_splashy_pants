@@ -9,7 +9,6 @@ mod tests {
     fn it_works() {
         dotenv::dotenv().ok();
 
-        
         let mut pants = Pants::new(
             USER_AGENT,
             &env::var("ACCESS_TOKEN").unwrap(),
@@ -21,18 +20,16 @@ mod tests {
         println!("Before execution, the refresh token is: {}", pants.refresh_token);
 
         match tokio_test::block_on(pants.me()) {
-            Ok(_) => println!("Successfully got answer on first invocation!"),
+            Ok(response) => println!("Successfully got response on first invocation: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
 
         println!("Between execution, the refresh token is: {}", pants.refresh_token);
 
-        match tokio_test::block_on(pants.me()) {
-            Ok(_) => println!("Successfully got answer on second invocation!"),
+        match tokio_test::block_on(pants.me_trophies()) {
+            Ok(response) => println!("Response to me_blocked is: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
-
-        println!("After execution, the refresh token is: {}", pants.refresh_token);
     }
 }
 
@@ -50,7 +47,13 @@ pub struct Pants {
 }
 
 impl Pants {
-    pub fn new(user_agent: &str, access_token: &str, refresh_token: String, client_id: &str, client_password: &str) -> Pants {
+    pub fn new(
+        user_agent: &str,
+        access_token: &str,
+        refresh_token: String,
+        client_id: &str,
+        client_password: &str,
+    ) -> Pants {
         Pants {
             client: reqwest::Client::builder().user_agent(user_agent).build().unwrap(),
             refresh_token,
@@ -63,12 +66,25 @@ impl Pants {
         }
     }
 
-    pub async fn me(
-        &mut self,
-    ) -> Result<api_sections::account::MeResponse, Box<dyn std::error::Error>> {
-        let result = api_sections::account::api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token).await?;
+    pub async fn me(&mut self) -> Result<api_sections::account::MeResponse, Box<dyn std::error::Error>> {
+        match api_sections::account::api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        {
+            Ok(result) => Ok(result),
+            Err(error) => Err(Box::new(error)),
+        }
+    }
 
-        Ok(result)
+    pub async fn me_trophies(&mut self) -> Result<serde_json::Value, Box<dyn std::error::Error>> {
+        match api_sections::account::api_v1_me_trophies(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
+        {
+            Ok(result) => Ok(result),
+            Err(error) => Err(Box::new(error)),
+        }
     }
 
     pub async fn refresh_access_token(
