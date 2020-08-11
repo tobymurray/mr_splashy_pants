@@ -6,7 +6,7 @@ mod tests {
     const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
 
     #[test]
-    fn it_works() {
+    fn me() {
         dotenv::dotenv().ok();
 
         let mut pants = Pants::new(
@@ -17,17 +17,25 @@ mod tests {
             &env::var("CLIENT_SECRET").unwrap(),
         );
 
-        println!("Before execution, the refresh token is: {}", pants.refresh_token);
-
         match tokio_test::block_on(pants.me()) {
             Ok(response) => println!("Successfully got response on first invocation: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
+    }
 
-        println!("Between execution, the refresh token is: {}", pants.refresh_token);
+    #[test]
+    fn me_trophies() {
+        dotenv::dotenv().ok();
 
+        let mut pants = Pants::new(
+            USER_AGENT,
+            &env::var("ACCESS_TOKEN").unwrap(),
+            env::var("REFRESH_TOKEN").unwrap(),
+            &env::var("CLIENT_ID").unwrap(),
+            &env::var("CLIENT_SECRET").unwrap(),
+        );
         match tokio_test::block_on(pants.me_trophies()) {
-            Ok(response) => println!("Response to me_blocked is: {:#?}", response),
+            Ok(response) => println!("Response to me_trophies is: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
     }
