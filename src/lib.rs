@@ -24,6 +24,40 @@ mod tests {
     }
 
     #[test]
+    fn me_friends() {
+        dotenv::dotenv().ok();
+
+        let mut pants = Pants::new(
+            USER_AGENT,
+            &env::var("ACCESS_TOKEN").unwrap(),
+            env::var("REFRESH_TOKEN").unwrap(),
+            &env::var("CLIENT_ID").unwrap(),
+            &env::var("CLIENT_SECRET").unwrap(),
+        );
+        match tokio_test::block_on(pants.me_friends()) {
+            Ok(response) => println!("Response to me_friends is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn me_karma() {
+        dotenv::dotenv().ok();
+
+        let mut pants = Pants::new(
+            USER_AGENT,
+            &env::var("ACCESS_TOKEN").unwrap(),
+            env::var("REFRESH_TOKEN").unwrap(),
+            &env::var("CLIENT_ID").unwrap(),
+            &env::var("CLIENT_SECRET").unwrap(),
+        );
+        match tokio_test::block_on(pants.me_trophies()) {
+            Ok(response) => println!("Response to me_karma is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
     fn me_trophies() {
         dotenv::dotenv().ok();
 
@@ -74,36 +108,45 @@ impl Pants {
         }
     }
 
-    pub async fn me(&mut self) -> Result<shared_models::account::MeResponse, Box<dyn std::error::Error>> {
-        match api_sections::account::wrapper_get_api_v1_me(
+    pub async fn me(&mut self) -> Result<shared_models::account::MeResponse, reqwest::Error> {
+        api_sections::account::wrapper_get_api_v1_me(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
         )
         .await
-        {
-            Ok(result) => Ok(result),
-            Err(error) => Err(Box::new(error)),
-        }
     }
 
-    pub async fn me_trophies(&mut self) -> Result<serde_json::Value, Box<dyn std::error::Error>> {
-        match api_sections::account::wrapper_get_api_v1_me_trophies(
+    pub async fn me_friends(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_api_v1_me_friends(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
         )
         .await
-        {
-            Ok(result) => Ok(result),
-            Err(error) => Err(Box::new(error)),
-        }
+    }
+
+    pub async fn me_karma(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_api_v1_me_karma(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        ).await
+    }
+
+    pub async fn me_trophies(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_api_v1_me_trophies(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
     }
 
     pub async fn refresh_access_token(
         &self,
         refresh_token: &str,
-    ) -> Result<api_sections::oauth::RefreshToken, Box<dyn std::error::Error>> {
+    ) -> Result<api_sections::oauth::RefreshToken, reqwest::Error> {
         let client = reqwest::Client::builder()
             .user_agent(&self.client_configuration.user_agent)
             .build()
