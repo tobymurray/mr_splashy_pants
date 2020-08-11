@@ -74,7 +74,7 @@ impl Pants {
         }
     }
 
-    pub async fn me(&mut self) -> Result<api_sections::account::MeResponse, Box<dyn std::error::Error>> {
+    pub async fn me(&mut self) -> Result<shared_models::account::MeResponse, Box<dyn std::error::Error>> {
         match api_sections::account::api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token).await
         {
             Ok(result) => Ok(result),
