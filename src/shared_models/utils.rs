@@ -1,4 +1,4 @@
-use crate::api_sections::account;
+use crate::api_sections::oauth;
 use crate::shared_models::models;
 
 use std::future::Future;
@@ -24,7 +24,7 @@ where
           if !error.is_status() || error.status() != Some(reqwest::StatusCode::UNAUTHORIZED) {
             panic!("Panic! Unrecognized error status: {:#?}", error.status());
           }
-          let new_refresh_token = match account::refresh_access_token(
+          let new_refresh_token = match oauth::refresh_access_token_string(
             &client,
             refresh_token,
             &client_configuration.client_id,

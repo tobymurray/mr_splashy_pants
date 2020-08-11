@@ -86,7 +86,7 @@ impl Pants {
             &self.client_configuration.client_id,
             &self.client_configuration.client_password,
         )
-        .await?;
+        .await;
 
         Ok(refresh_token)
     }

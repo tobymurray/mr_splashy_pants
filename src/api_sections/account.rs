@@ -1,4 +1,3 @@
-use crate::api_sections::oauth;
 use crate::generated_api_sections::account;
 use crate::shared_models::models;
 use crate::shared_models::utils;
@@ -16,22 +15,6 @@ pub async fn api_v1_me(
     account::execute_get_api_v1_me,
   )
   .await
-}
-
-pub async fn refresh_access_token(
-  client: &reqwest::Client,
-  refresh_token: &str,
-  client_id: &str,
-  client_password: &str,
-) -> String {
-  println!("Refreshing token");
-  let refresh_access_token = match oauth::refresh_access_token(client, refresh_token, client_id, client_password).await
-  {
-    Ok(token) => token,
-    Err(error) => panic!("Error: {}", error),
-  };
-
-  refresh_access_token.access_token
 }
 
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
