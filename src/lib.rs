@@ -75,7 +75,12 @@ impl Pants {
     }
 
     pub async fn me(&mut self) -> Result<shared_models::account::MeResponse, Box<dyn std::error::Error>> {
-        match api_sections::account::api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        match api_sections::account::wrapper_get_api_v1_me(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
         {
             Ok(result) => Ok(result),
             Err(error) => Err(Box::new(error)),
@@ -83,7 +88,7 @@ impl Pants {
     }
 
     pub async fn me_trophies(&mut self) -> Result<serde_json::Value, Box<dyn std::error::Error>> {
-        match api_sections::account::api_v1_me_trophies(
+        match api_sections::account::wrapper_get_api_v1_me_trophies(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
