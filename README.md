@@ -35,3 +35,9 @@ pants.me()
 ```
 
 If your refresh token expires, it should automatically refresh.
+
+So far there are precisely two APIs implemented:
+- [/api/v1/me](https://www.reddit.com/dev/api#GET_api_v1_me) (with partially structured response)
+- [/api/v1/me/trophies](https://www.reddit.com/dev/api#GET_api_v1_me_trophies) (with JSON response)
+
+All other APIs are not implemented
