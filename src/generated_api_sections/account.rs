@@ -1,4 +1,4 @@
-// API is: '/api/v1/me
+// API is: '/api/v1/me'
 pub async fn execute_get_api_v1_me(
   client: &reqwest::Client,
   refresh_token: String,
@@ -10,19 +10,19 @@ pub async fn execute_get_api_v1_me(
     .await
 }
 
-// API is: '/api/v1/me/blocked
+// API is: '/api/v1/me/blocked'
 pub async fn execute_get_api_v1_me_blocked(
   client: &reqwest::Client,
   refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
-    .get("https://oauth.reddit.com/api/v1/me/blocked?")
+    .get("https://oauth.reddit.com/api/v1/me/blocked")
     .bearer_auth(&refresh_token)
     .send()
     .await
 }
 
-// API is: '/api/v1/me/friends
+// API is: '/api/v1/me/friends'
 pub async fn execute_get_api_v1_me_friends(
   client: &reqwest::Client,
   refresh_token: String,
@@ -34,7 +34,7 @@ pub async fn execute_get_api_v1_me_friends(
     .await
 }
 
-// API is: '/api/v1/me/karma
+// API is: '/api/v1/me/karma'
 pub async fn execute_get_api_v1_me_karma(
   client: &reqwest::Client,
   refresh_token: String,
@@ -46,7 +46,7 @@ pub async fn execute_get_api_v1_me_karma(
     .await
 }
 
-// API is: '/api/v1/me/prefs
+// API is: '/api/v1/me/prefs'
 pub async fn execute_get_api_v1_me_prefs(
   client: &reqwest::Client,
   refresh_token: String,
@@ -58,7 +58,7 @@ pub async fn execute_get_api_v1_me_prefs(
     .await
 }
 
-// API is: '/api/v1/me/trophies
+// API is: '/api/v1/me/trophies'
 pub async fn execute_get_api_v1_me_trophies(
   client: &reqwest::Client,
   refresh_token: String,
@@ -70,7 +70,7 @@ pub async fn execute_get_api_v1_me_trophies(
     .await
 }
 
-// API is: '/prefs/blocked
+// API is: '/prefs/blocked'
 pub async fn execute_get_prefs_blocked(
   client: &reqwest::Client,
   refresh_token: String,
@@ -82,7 +82,7 @@ pub async fn execute_get_prefs_blocked(
     .await
 }
 
-// API is: '/prefs/friends
+// API is: '/prefs/friends'
 pub async fn execute_get_prefs_friends(
   client: &reqwest::Client,
   refresh_token: String,
@@ -94,7 +94,7 @@ pub async fn execute_get_prefs_friends(
     .await
 }
 
-// API is: '/prefs/messaging
+// API is: '/prefs/messaging'
 pub async fn execute_get_prefs_messaging(
   client: &reqwest::Client,
   refresh_token: String,
@@ -106,7 +106,7 @@ pub async fn execute_get_prefs_messaging(
     .await
 }
 
-// API is: '/prefs/trusted
+// API is: '/prefs/trusted'
 pub async fn execute_get_prefs_trusted(
   client: &reqwest::Client,
   refresh_token: String,
@@ -118,7 +118,7 @@ pub async fn execute_get_prefs_trusted(
     .await
 }
 
-// API is: '/prefs/where
+// API is: '/prefs/where'
 pub async fn execute_get_prefs_where(
   client: &reqwest::Client,
   refresh_token: String,
