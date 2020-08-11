@@ -13,11 +13,11 @@ pub async fn execute_get_api_v1_me(
 // API is: '/api/v1/me/blocked
 pub async fn execute_get_api_v1_me_blocked(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
-    .get("https://oauth.reddit.com/api/v1/me/blocked")
-    .bearer_auth(refresh_token)
+    .get("https://oauth.reddit.com/api/v1/me/blocked?")
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
@@ -25,11 +25,11 @@ pub async fn execute_get_api_v1_me_blocked(
 // API is: '/api/v1/me/friends
 pub async fn execute_get_api_v1_me_friends(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/api/v1/me/friends")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
@@ -37,11 +37,11 @@ pub async fn execute_get_api_v1_me_friends(
 // API is: '/api/v1/me/karma
 pub async fn execute_get_api_v1_me_karma(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/api/v1/me/karma")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
@@ -49,11 +49,11 @@ pub async fn execute_get_api_v1_me_karma(
 // API is: '/api/v1/me/prefs
 pub async fn execute_get_api_v1_me_prefs(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/api/v1/me/prefs")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
@@ -61,11 +61,11 @@ pub async fn execute_get_api_v1_me_prefs(
 // API is: '/api/v1/me/trophies
 pub async fn execute_get_api_v1_me_trophies(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/api/v1/me/trophies")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
@@ -73,11 +73,11 @@ pub async fn execute_get_api_v1_me_trophies(
 // API is: '/prefs/blocked
 pub async fn execute_get_prefs_blocked(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/prefs/blocked")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
@@ -85,11 +85,11 @@ pub async fn execute_get_prefs_blocked(
 // API is: '/prefs/friends
 pub async fn execute_get_prefs_friends(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/prefs/friends")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
@@ -97,11 +97,11 @@ pub async fn execute_get_prefs_friends(
 // API is: '/prefs/messaging
 pub async fn execute_get_prefs_messaging(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/prefs/messaging")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
@@ -109,11 +109,11 @@ pub async fn execute_get_prefs_messaging(
 // API is: '/prefs/trusted
 pub async fn execute_get_prefs_trusted(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/prefs/trusted")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
@@ -121,11 +121,12 @@ pub async fn execute_get_prefs_trusted(
 // API is: '/prefs/where
 pub async fn execute_get_prefs_where(
   client: &reqwest::Client,
-  refresh_token: &str,
+  refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/prefs/where")
-    .bearer_auth(refresh_token)
+    .bearer_auth(&refresh_token)
     .send()
     .await
 }
+
