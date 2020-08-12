@@ -5,17 +5,21 @@ mod tests {
 
     const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
 
-    #[test]
-    fn me() {
-        dotenv::dotenv().ok();
-
-        let mut pants = Pants::new(
+    fn build_pants() -> Pants {
+        Pants::new(
             USER_AGENT,
             &env::var("ACCESS_TOKEN").unwrap(),
             env::var("REFRESH_TOKEN").unwrap(),
             &env::var("CLIENT_ID").unwrap(),
             &env::var("CLIENT_SECRET").unwrap(),
-        );
+        )
+    }
+
+    #[test]
+    fn me() {
+        dotenv::dotenv().ok();
+
+        let mut pants = build_pants();
 
         match tokio_test::block_on(pants.me()) {
             Ok(response) => println!("Successfully got response on first invocation: {:#?}", response),
@@ -27,13 +31,8 @@ mod tests {
     fn me_friends() {
         dotenv::dotenv().ok();
 
-        let mut pants = Pants::new(
-            USER_AGENT,
-            &env::var("ACCESS_TOKEN").unwrap(),
-            env::var("REFRESH_TOKEN").unwrap(),
-            &env::var("CLIENT_ID").unwrap(),
-            &env::var("CLIENT_SECRET").unwrap(),
-        );
+        let mut pants = build_pants();
+
         match tokio_test::block_on(pants.me_friends()) {
             Ok(response) => println!("Response to me_friends is: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
@@ -44,15 +43,22 @@ mod tests {
     fn me_karma() {
         dotenv::dotenv().ok();
 
-        let mut pants = Pants::new(
-            USER_AGENT,
-            &env::var("ACCESS_TOKEN").unwrap(),
-            env::var("REFRESH_TOKEN").unwrap(),
-            &env::var("CLIENT_ID").unwrap(),
-            &env::var("CLIENT_SECRET").unwrap(),
-        );
+        let mut pants = build_pants();
+
         match tokio_test::block_on(pants.me_trophies()) {
             Ok(response) => println!("Response to me_karma is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn me_prefs() {
+        dotenv::dotenv().ok();
+
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.me_prefs()) {
+            Ok(response) => println!("Response to me_prefs is: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
     }
@@ -61,18 +67,71 @@ mod tests {
     fn me_trophies() {
         dotenv::dotenv().ok();
 
-        let mut pants = Pants::new(
-            USER_AGENT,
-            &env::var("ACCESS_TOKEN").unwrap(),
-            env::var("REFRESH_TOKEN").unwrap(),
-            &env::var("CLIENT_ID").unwrap(),
-            &env::var("CLIENT_SECRET").unwrap(),
-        );
+        let mut pants = build_pants();
+
         match tokio_test::block_on(pants.me_trophies()) {
             Ok(response) => println!("Response to me_trophies is: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
     }
+
+    #[test]
+    fn prefs_blocked() {
+        dotenv::dotenv().ok();
+
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.prefs_blocked()) {
+            Ok(response) => println!("Response to prefs_blocked is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn prefs_friends() {
+        dotenv::dotenv().ok();
+
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.prefs_friends()) {
+            Ok(response) => println!("Response to prefs_friends is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+    #[test]
+    fn prefs_messaging() {
+        dotenv::dotenv().ok();
+
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.prefs_messaging()) {
+            Ok(response) => println!("Response to prefs_messaging is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+    #[test]
+    fn prefs_trusted() {
+        dotenv::dotenv().ok();
+
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.prefs_trusted()) {
+            Ok(response) => println!("Response to prefs_trusted is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+    // This API doesn't just work as a raw GET
+    // #[test]
+    // fn prefs_where() {
+    //     dotenv::dotenv().ok();
+
+    //     let mut pants = build_pants();
+
+    //     match tokio_test::block_on(pants.prefs_where()) {
+    //         Ok(response) => println!("Response to prefs_where is: {:#?}", response),
+    //         Err(e) => println!("An error ocurred: {}", e),
+    //     };
+    // }
 }
 
 use reqwest::Client;
@@ -109,12 +168,8 @@ impl Pants {
     }
 
     pub async fn me(&mut self) -> Result<shared_models::account::MeResponse, reqwest::Error> {
-        api_sections::account::wrapper_get_api_v1_me(
-            &self.client,
-            &self.client_configuration,
-            &mut self.refresh_token,
-        )
-        .await
+        api_sections::account::wrapper_get_api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token)
+            .await
     }
 
     pub async fn me_friends(&mut self) -> Result<serde_json::Value, reqwest::Error> {
@@ -131,11 +186,65 @@ impl Pants {
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
-        ).await
+        )
+        .await
+    }
+
+    pub async fn me_prefs(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_api_v1_me_prefs(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
     }
 
     pub async fn me_trophies(&mut self) -> Result<serde_json::Value, reqwest::Error> {
         api_sections::account::wrapper_get_api_v1_me_trophies(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
+    }
+
+    pub async fn prefs_blocked(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_prefs_blocked(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
+    }
+
+    pub async fn prefs_friends(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_prefs_friends(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
+    }
+
+    pub async fn prefs_messaging(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_prefs_messaging(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
+    }
+
+    pub async fn prefs_trusted(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_prefs_trusted(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
+    }
+    pub async fn prefs_where(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_prefs_where(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
