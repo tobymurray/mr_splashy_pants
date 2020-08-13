@@ -45,7 +45,7 @@ mod tests {
 
         let mut pants = build_pants();
 
-        match tokio_test::block_on(pants.me_trophies()) {
+        match tokio_test::block_on(pants.me_karma()) {
             Ok(response) => println!("Response to me_karma is: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
