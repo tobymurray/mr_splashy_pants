@@ -217,7 +217,7 @@ impl Pants {
         .await
     }
 
-    pub async fn prefs_friends(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn prefs_friends(&mut self) -> Result<Vec<shared_models::account::PrefsFriendsResponse>, reqwest::Error> {
         api_sections::account::wrapper_get_prefs_friends(
             &self.client,
             &self.client_configuration,

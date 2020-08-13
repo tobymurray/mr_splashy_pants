@@ -115,7 +115,7 @@ pub async fn wrapper_get_prefs_friends(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
-) -> Result<serde_json::Value, reqwest::Error> {
+) -> Result<Vec<shared_models::account::PrefsFriendsResponse>, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,

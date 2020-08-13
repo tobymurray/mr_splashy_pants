@@ -58,3 +58,14 @@ pub struct MeResponse {
   pub total_karma: i64,
   pub verified: bool,
 }
+
+#[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct PrefsFriendsResponse {
+    pub data: PrefsFriendsResponseData,
+    pub kind: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct PrefsFriendsResponseData {
+    pub children: Vec<::serde_json::Value>,
+}
