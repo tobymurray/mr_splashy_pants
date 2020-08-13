@@ -41,11 +41,11 @@ If your refresh token expires, it should automatically refresh.
 
 Currently implemented with (partially) structured response:
 - GET [/api/v1/me](https://www.reddit.com/dev/api#GET_api_v1_me)
+- GET [/api/v1/me/karma](https://www.reddit.com/dev/api#GET_api_v1_me_karma)
 - GET [/prefs/friends](https://www.reddit.com/dev/api#GET_prefs_friends)
 
 Currently kind of implemented (no query parameters), with JSON response:
 - GET [/api/v1/me/friends](https://www.reddit.com/dev/api#GET_api_v1_me_friends)
-- GET [/api/v1/me/karma](https://www.reddit.com/dev/api#GET_api_v1_me_karma)
 - GET [/api/v1/me/prefs](https://www.reddit.com/dev/api#GET_api_v1_me_prefs)
 - GET [/api/v1/me/trophies](https://www.reddit.com/dev/api#GET_api_v1_me_trophies)
 - GET [/prefs/blocked](https://www.reddit.com/dev/api#GET_prefs_blocked)

@@ -60,6 +60,12 @@ pub struct MeResponse {
 }
 
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct MeKarmaResponse {
+    pub kind: String,
+    pub data: Vec<::serde_json::Value>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct PrefsFriendsResponse {
     pub data: PrefsFriendsResponseData,
     pub kind: String,
