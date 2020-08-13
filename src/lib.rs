@@ -190,7 +190,7 @@ impl Pants {
         .await
     }
 
-    pub async fn me_prefs(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn me_prefs(&mut self) -> Result<shared_models::account::MePrefsResponse, reqwest::Error> {
         api_sections::account::wrapper_get_api_v1_me_prefs(
             &self.client,
             &self.client_configuration,

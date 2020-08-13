@@ -70,7 +70,7 @@ pub async fn wrapper_get_api_v1_me_prefs(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
-) -> Result<serde_json::Value, reqwest::Error> {
+) -> Result<shared_models::account::MePrefsResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
