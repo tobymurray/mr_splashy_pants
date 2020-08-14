@@ -2,6 +2,9 @@
 [![Documentation](https://img.shields.io/badge/documentation-available-green.svg)](https://docs.rs/crate/mr_splashy_pants/)
 [![Crate](https://img.shields.io/crates/v/mr_splashy_pants.svg)](https://crates.io/crates/mr_splashy_pants)
 
+# What is this?
+WIP Rust bindings for the Reddit API
+
 # This is a WIP, you likely won't find it particularly useful
 
 # Set up
