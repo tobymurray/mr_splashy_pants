@@ -8,6 +8,7 @@ license = "MIT OR Apache-2.0"
 documentation = "https://docs.rs/crate/mr_splashy_pants/"
 readme = "README.md"
 repository = "https://github.com/tobymurray/mr_splashy_pants"
+keywords = ["reddit", "api", "client", "wrapper"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
