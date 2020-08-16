@@ -25,13 +25,7 @@ pub async fn wrapper_get_best(
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
-  utils::execute_with_refresh(
-    &client,
-    client_configuration,
-    refresh_token,
-    listings::execute_get_best,
-  )
-  .await
+  utils::execute_with_refresh(&client, client_configuration, refresh_token, listings::execute_get_best).await
 }
 
 // API is: '/by_id/names'
@@ -64,8 +58,8 @@ pub async fn wrapper_get_comments_article(
   .await
 }
 
-// API is: '/controversial'
-pub async fn wrapper_get_controversial(
+// API is: '/r/subreddit/comments/article'
+pub async fn wrapper_get_r_subreddit_comments_article(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
@@ -74,7 +68,7 @@ pub async fn wrapper_get_controversial(
     &client,
     client_configuration,
     refresh_token,
-    listings::execute_get_controversial,
+    listings::execute_get_r_subreddit_comments_article,
   )
   .await
 }
@@ -100,11 +94,20 @@ pub async fn wrapper_get_hot(
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
+  utils::execute_with_refresh(&client, client_configuration, refresh_token, listings::execute_get_hot).await
+}
+
+// API is: '/r/subreddit/hot'
+pub async fn wrapper_get_r_subreddit_hot(
+  client: &reqwest::Client,
+  client_configuration: &models::ClientConfiguration,
+  refresh_token: &mut String,
+) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    listings::execute_get_hot,
+    listings::execute_get_r_subreddit_hot,
   )
   .await
 }
@@ -115,11 +118,20 @@ pub async fn wrapper_get_new(
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
+  utils::execute_with_refresh(&client, client_configuration, refresh_token, listings::execute_get_new).await
+}
+
+// API is: '/r/subreddit/new'
+pub async fn wrapper_get_r_subreddit_new(
+  client: &reqwest::Client,
+  client_configuration: &models::ClientConfiguration,
+  refresh_token: &mut String,
+) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    listings::execute_get_new,
+    listings::execute_get_r_subreddit_new,
   )
   .await
 }
@@ -139,6 +151,21 @@ pub async fn wrapper_get_random(
   .await
 }
 
+// API is: '/r/subreddit/random'
+pub async fn wrapper_get_r_subreddit_random(
+  client: &reqwest::Client,
+  client_configuration: &models::ClientConfiguration,
+  refresh_token: &mut String,
+) -> Result<serde_json::Value, reqwest::Error> {
+  utils::execute_with_refresh(
+    &client,
+    client_configuration,
+    refresh_token,
+    listings::execute_get_r_subreddit_random,
+  )
+  .await
+}
+
 // API is: '/rising'
 pub async fn wrapper_get_rising(
   client: &reqwest::Client,
@@ -154,23 +181,32 @@ pub async fn wrapper_get_rising(
   .await
 }
 
+// API is: '/r/subreddit/rising'
+pub async fn wrapper_get_r_subreddit_rising(
+  client: &reqwest::Client,
+  client_configuration: &models::ClientConfiguration,
+  refresh_token: &mut String,
+) -> Result<serde_json::Value, reqwest::Error> {
+  utils::execute_with_refresh(
+    &client,
+    client_configuration,
+    refresh_token,
+    listings::execute_get_r_subreddit_rising,
+  )
+  .await
+}
+
 // API is: '/top'
 pub async fn wrapper_get_top(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
-  utils::execute_with_refresh(
-    &client,
-    client_configuration,
-    refresh_token,
-    listings::execute_get_top,
-  )
-  .await
+  utils::execute_with_refresh(&client, client_configuration, refresh_token, listings::execute_get_top).await
 }
 
-// API is: '/sort'
-pub async fn wrapper_get_sort(
+// API is: '/r/subreddit/top'
+pub async fn wrapper_get_r_subreddit_top(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
@@ -179,8 +215,37 @@ pub async fn wrapper_get_sort(
     &client,
     client_configuration,
     refresh_token,
-    listings::execute_get_sort,
+    listings::execute_get_r_subreddit_top,
   )
   .await
 }
 
+// API is: '/controversial'
+pub async fn wrapper_get_controversial(
+  client: &reqwest::Client,
+  client_configuration: &models::ClientConfiguration,
+  refresh_token: &mut String,
+) -> Result<serde_json::Value, reqwest::Error> {
+  utils::execute_with_refresh(
+    &client,
+    client_configuration,
+    refresh_token,
+    listings::execute_get_controversial,
+  )
+  .await
+}
+
+// API is: '/r/subreddit/controversial'
+pub async fn wrapper_get_r_subreddit_controversial(
+  client: &reqwest::Client,
+  client_configuration: &models::ClientConfiguration,
+  refresh_token: &mut String,
+) -> Result<serde_json::Value, reqwest::Error> {
+  utils::execute_with_refresh(
+    &client,
+    client_configuration,
+    refresh_token,
+    listings::execute_get_r_subreddit_controversial,
+  )
+  .await
+}
