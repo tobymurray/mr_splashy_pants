@@ -167,18 +167,10 @@ impl Pants {
         }
     }
 
+    // ACCOUNT
     pub async fn me(&mut self) -> Result<shared_models::account::MeResponse, reqwest::Error> {
         api_sections::account::wrapper_get_api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token)
             .await
-    }
-
-    pub async fn me_friends(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::account::wrapper_get_api_v1_me_friends(
-            &self.client,
-            &self.client_configuration,
-            &mut self.refresh_token,
-        )
-        .await
     }
 
     pub async fn me_karma(&mut self) -> Result<shared_models::account::MeKarmaResponse, reqwest::Error> {
@@ -208,8 +200,8 @@ impl Pants {
         .await
     }
 
-    pub async fn prefs_blocked(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::account::wrapper_get_prefs_blocked(
+    pub async fn prefs_friends(&mut self) -> Result<Vec<shared_models::account::PrefsFriendsResponse>, reqwest::Error> {
+        api_sections::account::wrapper_get_prefs_friends(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -217,8 +209,8 @@ impl Pants {
         .await
     }
 
-    pub async fn prefs_friends(&mut self) -> Result<Vec<shared_models::account::PrefsFriendsResponse>, reqwest::Error> {
-        api_sections::account::wrapper_get_prefs_friends(
+    pub async fn prefs_blocked(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_prefs_blocked(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -243,8 +235,9 @@ impl Pants {
         )
         .await
     }
-    pub async fn prefs_where(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::account::wrapper_get_prefs_where(
+
+    pub async fn me_friends(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_api_v1_me_friends(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -252,6 +245,16 @@ impl Pants {
         .await
     }
 
+    pub async fn me_blocked(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::account::wrapper_get_api_v1_me_blocked(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
+    }
+
+    // OTHER
     pub async fn refresh_access_token(
         &self,
         refresh_token: &str,

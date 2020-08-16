@@ -10,30 +10,6 @@ pub async fn execute_get_api_v1_me(
     .await
 }
 
-// API is: '/api/v1/me/blocked'
-pub async fn execute_get_api_v1_me_blocked(
-  client: &reqwest::Client,
-  refresh_token: String,
-) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  client
-    .get("https://oauth.reddit.com/api/v1/me/blocked")
-    .bearer_auth(&refresh_token)
-    .send()
-    .await
-}
-
-// API is: '/api/v1/me/friends'
-pub async fn execute_get_api_v1_me_friends(
-  client: &reqwest::Client,
-  refresh_token: String,
-) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  client
-    .get("https://oauth.reddit.com/api/v1/me/friends")
-    .bearer_auth(&refresh_token)
-    .send()
-    .await
-}
-
 // API is: '/api/v1/me/karma'
 pub async fn execute_get_api_v1_me_karma(
   client: &reqwest::Client,
@@ -70,18 +46,6 @@ pub async fn execute_get_api_v1_me_trophies(
     .await
 }
 
-// API is: '/prefs/blocked'
-pub async fn execute_get_prefs_blocked(
-  client: &reqwest::Client,
-  refresh_token: String,
-) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  client
-    .get("https://oauth.reddit.com/prefs/blocked")
-    .bearer_auth(&refresh_token)
-    .send()
-    .await
-}
-
 // API is: '/prefs/friends'
 pub async fn execute_get_prefs_friends(
   client: &reqwest::Client,
@@ -89,6 +53,18 @@ pub async fn execute_get_prefs_friends(
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/prefs/friends")
+    .bearer_auth(&refresh_token)
+    .send()
+    .await
+}
+
+// API is: '/prefs/blocked'
+pub async fn execute_get_prefs_blocked(
+  client: &reqwest::Client,
+  refresh_token: String,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/prefs/blocked")
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -118,15 +94,26 @@ pub async fn execute_get_prefs_trusted(
     .await
 }
 
-// API is: '/prefs/where'
-pub async fn execute_get_prefs_where(
+// API is: '/api/v1/me/friends'
+pub async fn execute_get_api_v1_me_friends(
   client: &reqwest::Client,
   refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
-    .get("https://oauth.reddit.com/prefs/where")
+    .get("https://oauth.reddit.com/api/v1/me/friends")
     .bearer_auth(&refresh_token)
     .send()
     .await
 }
 
+// API is: '/api/v1/me/blocked'
+pub async fn execute_get_api_v1_me_blocked(
+  client: &reqwest::Client,
+  refresh_token: String,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get("https://oauth.reddit.com/api/v1/me/blocked")
+    .bearer_auth(&refresh_token)
+    .send()
+    .await
+}
