@@ -117,20 +117,54 @@ mod tests {
             Err(e) => println!("An error ocurred: {}", e),
         };
     }
+
+    // Listings
+
     #[test]
-    fn prefs_trusted() {
+    fn trending_subreddits() {
         dotenv::dotenv().ok();
 
         let mut pants = build_pants();
 
-        match tokio_test::block_on(pants.prefs_trusted()) {
-            Ok(response) => println!("Response to prefs_trusted is: {:#?}", response),
+        match tokio_test::block_on(pants.trending_subreddits()) {
+            Ok(response) => println!("Response to trending_subreddits is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn best() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.best()) {
+            Ok(response) => println!("Response to best is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn hot() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.hot()) {
+            Ok(response) => println!("Response to hot is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn subreddit_hot() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.subreddit_hot("testingground4bots")) {
+            Ok(response) => println!("Response to hot is: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
     }
 }
 
 use reqwest::Client;
+use std::collections::HashMap;
 mod api_sections;
 mod generated_api_sections;
 mod shared_models;
@@ -246,6 +280,37 @@ impl Pants {
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
+        )
+        .await
+    }
+
+    // Listings
+
+    pub async fn trending_subreddits(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::listing::wrapper_get_api_trending_subreddits(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
+    }
+
+    pub async fn best(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::listing::wrapper_get_best(&self.client, &self.client_configuration, &mut self.refresh_token).await
+    }
+
+    pub async fn hot(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::listing::wrapper_get_hot(&self.client, &self.client_configuration, &mut self.refresh_token).await
+    }
+
+    pub async fn subreddit_hot(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("subreddit".to_string(), subreddit.to_string());
+        api_sections::listing::wrapper_get_r_subreddit_hot(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
         )
         .await
     }
