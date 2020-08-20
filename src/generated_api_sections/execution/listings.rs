@@ -1,7 +1,11 @@
+use handlebars::Handlebars;
+use std::collections::HashMap;
+
 // API is: '/api/trending_subreddits'
 pub async fn execute_get_api_trending_subreddits(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/api/trending_subreddits")
@@ -14,6 +18,7 @@ pub async fn execute_get_api_trending_subreddits(
 pub async fn execute_get_best(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/best")
@@ -26,6 +31,7 @@ pub async fn execute_get_best(
 pub async fn execute_get_by_id_names(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/by_id/names")
@@ -38,6 +44,7 @@ pub async fn execute_get_by_id_names(
 pub async fn execute_get_comments_article(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/comments/article")
@@ -46,13 +53,16 @@ pub async fn execute_get_comments_article(
     .await
 }
 
-// API is: '/r/subreddit/comments/article'
+// API is: '/r/{{subreddit}}/comments/article'
 pub async fn execute_get_r_subreddit_comments_article(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  let mut handlebars = Handlebars::new();
+  handlebars.set_strict_mode(true);
   client
-    .get("https://oauth.reddit.com/r/subreddit/comments/article")
+    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/r/{{subreddit}}/comments/article", &parameters).unwrap()))
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -62,6 +72,7 @@ pub async fn execute_get_r_subreddit_comments_article(
 pub async fn execute_get_duplicates_article(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/duplicates/article")
@@ -74,6 +85,7 @@ pub async fn execute_get_duplicates_article(
 pub async fn execute_get_hot(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/hot")
@@ -82,13 +94,16 @@ pub async fn execute_get_hot(
     .await
 }
 
-// API is: '/r/subreddit/hot'
+// API is: '/r/{{subreddit}}/hot'
 pub async fn execute_get_r_subreddit_hot(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  let mut handlebars = Handlebars::new();
+  handlebars.set_strict_mode(true);
   client
-    .get("https://oauth.reddit.com/r/subreddit/hot")
+    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/r/{{subreddit}}/hot", &parameters).unwrap()))
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -98,6 +113,7 @@ pub async fn execute_get_r_subreddit_hot(
 pub async fn execute_get_new(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/new")
@@ -106,13 +122,16 @@ pub async fn execute_get_new(
     .await
 }
 
-// API is: '/r/subreddit/new'
+// API is: '/r/{{subreddit}}/new'
 pub async fn execute_get_r_subreddit_new(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  let mut handlebars = Handlebars::new();
+  handlebars.set_strict_mode(true);
   client
-    .get("https://oauth.reddit.com/r/subreddit/new")
+    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/r/{{subreddit}}/new", &parameters).unwrap()))
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -122,6 +141,7 @@ pub async fn execute_get_r_subreddit_new(
 pub async fn execute_get_random(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/random")
@@ -130,13 +150,16 @@ pub async fn execute_get_random(
     .await
 }
 
-// API is: '/r/subreddit/random'
+// API is: '/r/{{subreddit}}/random'
 pub async fn execute_get_r_subreddit_random(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  let mut handlebars = Handlebars::new();
+  handlebars.set_strict_mode(true);
   client
-    .get("https://oauth.reddit.com/r/subreddit/random")
+    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/r/{{subreddit}}/random", &parameters).unwrap()))
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -146,6 +169,7 @@ pub async fn execute_get_r_subreddit_random(
 pub async fn execute_get_rising(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/rising")
@@ -154,13 +178,16 @@ pub async fn execute_get_rising(
     .await
 }
 
-// API is: '/r/subreddit/rising'
+// API is: '/r/{{subreddit}}/rising'
 pub async fn execute_get_r_subreddit_rising(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  let mut handlebars = Handlebars::new();
+  handlebars.set_strict_mode(true);
   client
-    .get("https://oauth.reddit.com/r/subreddit/rising")
+    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/r/{{subreddit}}/rising", &parameters).unwrap()))
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -170,6 +197,7 @@ pub async fn execute_get_r_subreddit_rising(
 pub async fn execute_get_top(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/top")
@@ -178,13 +206,16 @@ pub async fn execute_get_top(
     .await
 }
 
-// API is: '/r/subreddit/top'
+// API is: '/r/{{subreddit}}/top'
 pub async fn execute_get_r_subreddit_top(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  let mut handlebars = Handlebars::new();
+  handlebars.set_strict_mode(true);
   client
-    .get("https://oauth.reddit.com/r/subreddit/top")
+    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/r/{{subreddit}}/top", &parameters).unwrap()))
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -194,6 +225,7 @@ pub async fn execute_get_r_subreddit_top(
 pub async fn execute_get_controversial(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/controversial")
@@ -202,13 +234,16 @@ pub async fn execute_get_controversial(
     .await
 }
 
-// API is: '/r/subreddit/controversial'
+// API is: '/r/{{subreddit}}/controversial'
 pub async fn execute_get_r_subreddit_controversial(
   client: &reqwest::Client,
   refresh_token: String,
+  parameters: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  let mut handlebars = Handlebars::new();
+  handlebars.set_strict_mode(true);
   client
-    .get("https://oauth.reddit.com/r/subreddit/controversial")
+    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/r/{{subreddit}}/controversial", &parameters).unwrap()))
     .bearer_auth(&refresh_token)
     .send()
     .await
