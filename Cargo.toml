@@ -16,6 +16,7 @@ keywords = ["reddit", "api", "client", "wrapper"]
 reqwest = {version = "0.10", features = ["json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+handlebars = "3.4"
 
 [dev-dependencies]
 tokio-test = "0.2"
