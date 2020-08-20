@@ -6,6 +6,8 @@ mod tests {
     const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
 
     fn build_pants() -> Pants {
+        dotenv::dotenv().ok();
+
         Pants::new(
             USER_AGENT,
             &env::var("ACCESS_TOKEN").unwrap(),
@@ -15,10 +17,9 @@ mod tests {
         )
     }
 
+    // Accounts
     #[test]
     fn me() {
-        dotenv::dotenv().ok();
-
         let mut pants = build_pants();
 
         match tokio_test::block_on(pants.me()) {
@@ -28,21 +29,7 @@ mod tests {
     }
 
     #[test]
-    fn me_friends() {
-        dotenv::dotenv().ok();
-
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.me_friends()) {
-            Ok(response) => println!("Response to me_friends is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
     fn me_karma() {
-        dotenv::dotenv().ok();
-
         let mut pants = build_pants();
 
         match tokio_test::block_on(pants.me_karma()) {
@@ -53,8 +40,6 @@ mod tests {
 
     #[test]
     fn me_prefs() {
-        dotenv::dotenv().ok();
-
         let mut pants = build_pants();
 
         match tokio_test::block_on(pants.me_prefs()) {
@@ -65,8 +50,6 @@ mod tests {
 
     #[test]
     fn me_trophies() {
-        dotenv::dotenv().ok();
-
         let mut pants = build_pants();
 
         match tokio_test::block_on(pants.me_trophies()) {
@@ -76,9 +59,17 @@ mod tests {
     }
 
     #[test]
-    fn prefs_blocked() {
-        dotenv::dotenv().ok();
+    fn prefs_friends() {
+        let mut pants = build_pants();
 
+        match tokio_test::block_on(pants.prefs_friends()) {
+            Ok(response) => println!("Response to prefs_friends is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn prefs_blocked() {
         let mut pants = build_pants();
 
         match tokio_test::block_on(pants.prefs_blocked()) {
@@ -88,24 +79,41 @@ mod tests {
     }
 
     #[test]
-    fn prefs_friends() {
-        dotenv::dotenv().ok();
-
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.prefs_friends()) {
-            Ok(response) => println!("Response to prefs_friends is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
-        };
-    }
-    #[test]
     fn prefs_messaging() {
-        dotenv::dotenv().ok();
-
         let mut pants = build_pants();
 
         match tokio_test::block_on(pants.prefs_messaging()) {
             Ok(response) => println!("Response to prefs_messaging is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn prefs_trusted() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.prefs_trusted()) {
+            Ok(response) => println!("Response to prefs_trusted is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn me_friends() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.me_friends()) {
+            Ok(response) => println!("Response to me_friends is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn me_blocked() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.me_blocked()) {
+            Ok(response) => println!("Response to me_blocked is: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
     }
@@ -120,18 +128,6 @@ mod tests {
             Err(e) => println!("An error ocurred: {}", e),
         };
     }
-    // This API doesn't just work as a raw GET
-    // #[test]
-    // fn prefs_where() {
-    //     dotenv::dotenv().ok();
-
-    //     let mut pants = build_pants();
-
-    //     match tokio_test::block_on(pants.prefs_where()) {
-    //         Ok(response) => println!("Response to prefs_where is: {:#?}", response),
-    //         Err(e) => println!("An error ocurred: {}", e),
-    //     };
-    // }
 }
 
 use reqwest::Client;
