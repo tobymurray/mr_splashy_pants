@@ -38,39 +38,41 @@ pub async fn wrapper_get_best(
   .await
 }
 
-// API is: '/by_id/names'
+// API is: '/by_id/{{names}}'
 pub async fn wrapper_get_by_id_names(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
+  parameters: &HashMap<String, String>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    &HashMap::new(),
+    parameters,
     listings::execute_get_by_id_names,
   )
   .await
 }
 
-// API is: '/comments/article'
+// API is: '/comments/{{article}}'
 pub async fn wrapper_get_comments_article(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
+  parameters: &HashMap<String, String>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    &HashMap::new(),
+    parameters,
     listings::execute_get_comments_article,
   )
   .await
 }
 
-// API is: '/r/{{subreddit}}/comments/article'
+// API is: '/r/{{subreddit}}/comments/{{article}}'
 pub async fn wrapper_get_r_subreddit_comments_article(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
@@ -87,17 +89,18 @@ pub async fn wrapper_get_r_subreddit_comments_article(
   .await
 }
 
-// API is: '/duplicates/article'
+// API is: '/duplicates/{{article}}'
 pub async fn wrapper_get_duplicates_article(
   client: &reqwest::Client,
   client_configuration: &models::ClientConfiguration,
   refresh_token: &mut String,
+  parameters: &HashMap<String, String>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    &HashMap::new(),
+    parameters,
     listings::execute_get_duplicates_article,
   )
   .await
