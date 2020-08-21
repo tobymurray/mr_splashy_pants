@@ -142,6 +142,42 @@ mod tests {
         };
     }
 
+    // fn by_id_names() {
+    //     let mut pants = build_pants();
+    //     // TODO: Figure this out
+    //     match tokio_test::block_on(pants.by_id_names(fullnames: Vec<String>)) {
+    //         Ok(response) => println!("Response to best is: {:#?}", response),
+    //         Err(e) => println!("An error ocurred: {}", e),
+    //     };
+    // }
+
+    // fn comments_article() {
+    //     let mut pants = build_pants();
+    //     // TODO: Figure this out
+    //     match tokio_test::block_on(pants.get_comments_article(article: String)() {
+    //         Ok(response) => println!("Response to best is: {:#?}", response),
+    //         Err(e) => println!("An error ocurred: {}", e),
+    //     };
+    // }
+
+    // fn subreddit_comments_article() {
+    //     let mut pants = build_pants();
+    //     // TODO: Figure this out
+    //     match tokio_test::block_on(pants.subreddit_comments_article(subreddit: String, article: String)) {
+    //         Ok(response) => println!("Response to best is: {:#?}", response),
+    //         Err(e) => println!("An error ocurred: {}", e),
+    //     };
+    // }
+
+    // fn duplicates_article() {
+    //     let mut pants = build_pants();
+    //     // TODO: Figure this out
+    //     match tokio_test::block_on(pants.duplicates_article(article: String)) {
+    //         Ok(response) => println!("Response to best is: {:#?}", response),
+    //         Err(e) => println!("An error ocurred: {}", e),
+    //     };
+    // }
+
     #[test]
     fn hot() {
         let mut pants = build_pants();
@@ -158,6 +194,106 @@ mod tests {
 
         match tokio_test::block_on(pants.subreddit_hot("testingground4bots")) {
             Ok(response) => println!("Response to hot is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn get_new() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.get_new()) {
+            Ok(response) => println!("Response to get_new is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn subreddit_new() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.subreddit_new("testingground4bots")) {
+            Ok(response) => println!("Response to new is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn random() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.random()) {
+            Ok(response) => println!("Response to random is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn subreddit_random() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.subreddit_random("testingground4bots")) {
+            Ok(response) => println!("Response to random is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn rising() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.rising()) {
+            Ok(response) => println!("Response to rising is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn subreddit_rising() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.subreddit_rising("testingground4bots")) {
+            Ok(response) => println!("Response to rising is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn top() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.top()) {
+            Ok(response) => println!("Response to top is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn subreddit_top() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.subreddit_top("testingground4bots")) {
+            Ok(response) => println!("Response to top is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn controversial() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.controversial()) {
+            Ok(response) => println!("Response to controversial is: {:#?}", response),
+            Err(e) => println!("An error ocurred: {}", e),
+        };
+    }
+
+    #[test]
+    fn subreddit_controversial() {
+        let mut pants = build_pants();
+
+        match tokio_test::block_on(pants.subreddit_controversial("testingground4bots")) {
+            Ok(response) => println!("Response to controversial is: {:#?}", response),
             Err(e) => println!("An error ocurred: {}", e),
         };
     }
@@ -299,6 +435,59 @@ impl Pants {
         api_sections::listing::wrapper_get_best(&self.client, &self.client_configuration, &mut self.refresh_token).await
     }
 
+    pub async fn by_id_names(&mut self, fullnames: Vec<String>) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("names".to_string(), fullnames.into_iter().collect());
+        api_sections::listing::wrapper_get_by_id_names(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
+        )
+        .await
+    }
+
+    pub async fn comments_article(&mut self, article: String) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("article".to_string(), article);
+        api_sections::listing::wrapper_get_comments_article(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
+        )
+        .await
+    }
+
+    pub async fn subreddit_comments_article(
+        &mut self,
+        subreddit: String,
+        article: String,
+    ) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("subreddit".to_string(), subreddit);
+        parameters.insert("article".to_string(), article);
+        api_sections::listing::wrapper_get_r_subreddit_comments_article(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
+        )
+        .await
+    }
+
+    pub async fn duplicates_article(&mut self, article: String) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("article".to_string(), article);
+        api_sections::listing::wrapper_get_duplicates_article(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
+        )
+        .await
+    }
+
     pub async fn hot(&mut self) -> Result<serde_json::Value, reqwest::Error> {
         api_sections::listing::wrapper_get_hot(&self.client, &self.client_configuration, &mut self.refresh_token).await
     }
@@ -307,6 +496,93 @@ impl Pants {
         let mut parameters = HashMap::new();
         parameters.insert("subreddit".to_string(), subreddit.to_string());
         api_sections::listing::wrapper_get_r_subreddit_hot(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
+        )
+        .await
+    }
+
+    pub async fn get_new(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::listing::wrapper_get_new(&self.client, &self.client_configuration, &mut self.refresh_token).await
+    }
+
+    pub async fn subreddit_new(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("subreddit".to_string(), subreddit.to_string());
+        api_sections::listing::wrapper_get_r_subreddit_new(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
+        )
+        .await
+    }
+
+    pub async fn random(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::listing::wrapper_get_random(&self.client, &self.client_configuration, &mut self.refresh_token)
+            .await
+    }
+
+    pub async fn subreddit_random(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("subreddit".to_string(), subreddit.to_string());
+        api_sections::listing::wrapper_get_r_subreddit_random(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
+        )
+        .await
+    }
+
+    pub async fn rising(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::listing::wrapper_get_rising(&self.client, &self.client_configuration, &mut self.refresh_token)
+            .await
+    }
+
+    pub async fn subreddit_rising(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("subreddit".to_string(), subreddit.to_string());
+        api_sections::listing::wrapper_get_r_subreddit_rising(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
+        )
+        .await
+    }
+
+    pub async fn controversial(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::listing::wrapper_get_controversial(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+        )
+        .await
+    }
+
+    pub async fn subreddit_controversial(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("subreddit".to_string(), subreddit.to_string());
+        api_sections::listing::wrapper_get_r_subreddit_controversial(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &parameters,
+        )
+        .await
+    }
+
+    pub async fn top(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+        api_sections::listing::wrapper_get_top(&self.client, &self.client_configuration, &mut self.refresh_token).await
+    }
+
+    pub async fn subreddit_top(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
+        let mut parameters = HashMap::new();
+        parameters.insert("subreddit".to_string(), subreddit.to_string());
+        api_sections::listing::wrapper_get_r_subreddit_top(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,

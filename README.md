@@ -61,9 +61,23 @@ Currently kind of implemented (no query parameters), with JSON response:
 - GET [/api/v1/me/blocked](https://www.reddit.com/dev/api#GET_api_v1_me_blocked)
 
 **Listing**
+
 - GET [/api/trending_subreddits](https://www.reddit.com/dev/api#GET_api_trending_subreddits)
 - GET [/best](https://www.reddit.com/dev/api#GET_best)
+- GET [/by_id/names](https://www.reddit.com/dev/api#GET_by_id_{names})
+- GET [/comments/article](https://www.reddit.com/dev/api#GET_comments_{article})
+- GET [/controversial](https://www.reddit.com/dev/api#GET_controversial)
+- GET [/r/{subreddit}/controversial](https://www.reddit.com/dev/api#GET_controversial)
+- GET [/duplicates/article](https://www.reddit.com/dev/api#GET_duplicates_{article})
 - GET [/hot](https://www.reddit.com/dev/api#GET_hot)
 - GET [/r/{subreddit}/hot](https://www.reddit.com/dev/api#GET_hot)
+- GET [/new](https://www.reddit.com/dev/api#GET_new)
+- GET [/r/{subreddit}/new](https://www.reddit.com/dev/api#GET_new)
+- GET [/random](https://www.reddit.com/dev/api#GET_random)
+- GET [/r/{subreddit}/random](https://www.reddit.com/dev/api#GET_random)
+- GET [/rising](https://www.reddit.com/dev/api#GET_rising)
+- GET [/r/{subreddit}/rising](https://www.reddit.com/dev/api#GET_rising)
+- GET [/top](https://www.reddit.com/dev/api#GET_top)
+- GET [/r/{subreddit}/top](https://www.reddit.com/dev/api#GET_top)
 
 All other APIs are not implemented
