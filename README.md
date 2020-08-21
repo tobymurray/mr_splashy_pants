@@ -63,7 +63,7 @@ Currently kind of implemented (no query parameters), with JSON response:
 **Listing**
 - GET [/api/trending_subreddits](https://www.reddit.com/dev/api#GET_api_trending_subreddits)
 - GET [/best](https://www.reddit.com/dev/api#GET_best)
-- GET [hot](https://www.reddit.com/dev/api#GET_hot)
+- GET [/hot](https://www.reddit.com/dev/api#GET_hot)
 - GET [/r/{subreddit}/hot](https://www.reddit.com/dev/api#GET_hot)
 
 All other APIs are not implemented
