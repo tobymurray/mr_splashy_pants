@@ -1,24 +1,24 @@
 use std::collections::HashMap;
 
-use crate::generated_api_sections::execution::account;
-use crate::shared_models;
-use crate::shared_models::models;
-use crate::shared_models::utils;
+use crate::api::generated::execution::account as account_execution;
+use crate::api::generated::response::account;
+use crate::api::utils::utils;
+use crate::client::client;
 
 use serde_json;
 
 // API is: '/api/v1/me'
 pub async fn wrapper_get_api_v1_me(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-) -> Result<shared_models::account::MeResponse, reqwest::Error> {
+) -> Result<account::MeResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_api_v1_me,
+    account_execution::execute_get_api_v1_me,
   )
   .await
 }
@@ -26,15 +26,15 @@ pub async fn wrapper_get_api_v1_me(
 // API is: '/api/v1/me/karma'
 pub async fn wrapper_get_api_v1_me_karma(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-) -> Result<shared_models::account::MeKarmaResponse, reqwest::Error> {
+) -> Result<account::MeKarmaResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_api_v1_me_karma,
+    account_execution::execute_get_api_v1_me_karma,
   )
   .await
 }
@@ -42,15 +42,15 @@ pub async fn wrapper_get_api_v1_me_karma(
 // API is: '/api/v1/me/prefs'
 pub async fn wrapper_get_api_v1_me_prefs(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-) -> Result<shared_models::account::MePrefsResponse, reqwest::Error> {
+) -> Result<account::MePrefsResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_api_v1_me_prefs,
+    account_execution::execute_get_api_v1_me_prefs,
   )
   .await
 }
@@ -58,7 +58,7 @@ pub async fn wrapper_get_api_v1_me_prefs(
 // API is: '/api/v1/me/trophies'
 pub async fn wrapper_get_api_v1_me_trophies(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -66,7 +66,7 @@ pub async fn wrapper_get_api_v1_me_trophies(
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_api_v1_me_trophies,
+    account_execution::execute_get_api_v1_me_trophies,
   )
   .await
 }
@@ -74,15 +74,15 @@ pub async fn wrapper_get_api_v1_me_trophies(
 // API is: '/prefs/friends'
 pub async fn wrapper_get_prefs_friends(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-) -> Result<Vec<shared_models::account::PrefsFriendsResponse>, reqwest::Error> {
+) -> Result<Vec<account::PrefsFriendsResponse>, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_prefs_friends,
+    account_execution::execute_get_prefs_friends,
   )
   .await
 }
@@ -90,7 +90,7 @@ pub async fn wrapper_get_prefs_friends(
 // API is: '/prefs/blocked'
 pub async fn wrapper_get_prefs_blocked(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -98,7 +98,7 @@ pub async fn wrapper_get_prefs_blocked(
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_prefs_blocked,
+    account_execution::execute_get_prefs_blocked,
   )
   .await
 }
@@ -106,7 +106,7 @@ pub async fn wrapper_get_prefs_blocked(
 // API is: '/prefs/messaging'
 pub async fn wrapper_get_prefs_messaging(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -114,7 +114,7 @@ pub async fn wrapper_get_prefs_messaging(
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_prefs_messaging,
+    account_execution::execute_get_prefs_messaging,
   )
   .await
 }
@@ -122,7 +122,7 @@ pub async fn wrapper_get_prefs_messaging(
 // API is: '/prefs/trusted'
 pub async fn wrapper_get_prefs_trusted(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -130,7 +130,7 @@ pub async fn wrapper_get_prefs_trusted(
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_prefs_trusted,
+    account_execution::execute_get_prefs_trusted,
   )
   .await
 }
@@ -138,7 +138,7 @@ pub async fn wrapper_get_prefs_trusted(
 // API is: '/api/v1/me/friends'
 pub async fn wrapper_get_api_v1_me_friends(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -146,7 +146,7 @@ pub async fn wrapper_get_api_v1_me_friends(
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_api_v1_me_friends,
+    account_execution::execute_get_api_v1_me_friends,
   )
   .await
 }
@@ -154,7 +154,7 @@ pub async fn wrapper_get_api_v1_me_friends(
 // API is: '/api/v1/me/blocked'
 pub async fn wrapper_get_api_v1_me_blocked(
   client: &reqwest::Client,
-  client_configuration: &models::ClientConfiguration,
+  client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -162,7 +162,7 @@ pub async fn wrapper_get_api_v1_me_blocked(
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    account::execute_get_api_v1_me_blocked,
+    account_execution::execute_get_api_v1_me_blocked,
   )
   .await
 }

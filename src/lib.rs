@@ -213,7 +213,10 @@ mod tests {
         let mut pants = build_pants();
 
         match tokio_test::block_on(pants.subreddit_new("testingground4bots")) {
-            Ok(response) => println!("Response to new is: {:#?}", response),
+            Ok(response) => println!(
+                "Response to new is: {}",
+                serde_json::to_string_pretty(&response).unwrap()
+            ),
             Err(e) => println!("An error ocurred: {}", e),
         };
     }
@@ -301,15 +304,25 @@ mod tests {
 
 use reqwest::Client;
 use std::collections::HashMap;
-mod api_sections;
-mod generated_api_sections;
-mod shared_models;
 
-use shared_models::models;
+mod api;
+mod client;
+
+use api::generated::response::account;
+use api::generated::wrapper::account as account_wrapper;
+use api::generated::wrapper::listing as listing_wrapper;
+
+use api::response::models;
+
+use api::generated::response::listing::subreddit_new as listing_response;
+
+use api::generated::wrapper::oauth;
+
+use client::client as pants_client;
 
 pub struct Pants {
     client: Client,
-    client_configuration: models::ClientConfiguration,
+    client_configuration: pants_client::ClientConfiguration,
     refresh_token: String,
 }
 
@@ -324,7 +337,7 @@ impl Pants {
         Pants {
             client: reqwest::Client::builder().user_agent(user_agent).build().unwrap(),
             refresh_token,
-            client_configuration: models::ClientConfiguration::new(
+            client_configuration: pants_client::ClientConfiguration::new(
                 user_agent,
                 access_token,
                 client_id,
@@ -334,31 +347,22 @@ impl Pants {
     }
 
     // ACCOUNT
-    pub async fn me(&mut self) -> Result<shared_models::account::MeResponse, reqwest::Error> {
-        api_sections::account::wrapper_get_api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token)
+    pub async fn me(&mut self) -> Result<account::MeResponse, reqwest::Error> {
+        account_wrapper::wrapper_get_api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token).await
+    }
+
+    pub async fn me_karma(&mut self) -> Result<account::MeKarmaResponse, reqwest::Error> {
+        account_wrapper::wrapper_get_api_v1_me_karma(&self.client, &self.client_configuration, &mut self.refresh_token)
             .await
     }
 
-    pub async fn me_karma(&mut self) -> Result<shared_models::account::MeKarmaResponse, reqwest::Error> {
-        api_sections::account::wrapper_get_api_v1_me_karma(
-            &self.client,
-            &self.client_configuration,
-            &mut self.refresh_token,
-        )
-        .await
-    }
-
-    pub async fn me_prefs(&mut self) -> Result<shared_models::account::MePrefsResponse, reqwest::Error> {
-        api_sections::account::wrapper_get_api_v1_me_prefs(
-            &self.client,
-            &self.client_configuration,
-            &mut self.refresh_token,
-        )
-        .await
+    pub async fn me_prefs(&mut self) -> Result<account::MePrefsResponse, reqwest::Error> {
+        account_wrapper::wrapper_get_api_v1_me_prefs(&self.client, &self.client_configuration, &mut self.refresh_token)
+            .await
     }
 
     pub async fn me_trophies(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::account::wrapper_get_api_v1_me_trophies(
+        account_wrapper::wrapper_get_api_v1_me_trophies(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -366,44 +370,28 @@ impl Pants {
         .await
     }
 
-    pub async fn prefs_friends(&mut self) -> Result<Vec<shared_models::account::PrefsFriendsResponse>, reqwest::Error> {
-        api_sections::account::wrapper_get_prefs_friends(
-            &self.client,
-            &self.client_configuration,
-            &mut self.refresh_token,
-        )
-        .await
+    pub async fn prefs_friends(&mut self) -> Result<Vec<account::PrefsFriendsResponse>, reqwest::Error> {
+        account_wrapper::wrapper_get_prefs_friends(&self.client, &self.client_configuration, &mut self.refresh_token)
+            .await
     }
 
     pub async fn prefs_blocked(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::account::wrapper_get_prefs_blocked(
-            &self.client,
-            &self.client_configuration,
-            &mut self.refresh_token,
-        )
-        .await
+        account_wrapper::wrapper_get_prefs_blocked(&self.client, &self.client_configuration, &mut self.refresh_token)
+            .await
     }
 
     pub async fn prefs_messaging(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::account::wrapper_get_prefs_messaging(
-            &self.client,
-            &self.client_configuration,
-            &mut self.refresh_token,
-        )
-        .await
+        account_wrapper::wrapper_get_prefs_messaging(&self.client, &self.client_configuration, &mut self.refresh_token)
+            .await
     }
 
     pub async fn prefs_trusted(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::account::wrapper_get_prefs_trusted(
-            &self.client,
-            &self.client_configuration,
-            &mut self.refresh_token,
-        )
-        .await
+        account_wrapper::wrapper_get_prefs_trusted(&self.client, &self.client_configuration, &mut self.refresh_token)
+            .await
     }
 
     pub async fn me_friends(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::account::wrapper_get_api_v1_me_friends(
+        account_wrapper::wrapper_get_api_v1_me_friends(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -412,7 +400,7 @@ impl Pants {
     }
 
     pub async fn me_blocked(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::account::wrapper_get_api_v1_me_blocked(
+        account_wrapper::wrapper_get_api_v1_me_blocked(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -423,7 +411,7 @@ impl Pants {
     // Listings
 
     pub async fn trending_subreddits(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::listing::wrapper_get_api_trending_subreddits(
+        listing_wrapper::wrapper_get_api_trending_subreddits(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -432,13 +420,13 @@ impl Pants {
     }
 
     pub async fn best(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::listing::wrapper_get_best(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_best(&self.client, &self.client_configuration, &mut self.refresh_token).await
     }
 
     pub async fn by_id_names(&mut self, fullnames: Vec<String>) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("names".to_string(), fullnames.into_iter().collect());
-        api_sections::listing::wrapper_get_by_id_names(
+        listing_wrapper::wrapper_get_by_id_names(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -450,7 +438,7 @@ impl Pants {
     pub async fn comments_article(&mut self, article: String) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("article".to_string(), article);
-        api_sections::listing::wrapper_get_comments_article(
+        listing_wrapper::wrapper_get_comments_article(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -467,7 +455,7 @@ impl Pants {
         let mut parameters = HashMap::new();
         parameters.insert("subreddit".to_string(), subreddit);
         parameters.insert("article".to_string(), article);
-        api_sections::listing::wrapper_get_r_subreddit_comments_article(
+        listing_wrapper::wrapper_get_r_subreddit_comments_article(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -479,7 +467,7 @@ impl Pants {
     pub async fn duplicates_article(&mut self, article: String) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("article".to_string(), article);
-        api_sections::listing::wrapper_get_duplicates_article(
+        listing_wrapper::wrapper_get_duplicates_article(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -489,13 +477,13 @@ impl Pants {
     }
 
     pub async fn hot(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::listing::wrapper_get_hot(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_hot(&self.client, &self.client_configuration, &mut self.refresh_token).await
     }
 
     pub async fn subreddit_hot(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("subreddit".to_string(), subreddit.to_string());
-        api_sections::listing::wrapper_get_r_subreddit_hot(
+        listing_wrapper::wrapper_get_r_subreddit_hot(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -505,13 +493,16 @@ impl Pants {
     }
 
     pub async fn get_new(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::listing::wrapper_get_new(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_new(&self.client, &self.client_configuration, &mut self.refresh_token).await
     }
 
-    pub async fn subreddit_new(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn subreddit_new(
+        &mut self,
+        subreddit: &str,
+    ) -> Result<models::Listing<listing_response::Data>, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("subreddit".to_string(), subreddit.to_string());
-        api_sections::listing::wrapper_get_r_subreddit_new(
+        listing_wrapper::wrapper_get_r_subreddit_new(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -521,14 +512,13 @@ impl Pants {
     }
 
     pub async fn random(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::listing::wrapper_get_random(&self.client, &self.client_configuration, &mut self.refresh_token)
-            .await
+        listing_wrapper::wrapper_get_random(&self.client, &self.client_configuration, &mut self.refresh_token).await
     }
 
     pub async fn subreddit_random(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("subreddit".to_string(), subreddit.to_string());
-        api_sections::listing::wrapper_get_r_subreddit_random(
+        listing_wrapper::wrapper_get_r_subreddit_random(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -538,14 +528,13 @@ impl Pants {
     }
 
     pub async fn rising(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::listing::wrapper_get_rising(&self.client, &self.client_configuration, &mut self.refresh_token)
-            .await
+        listing_wrapper::wrapper_get_rising(&self.client, &self.client_configuration, &mut self.refresh_token).await
     }
 
     pub async fn subreddit_rising(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("subreddit".to_string(), subreddit.to_string());
-        api_sections::listing::wrapper_get_r_subreddit_rising(
+        listing_wrapper::wrapper_get_r_subreddit_rising(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -555,18 +544,14 @@ impl Pants {
     }
 
     pub async fn controversial(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::listing::wrapper_get_controversial(
-            &self.client,
-            &self.client_configuration,
-            &mut self.refresh_token,
-        )
-        .await
+        listing_wrapper::wrapper_get_controversial(&self.client, &self.client_configuration, &mut self.refresh_token)
+            .await
     }
 
     pub async fn subreddit_controversial(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("subreddit".to_string(), subreddit.to_string());
-        api_sections::listing::wrapper_get_r_subreddit_controversial(
+        listing_wrapper::wrapper_get_r_subreddit_controversial(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -576,13 +561,13 @@ impl Pants {
     }
 
     pub async fn top(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        api_sections::listing::wrapper_get_top(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_top(&self.client, &self.client_configuration, &mut self.refresh_token).await
     }
 
     pub async fn subreddit_top(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("subreddit".to_string(), subreddit.to_string());
-        api_sections::listing::wrapper_get_r_subreddit_top(
+        listing_wrapper::wrapper_get_r_subreddit_top(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
@@ -592,16 +577,13 @@ impl Pants {
     }
 
     // OTHER
-    pub async fn refresh_access_token(
-        &self,
-        refresh_token: &str,
-    ) -> Result<api_sections::oauth::RefreshToken, reqwest::Error> {
+    pub async fn refresh_access_token(&self, refresh_token: &str) -> Result<oauth::RefreshToken, reqwest::Error> {
         let client = reqwest::Client::builder()
             .user_agent(&self.client_configuration.user_agent)
             .build()
             .unwrap();
 
-        let refresh_token = api_sections::oauth::refresh_access_token(
+        let refresh_token = oauth::refresh_access_token(
             &client,
             refresh_token,
             &self.client_configuration.client_id,

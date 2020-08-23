@@ -1,12 +1,12 @@
-use crate::api_sections::oauth;
-use crate::shared_models::models;
-
-use std::future::Future;
 use std::collections::HashMap;
+use std::future::Future;
+
+use crate::api::generated::wrapper::oauth;
+use crate::client::client;
 
 pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize<'de>>(
   client: &'a reqwest::Client,
-  client_configuration: &'a models::ClientConfiguration,
+  client_configuration: &'a client::ClientConfiguration,
   refresh_token: &'a mut String,
   parameters: &'a HashMap<String, String>,
   f: F,
@@ -33,7 +33,6 @@ where
         {
           string => string,
         };
-        
         *refresh_token = new_refresh_token;
         let second_response = f(client, refresh_token.clone(), parameters).await?;
         return deserialize(second_response).await;
