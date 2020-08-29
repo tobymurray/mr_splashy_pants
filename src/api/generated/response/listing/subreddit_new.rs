@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Data {
@@ -180,6 +182,12 @@ pub struct Data {
     pub preview: Option<Preview>,
     #[serde(rename = "url_overridden_by_dest")]
     pub url_overridden_by_dest: Option<String>,
+}
+
+impl fmt::Display for Data {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "({}, {})", self.id, self.title)
+    }
 }
 
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]

@@ -80,4 +80,20 @@ Currently kind of implemented (no query parameters), with JSON response:
 - GET [/top](https://www.reddit.com/dev/api#GET_top)
 - GET [/r/{subreddit}/top](https://www.reddit.com/dev/api#GET_top)
 
+Streaming support for:
+
+- GET [/r/{subreddit}/new](https://www.reddit.com/dev/api#GET_new)
+
+```
+use futures_util::pin_mut;
+use futures_util::stream::StreamExt;
+...
+let stream = pants.stream_subreddit_new("testingground4bots");
+pin_mut!(stream);
+
+while let Some(value) = tokio_test::block_on(stream.next()) {
+    println!("New post: {}", value);
+}
+```
+
 All other APIs are not implemented

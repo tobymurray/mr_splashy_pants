@@ -302,23 +302,25 @@ mod tests {
     }
 }
 
-use reqwest::Client;
-use std::collections::HashMap;
-
 mod api;
 mod client;
 
 use api::generated::response::account;
+use api::generated::response::listing::subreddit_new as listing_response;
 use api::generated::wrapper::account as account_wrapper;
 use api::generated::wrapper::listing as listing_wrapper;
+use api::generated::wrapper::oauth;
 
 use api::response::models;
 
-use api::generated::response::listing::subreddit_new as listing_response;
-
-use api::generated::wrapper::oauth;
-
 use client::client as pants_client;
+
+use async_stream::stream;
+use futures_core::stream::Stream;
+use reqwest::Client;
+use std::collections::HashMap;
+use std::collections::HashSet;
+use std::{thread, time};
 
 pub struct Pants {
     client: Client,
@@ -509,6 +511,30 @@ impl Pants {
             &parameters,
         )
         .await
+    }
+
+    pub fn stream_subreddit_new<'a, 'b>(
+        &'a mut self,
+        subreddit: &'a str,
+    ) -> impl Stream<Item = api::generated::response::listing::subreddit_new::Data> + 'a {
+        let mut responses_so_far = HashSet::new();
+        stream! {
+            loop {
+                let response;
+                match self.subreddit_new(subreddit).await {
+                    Ok(whatever) => {response = whatever},
+                    Err(e) => {panic!("Error streaming: {}", e)},
+                };
+
+                for entry in response.data.children {
+                    // If it hasn't been seen yet
+                    if responses_so_far.insert(entry.data.id.clone()) {
+                        yield entry.data;
+                    }
+                }
+                thread::sleep(time::Duration::from_secs(30));
+            }
+        }
     }
 
     pub async fn random(&mut self) -> Result<serde_json::Value, reqwest::Error> {
