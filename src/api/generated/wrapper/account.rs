@@ -18,6 +18,7 @@ pub async fn wrapper_get_api_v1_me(
     client_configuration,
     refresh_token,
     &HashMap::new(),
+    &HashMap::new(),
     account_execution::execute_get_api_v1_me,
   )
   .await
@@ -33,6 +34,7 @@ pub async fn wrapper_get_api_v1_me_karma(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     account_execution::execute_get_api_v1_me_karma,
   )
@@ -50,6 +52,7 @@ pub async fn wrapper_get_api_v1_me_prefs(
     client_configuration,
     refresh_token,
     &HashMap::new(),
+    &HashMap::new(),
     account_execution::execute_get_api_v1_me_prefs,
   )
   .await
@@ -65,6 +68,7 @@ pub async fn wrapper_get_api_v1_me_trophies(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     account_execution::execute_get_api_v1_me_trophies,
   )
@@ -82,6 +86,7 @@ pub async fn wrapper_get_prefs_friends(
     client_configuration,
     refresh_token,
     &HashMap::new(),
+    &HashMap::new(),
     account_execution::execute_get_prefs_friends,
   )
   .await
@@ -97,6 +102,7 @@ pub async fn wrapper_get_prefs_blocked(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     account_execution::execute_get_prefs_blocked,
   )
@@ -114,6 +120,7 @@ pub async fn wrapper_get_prefs_messaging(
     client_configuration,
     refresh_token,
     &HashMap::new(),
+    &HashMap::new(),
     account_execution::execute_get_prefs_messaging,
   )
   .await
@@ -129,6 +136,7 @@ pub async fn wrapper_get_prefs_trusted(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     account_execution::execute_get_prefs_trusted,
   )
@@ -146,6 +154,7 @@ pub async fn wrapper_get_api_v1_me_friends(
     client_configuration,
     refresh_token,
     &HashMap::new(),
+    &HashMap::new(),
     account_execution::execute_get_api_v1_me_friends,
   )
   .await
@@ -161,6 +170,7 @@ pub async fn wrapper_get_api_v1_me_blocked(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     account_execution::execute_get_api_v1_me_blocked,
   )

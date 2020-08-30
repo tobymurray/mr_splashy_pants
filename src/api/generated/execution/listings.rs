@@ -6,6 +6,7 @@ pub async fn execute_get_api_trending_subreddits(
   client: &reqwest::Client,
   refresh_token: String,
   _parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/api/trending_subreddits")
@@ -19,6 +20,7 @@ pub async fn execute_get_best(
   client: &reqwest::Client,
   refresh_token: String,
   _parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get("https://oauth.reddit.com/best")
@@ -32,6 +34,7 @@ pub async fn execute_get_by_id_names(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);
@@ -49,6 +52,7 @@ pub async fn execute_get_comments_article(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);
@@ -69,6 +73,7 @@ pub async fn execute_get_r_subreddit_comments_article(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);
@@ -89,6 +94,7 @@ pub async fn execute_get_duplicates_article(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);
@@ -108,12 +114,11 @@ pub async fn execute_get_duplicates_article(
 pub async fn execute_get_hot(
   client: &reqwest::Client,
   refresh_token: String,
-  parameters: &HashMap<String, String>,
+  _parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  let mut handlebars = Handlebars::new();
-  handlebars.set_strict_mode(true);
   client
-    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/hot", &parameters).unwrap()))
+    .get("https://oauth.reddit.com/hot")
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -124,6 +129,7 @@ pub async fn execute_get_r_subreddit_hot(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);
@@ -141,12 +147,11 @@ pub async fn execute_get_r_subreddit_hot(
 pub async fn execute_get_new(
   client: &reqwest::Client,
   refresh_token: String,
-  parameters: &HashMap<String, String>,
+  _parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  let mut handlebars = Handlebars::new();
-  handlebars.set_strict_mode(true);
   client
-    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/new", &parameters).unwrap()))
+    .get("https://oauth.reddit.com/new")
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -157,6 +162,7 @@ pub async fn execute_get_r_subreddit_new(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);
@@ -174,12 +180,11 @@ pub async fn execute_get_r_subreddit_new(
 pub async fn execute_get_random(
   client: &reqwest::Client,
   refresh_token: String,
-  parameters: &HashMap<String, String>,
+  _parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  let mut handlebars = Handlebars::new();
-  handlebars.set_strict_mode(true);
   client
-    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/random", &parameters).unwrap()))
+    .get("https://oauth.reddit.com/random")
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -190,6 +195,7 @@ pub async fn execute_get_r_subreddit_random(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);
@@ -209,12 +215,11 @@ pub async fn execute_get_r_subreddit_random(
 pub async fn execute_get_rising(
   client: &reqwest::Client,
   refresh_token: String,
-  parameters: &HashMap<String, String>,
+  _parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  let mut handlebars = Handlebars::new();
-  handlebars.set_strict_mode(true);
   client
-    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/rising", &parameters).unwrap()))
+    .get("https://oauth.reddit.com/rising")
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -225,6 +230,7 @@ pub async fn execute_get_r_subreddit_rising(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);
@@ -244,12 +250,11 @@ pub async fn execute_get_r_subreddit_rising(
 pub async fn execute_get_top(
   client: &reqwest::Client,
   refresh_token: String,
-  parameters: &HashMap<String, String>,
+  _parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  let mut handlebars = Handlebars::new();
-  handlebars.set_strict_mode(true);
   client
-    .get(&("https://oauth.reddit.com".to_string() + &handlebars.render_template("/top", &parameters).unwrap()))
+    .get("https://oauth.reddit.com/top")
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -260,6 +265,7 @@ pub async fn execute_get_r_subreddit_top(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);
@@ -277,14 +283,11 @@ pub async fn execute_get_r_subreddit_top(
 pub async fn execute_get_controversial(
   client: &reqwest::Client,
   refresh_token: String,
-  parameters: &HashMap<String, String>,
+  _parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  let mut handlebars = Handlebars::new();
-  handlebars.set_strict_mode(true);
   client
-    .get(
-      &("https://oauth.reddit.com".to_string() + &handlebars.render_template("/controversial", &parameters).unwrap()),
-    )
+    .get("https://oauth.reddit.com/controversial")
     .bearer_auth(&refresh_token)
     .send()
     .await
@@ -295,6 +298,7 @@ pub async fn execute_get_r_subreddit_controversial(
   client: &reqwest::Client,
   refresh_token: String,
   parameters: &HashMap<String, String>,
+  _request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   let mut handlebars = Handlebars::new();
   handlebars.set_strict_mode(true);

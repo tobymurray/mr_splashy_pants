@@ -9,13 +9,14 @@ pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize
   client_configuration: &'a client::ClientConfiguration,
   refresh_token: &'a mut String,
   parameters: &'a HashMap<String, String>,
+  request_fields: &'a HashMap<String, String>,
   f: F,
 ) -> std::result::Result<R, reqwest::Error>
 where
-  F: Fn(&'a reqwest::Client, String, &'a HashMap<String, String>) -> Fut,
+  F: Fn(&'a reqwest::Client, String, &'a HashMap<String, String>, &'a HashMap<String, String>) -> Fut,
   Fut: Future<Output = std::result::Result<reqwest::Response, reqwest::Error>>,
 {
-  match f(client, refresh_token.clone(), parameters).await {
+  match f(client, refresh_token.clone(), parameters, request_fields).await {
     Ok(response) => match response.error_for_status() {
       Ok(response) => return Ok(deserialize(response).await?),
       Err(error) => {
@@ -34,7 +35,7 @@ where
           string => string,
         };
         *refresh_token = new_refresh_token;
-        let second_response = f(client, refresh_token.clone(), parameters).await?;
+        let second_response = f(client, refresh_token.clone(), parameters, request_fields).await?;
         return deserialize(second_response).await;
       }
     },

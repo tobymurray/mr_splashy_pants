@@ -19,6 +19,7 @@ pub async fn wrapper_get_api_trending_subreddits(
     client_configuration,
     refresh_token,
     &HashMap::new(),
+    &HashMap::new(),
     listing_execution::execute_get_api_trending_subreddits,
   )
   .await
@@ -34,6 +35,7 @@ pub async fn wrapper_get_best(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     listing_execution::execute_get_best,
   )
@@ -52,6 +54,7 @@ pub async fn wrapper_get_by_id_names(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_by_id_names,
   )
   .await
@@ -69,6 +72,7 @@ pub async fn wrapper_get_comments_article(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_comments_article,
   )
   .await
@@ -86,6 +90,7 @@ pub async fn wrapper_get_r_subreddit_comments_article(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_r_subreddit_comments_article,
   )
   .await
@@ -103,6 +108,7 @@ pub async fn wrapper_get_duplicates_article(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_duplicates_article,
   )
   .await
@@ -118,6 +124,7 @@ pub async fn wrapper_get_hot(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     listing_execution::execute_get_hot,
   )
@@ -136,6 +143,7 @@ pub async fn wrapper_get_r_subreddit_hot(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_r_subreddit_hot,
   )
   .await
@@ -151,6 +159,7 @@ pub async fn wrapper_get_new(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     listing_execution::execute_get_new,
   )
@@ -169,6 +178,7 @@ pub async fn wrapper_get_r_subreddit_new(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_r_subreddit_new,
   )
   .await
@@ -184,6 +194,7 @@ pub async fn wrapper_get_random(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     listing_execution::execute_get_random,
   )
@@ -202,6 +213,7 @@ pub async fn wrapper_get_r_subreddit_random(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_r_subreddit_random,
   )
   .await
@@ -217,6 +229,7 @@ pub async fn wrapper_get_rising(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     listing_execution::execute_get_rising,
   )
@@ -235,6 +248,7 @@ pub async fn wrapper_get_r_subreddit_rising(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_r_subreddit_rising,
   )
   .await
@@ -250,6 +264,7 @@ pub async fn wrapper_get_top(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     listing_execution::execute_get_top,
   )
@@ -268,6 +283,7 @@ pub async fn wrapper_get_r_subreddit_top(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_r_subreddit_top,
   )
   .await
@@ -283,6 +299,7 @@ pub async fn wrapper_get_controversial(
     &client,
     client_configuration,
     refresh_token,
+    &HashMap::new(),
     &HashMap::new(),
     listing_execution::execute_get_controversial,
   )
@@ -301,6 +318,7 @@ pub async fn wrapper_get_r_subreddit_controversial(
     client_configuration,
     refresh_token,
     parameters,
+    &HashMap::new(),
     listing_execution::execute_get_r_subreddit_controversial,
   )
   .await
