@@ -51,3 +51,29 @@ pub async fn deserialize<T: for<'de> serde::Deserialize<'de>>(
 ) -> Result<T, reqwest::Error> {
   response.json::<T>().await
 }
+
+pub async fn execute_get_api(
+  uri_segment: &str,
+  client: &reqwest::Client,
+  refresh_token: String,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get(&("https://oauth.reddit.com/".to_string() + uri_segment))
+    .bearer_auth(&refresh_token)
+    .send()
+    .await
+}
+
+pub async fn execute_post_api(
+  uri_segment: &str,
+  client: &reqwest::Client,
+  refresh_token: String,
+  request_fields: &HashMap<String, String>,
+) -> std::result::Result<reqwest::Response, reqwest::Error> {
+  client
+    .get(&("https://oauth.reddit.com/".to_string() + uri_segment))
+    .json(&request_fields)
+    .bearer_auth(&refresh_token)
+    .send()
+    .await
+}
