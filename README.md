@@ -80,6 +80,44 @@ Currently kind of implemented (no query parameters), with JSON response:
 - GET [/top](https://www.reddit.com/dev/api#GET_top)
 - GET [/r/{subreddit}/top](https://www.reddit.com/dev/api#GET_top)
 
+**Links and Comments**
+- POST [/api/submit](https://www.reddit.com/dev/api#POST_api_submit)
+
+To submit a post to Reddit:
+
+```
+// Build the submission 
+let request_body = links_and_comments::ApiSubmit {
+    ad: "".to_string(),
+    api_type: "".to_string(),
+    app: "".to_string(),
+    collection_id: "".to_string(),
+    event_end: "".to_string(),
+    event_start: "".to_string(),
+    event_tz: "".to_string(),
+    extension: "".to_string(),
+    flair_id: "".to_string(),
+    flair_text: "".to_string(),
+    g_recaptcha_response: "".to_string(),
+    kind: "self".to_string(),
+    nsfw: "".to_string(),
+    resubmit: "".to_string(),
+    richtext_json: "".to_string(),
+    sendreplies: "".to_string(),
+    spoiler: "".to_string(),
+    sr: "name_of_subreddit".to_string(),
+    text: "Here's an example of the post's body".to_string(),
+    title: "This is the title of the post".to_string(),
+    uh: "".to_string(),
+    url: "".to_string(),
+    video_poster_url: "".to_string(),
+};
+
+
+// then submit the post
+pants.submit(request_body).await;
+```
+
 Streaming support for:
 
 - GET [/r/{subreddit}/new](https://www.reddit.com/dev/api#GET_new)
