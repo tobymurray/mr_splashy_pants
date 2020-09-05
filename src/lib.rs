@@ -301,41 +301,42 @@ mod tests {
         };
     }
 
-    #[test]
-    fn submit() {
-        let mut pants = build_pants();
+    // Don't run this until I can clean up the posts
+    // #[test]
+    // fn submit() {
+    //     let mut pants = build_pants();
 
-        let request_body = links_and_comments::ApiSubmit {
-            url: "".to_string(),
-            video_poster_url: "".to_string(),
-            sendreplies: "".to_string(),
-            collection_id: "".to_string(),
-            resubmit: "".to_string(),
-            richtext_json: "".to_string(),
-            title: "Self Test title".to_string(),
-            ad: "".to_string(),
-            flair_text: "".to_string(),
-            g_recaptcha_response: "".to_string(),
-            extension: "".to_string(),
-            nsfw: "".to_string(),
-            api_type: "".to_string(),
-            kind: "self".to_string(),
-            event_end: "".to_string(),
-            event_start: "".to_string(),
-            app: "".to_string(),
-            flair_id: "".to_string(),
-            event_tz: "".to_string(),
-            sr: "testingground4bots".to_string(),
-            uh: "".to_string(),
-            spoiler: "".to_string(),
-            text: "Sample text".to_string(),
-        };
+    //     let request_body = links_and_comments::ApiSubmit {
+    //         url: "".to_string(),
+    //         video_poster_url: "".to_string(),
+    //         sendreplies: "".to_string(),
+    //         collection_id: "".to_string(),
+    //         resubmit: "".to_string(),
+    //         richtext_json: "".to_string(),
+    //         title: "Self Test title".to_string(),
+    //         ad: "".to_string(),
+    //         flair_text: "".to_string(),
+    //         g_recaptcha_response: "".to_string(),
+    //         extension: "".to_string(),
+    //         nsfw: "".to_string(),
+    //         api_type: "".to_string(),
+    //         kind: "self".to_string(),
+    //         event_end: "".to_string(),
+    //         event_start: "".to_string(),
+    //         app: "".to_string(),
+    //         flair_id: "".to_string(),
+    //         event_tz: "".to_string(),
+    //         sr: "testingground4bots".to_string(),
+    //         uh: "".to_string(),
+    //         spoiler: "".to_string(),
+    //         text: "Sample text".to_string(),
+    //     };
 
-        match tokio_test::block_on(pants.submit(request_body)) {
-            Ok(response) => println!("Response to submit is: {}", serde_json::to_string_pretty(&response).unwrap()),
-            Err(e) => println!("An error ocurred: {}", e),
-        };
-    }
+    //     match tokio_test::block_on(pants.submit(request_body)) {
+    //         Ok(response) => println!("Response to submit is: {}", serde_json::to_string_pretty(&response).unwrap()),
+    //         Err(e) => println!("An error ocurred: {}", e),
+    //     };
+    // }
 }
 
 mod api;
