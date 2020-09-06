@@ -301,49 +301,67 @@ mod tests {
         };
     }
 
-    // Don't run this until I can clean up the posts
-    // #[test]
-    // fn submit() {
-    //     let mut pants = build_pants();
+    #[test]
+    fn submit() {
+        let mut pants = build_pants();
 
-    //     let request_body = links_and_comments::ApiSubmit {
-    //         url: "".to_string(),
-    //         video_poster_url: "".to_string(),
-    //         sendreplies: "".to_string(),
-    //         collection_id: "".to_string(),
-    //         resubmit: "".to_string(),
-    //         richtext_json: "".to_string(),
-    //         title: "Self Test title".to_string(),
-    //         ad: "".to_string(),
-    //         flair_text: "".to_string(),
-    //         g_recaptcha_response: "".to_string(),
-    //         extension: "".to_string(),
-    //         nsfw: "".to_string(),
-    //         api_type: "".to_string(),
-    //         kind: "self".to_string(),
-    //         event_end: "".to_string(),
-    //         event_start: "".to_string(),
-    //         app: "".to_string(),
-    //         flair_id: "".to_string(),
-    //         event_tz: "".to_string(),
-    //         sr: "testingground4bots".to_string(),
-    //         uh: "".to_string(),
-    //         spoiler: "".to_string(),
-    //         text: "Sample text".to_string(),
-    //     };
+        let request_body = links_and_comments::ApiSubmit {
+            url: "".to_string(),
+            video_poster_url: "".to_string(),
+            sendreplies: "".to_string(),
+            collection_id: "".to_string(),
+            resubmit: "".to_string(),
+            richtext_json: "".to_string(),
+            title: "Self Test title".to_string(),
+            ad: "".to_string(),
+            flair_text: "".to_string(),
+            g_recaptcha_response: "".to_string(),
+            extension: "".to_string(),
+            nsfw: "".to_string(),
+            api_type: "json".to_string(),
+            kind: "self".to_string(),
+            event_end: "".to_string(),
+            event_start: "".to_string(),
+            app: "".to_string(),
+            flair_id: "".to_string(),
+            event_tz: "".to_string(),
+            sr: "testingground4bots".to_string(),
+            uh: "".to_string(),
+            spoiler: "".to_string(),
+            text: "Sample text".to_string(),
+        };
 
-    //     match tokio_test::block_on(pants.submit(request_body)) {
-    //         Ok(response) => println!("Response to submit is: {}", serde_json::to_string_pretty(&response).unwrap()),
-    //         Err(e) => println!("An error ocurred: {}", e),
-    //     };
-    // }
+        let response = match tokio_test::block_on(pants.submit(request_body)) {
+            Ok(response) => response,
+            Err(e) => panic!("An error ocurred: {}", e),
+        };
+
+        println!(
+            "Response to submit is: {}",
+            serde_json::to_string_pretty(&response).unwrap()
+        );
+
+        let submission_name = response.json.data.name;
+        println!("The name of the submission is '{}'", submission_name);
+
+        let delete_request_body = links_and_comments::ApiDel { id: submission_name };
+
+        match tokio_test::block_on(pants.del(delete_request_body)) {
+            Ok(response) => println!(
+                "Response to submit is: {}",
+                serde_json::to_string_pretty(&response).unwrap()
+            ),
+            Err(e) => panic!("An error ocurred: {}", e),
+        };
+    }
 }
 
 mod api;
 mod client;
 
+use crate::api::generated::response::links_and_comments::ApiSubmitResponse;
+use api::generated::request::links_and_comments;
 use api::generated::response::account;
-use api::generated::response::links_and_comments;
 use api::generated::response::listing::subreddit_new as listing_response;
 use api::generated::wrapper::account as account_wrapper;
 use api::generated::wrapper::links_and_comments as links_and_comments_wrapper;
@@ -645,8 +663,21 @@ impl Pants {
     pub async fn submit(
         &mut self,
         request_fields: links_and_comments::ApiSubmit,
-    ) -> Result<serde_json::Value, reqwest::Error> {
+    ) -> Result<ApiSubmitResponse, reqwest::Error> {
         links_and_comments_wrapper::wrapper_post_api_submit(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            request_fields,
+        )
+        .await
+    }
+
+    pub async fn del(
+        &mut self,
+        request_fields: links_and_comments::ApiDel,
+    ) -> Result<serde_json::Value, reqwest::Error> {
+        links_and_comments_wrapper::wrapper_post_api_del(
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,

@@ -82,6 +82,7 @@ Currently kind of implemented (no query parameters), with JSON response:
 
 **Links and Comments**
 - POST [/api/submit](https://www.reddit.com/dev/api#POST_api_submit)
+- POST [/api/del](https://www.reddit.com/dev/api#POST_api_del)
 
 To submit a post to Reddit:
 
@@ -115,7 +116,18 @@ let request_body = links_and_comments::ApiSubmit {
 
 
 // then submit the post
-pants.submit(request_body).await;
+let submission_name = pants.submit(request_body).await {
+    Ok(response) => {
+        println!("Response to submit is: {}", serde_json::to_string_pretty(&response).unwrap());
+        response.json.data.name
+    },
+    Err(e) => panic!("An error ocurred: {}", e),
+};
+
+// remove it if you'd like
+let delete_request_body = links_and_comments::ApiDel { id: submission_name };
+
+pants.del(delete_request_body).await;
 ```
 
 Streaming support for:
