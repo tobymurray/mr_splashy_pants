@@ -326,7 +326,6 @@ mod tests {
             flair_id: "".to_string(),
             event_tz: "".to_string(),
             sr: "testingground4bots".to_string(),
-            uh: "".to_string(),
             spoiler: "".to_string(),
             text: "Sample text".to_string(),
         };

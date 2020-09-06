@@ -227,70 +227,70 @@ pub struct ApiStoreVisit {
 // API is: '/api/submit'
 #[derive(Serialize)]
 pub struct ApiSubmit {
-  app: String,
+  pub app: String,
 
   // subreddit name
-  sr: String,
+  pub sr: String,
 
   // a valid URL
-  url: String,
+  pub url: String,
 
   // a string no longer than 36 characters
-  flair_id: String,
+  pub flair_id: String,
 
   // a valid URL
-  video_poster_url: String,
+  pub video_poster_url: String,
 
   // (beta) a pytz timezone e.g. America/Los_Angeles
-  event_tz: String,
+  pub event_tz: String,
 
   // JSON data
-  richtext_json: String,
+  pub richtext_json: String,
 
   // the string <code>json</code>
-  api_type: String,
+  pub api_type: String,
 
   // (beta) a datetime string e.g. 2018-09-11T12:00:00
-  event_end: String,
+  pub event_end: String,
 
   // boolean value
-  sendreplies: String,
+  pub sendreplies: String,
 
   // a string no longer than 64 characters
-  flair_text: String,
+  pub flair_text: String,
 
   // extension used for redirects
-  extension: String,
+  pub extension: String,
 
   #[serde(rename = "g-recaptcha-response")]
-  g_recaptcha_response: String,
+  pub g_recaptcha_response: String,
 
   // raw markdown text
-  text: String,
+  pub text: String,
 
   // title of the submission. up to 300 characters long
-  title: String,
+  pub title: String,
 
   // (beta) the UUID of a collection
-  collection_id: String,
+  pub collection_id: String,
 
   // boolean value
-  ad: String,
+  pub ad: String,
 
   // boolean value
-  resubmit: String,
+  pub resubmit: String,
 
   // boolean value
-  nsfw: String,
+  pub nsfw: String,
 
   // one of (<code>link</code>, <code>self</code>, <code>image</code>, <code>video</code>, <code>videogif</code>)
-  kind: String,
+  pub kind: String,
 
   // (beta) a datetime string e.g. 2018-09-11T12:00:00
-  event_start: String,
+  pub event_start: String,
 
   // boolean value
-  spoiler: String,
+  pub spoiler: String,
 }
 
 // API is: '/api/unhide'
