@@ -24,7 +24,7 @@ mod tests {
 
         match tokio_test::block_on(pants.me()) {
             Ok(response) => println!("Successfully got response on first invocation: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -34,7 +34,7 @@ mod tests {
 
         match tokio_test::block_on(pants.me_karma()) {
             Ok(response) => println!("Response to me_karma is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -44,7 +44,7 @@ mod tests {
 
         match tokio_test::block_on(pants.me_prefs()) {
             Ok(response) => println!("Response to me_prefs is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -54,7 +54,7 @@ mod tests {
 
         match tokio_test::block_on(pants.me_trophies()) {
             Ok(response) => println!("Response to me_trophies is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -64,7 +64,7 @@ mod tests {
 
         match tokio_test::block_on(pants.prefs_friends()) {
             Ok(response) => println!("Response to prefs_friends is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -74,7 +74,7 @@ mod tests {
 
         match tokio_test::block_on(pants.prefs_blocked()) {
             Ok(response) => println!("Response to prefs_blocked is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -84,7 +84,7 @@ mod tests {
 
         match tokio_test::block_on(pants.prefs_messaging()) {
             Ok(response) => println!("Response to prefs_messaging is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -94,7 +94,7 @@ mod tests {
 
         match tokio_test::block_on(pants.prefs_trusted()) {
             Ok(response) => println!("Response to prefs_trusted is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -104,7 +104,7 @@ mod tests {
 
         match tokio_test::block_on(pants.me_friends()) {
             Ok(response) => println!("Response to me_friends is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -114,7 +114,7 @@ mod tests {
 
         match tokio_test::block_on(pants.me_blocked()) {
             Ok(response) => println!("Response to me_blocked is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -128,7 +128,7 @@ mod tests {
 
         match tokio_test::block_on(pants.trending_subreddits()) {
             Ok(response) => println!("Response to trending_subreddits is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -138,7 +138,7 @@ mod tests {
 
         match tokio_test::block_on(pants.best()) {
             Ok(response) => println!("Response to best is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -147,7 +147,7 @@ mod tests {
     //     // TODO: Figure this out
     //     match tokio_test::block_on(pants.by_id_names(fullnames: Vec<String>)) {
     //         Ok(response) => println!("Response to best is: {:#?}", response),
-    //         Err(e) => println!("An error ocurred: {}", e),
+    //         Err(e) => panic!("An error ocurred: {}", e),
     //     };
     // }
 
@@ -156,7 +156,7 @@ mod tests {
     //     // TODO: Figure this out
     //     match tokio_test::block_on(pants.get_comments_article(article: String)() {
     //         Ok(response) => println!("Response to best is: {:#?}", response),
-    //         Err(e) => println!("An error ocurred: {}", e),
+    //         Err(e) => panic!("An error ocurred: {}", e),
     //     };
     // }
 
@@ -165,7 +165,7 @@ mod tests {
     //     // TODO: Figure this out
     //     match tokio_test::block_on(pants.subreddit_comments_article(subreddit: String, article: String)) {
     //         Ok(response) => println!("Response to best is: {:#?}", response),
-    //         Err(e) => println!("An error ocurred: {}", e),
+    //         Err(e) => panic!("An error ocurred: {}", e),
     //     };
     // }
 
@@ -174,7 +174,7 @@ mod tests {
     //     // TODO: Figure this out
     //     match tokio_test::block_on(pants.duplicates_article(article: String)) {
     //         Ok(response) => println!("Response to best is: {:#?}", response),
-    //         Err(e) => println!("An error ocurred: {}", e),
+    //         Err(e) => panic!("An error ocurred: {}", e),
     //     };
     // }
 
@@ -184,7 +184,7 @@ mod tests {
 
         match tokio_test::block_on(pants.hot()) {
             Ok(response) => println!("Response to hot is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -194,7 +194,7 @@ mod tests {
 
         match tokio_test::block_on(pants.subreddit_hot("testingground4bots")) {
             Ok(response) => println!("Response to hot is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -204,7 +204,7 @@ mod tests {
 
         match tokio_test::block_on(pants.get_new()) {
             Ok(response) => println!("Response to get_new is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -217,7 +217,7 @@ mod tests {
                 "Response to new is: {}",
                 serde_json::to_string_pretty(&response).unwrap()
             ),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -227,7 +227,7 @@ mod tests {
 
         match tokio_test::block_on(pants.random()) {
             Ok(response) => println!("Response to random is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -237,7 +237,7 @@ mod tests {
 
         match tokio_test::block_on(pants.subreddit_random("testingground4bots")) {
             Ok(response) => println!("Response to random is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -247,7 +247,7 @@ mod tests {
 
         match tokio_test::block_on(pants.rising()) {
             Ok(response) => println!("Response to rising is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -257,7 +257,7 @@ mod tests {
 
         match tokio_test::block_on(pants.subreddit_rising("testingground4bots")) {
             Ok(response) => println!("Response to rising is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -267,7 +267,7 @@ mod tests {
 
         match tokio_test::block_on(pants.top()) {
             Ok(response) => println!("Response to top is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -277,7 +277,7 @@ mod tests {
 
         match tokio_test::block_on(pants.subreddit_top("testingground4bots")) {
             Ok(response) => println!("Response to top is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -287,7 +287,7 @@ mod tests {
 
         match tokio_test::block_on(pants.controversial()) {
             Ok(response) => println!("Response to controversial is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
@@ -297,7 +297,7 @@ mod tests {
 
         match tokio_test::block_on(pants.subreddit_controversial("testingground4bots")) {
             Ok(response) => println!("Response to controversial is: {:#?}", response),
-            Err(e) => println!("An error ocurred: {}", e),
+            Err(e) => panic!("An error ocurred: {}", e),
         };
     }
 
