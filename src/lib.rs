@@ -415,8 +415,13 @@ impl Pants {
     }
 
     pub async fn me_prefs(&mut self) -> Result<account::MePrefsResponse, reqwest::Error> {
-        account_wrapper::wrapper_get_api_v1_me_prefs(&self.client, &self.client_configuration, &mut self.refresh_token)
-            .await
+        account_wrapper::wrapper_get_api_v1_me_prefs(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn me_trophies(&mut self) -> Result<serde_json::Value, reqwest::Error> {
@@ -429,23 +434,43 @@ impl Pants {
     }
 
     pub async fn prefs_friends(&mut self) -> Result<Vec<account::PrefsFriendsResponse>, reqwest::Error> {
-        account_wrapper::wrapper_get_prefs_friends(&self.client, &self.client_configuration, &mut self.refresh_token)
-            .await
+        account_wrapper::wrapper_get_prefs_friends(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn prefs_blocked(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        account_wrapper::wrapper_get_prefs_blocked(&self.client, &self.client_configuration, &mut self.refresh_token)
-            .await
+        account_wrapper::wrapper_get_prefs_blocked(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn prefs_messaging(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        account_wrapper::wrapper_get_prefs_messaging(&self.client, &self.client_configuration, &mut self.refresh_token)
-            .await
+        account_wrapper::wrapper_get_prefs_messaging(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn prefs_trusted(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        account_wrapper::wrapper_get_prefs_trusted(&self.client, &self.client_configuration, &mut self.refresh_token)
-            .await
+        account_wrapper::wrapper_get_prefs_trusted(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn me_friends(&mut self) -> Result<serde_json::Value, reqwest::Error> {
@@ -453,6 +478,7 @@ impl Pants {
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
@@ -462,6 +488,7 @@ impl Pants {
             &self.client,
             &self.client_configuration,
             &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
@@ -478,7 +505,13 @@ impl Pants {
     }
 
     pub async fn best(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        listing_wrapper::wrapper_get_best(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_best(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn by_id_names(&mut self, fullnames: Vec<String>) -> Result<serde_json::Value, reqwest::Error> {
@@ -489,6 +522,7 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
@@ -501,6 +535,7 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
@@ -518,6 +553,7 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
@@ -530,12 +566,19 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
     pub async fn hot(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        listing_wrapper::wrapper_get_hot(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_hot(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn subreddit_hot(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
@@ -546,12 +589,19 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
     pub async fn get_new(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        listing_wrapper::wrapper_get_new(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_new(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn subreddit_new(
@@ -565,6 +615,7 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
@@ -610,7 +661,13 @@ impl Pants {
     }
 
     pub async fn rising(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        listing_wrapper::wrapper_get_rising(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_rising(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn subreddit_rising(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
@@ -621,13 +678,19 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
     pub async fn controversial(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        listing_wrapper::wrapper_get_controversial(&self.client, &self.client_configuration, &mut self.refresh_token)
-            .await
+        listing_wrapper::wrapper_get_controversial(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn subreddit_controversial(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
@@ -638,12 +701,19 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
     pub async fn top(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        listing_wrapper::wrapper_get_top(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_top(
+            &self.client,
+            &self.client_configuration,
+            &mut self.refresh_token,
+            &serde_json::from_str("{}").unwrap(),
+        )
+        .await
     }
 
     pub async fn subreddit_top(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
@@ -654,6 +724,7 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
+            &serde_json::from_str("{}").unwrap(),
         )
         .await
     }

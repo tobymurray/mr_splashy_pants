@@ -30,13 +30,14 @@ pub async fn wrapper_get_best(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    &serde_json::from_str("{}").unwrap(),
+    query_parameters,
     listings_execution::execute_get_best,
   )
   .await
@@ -47,14 +48,15 @@ pub async fn wrapper_get_by_id_names(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
-    &serde_json::from_str("{}").unwrap(),
+    uri_parameters,
+    query_parameters,
     listings_execution::execute_get_by_id_names,
   )
   .await
@@ -65,14 +67,15 @@ pub async fn wrapper_get_comments_article(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
-    &serde_json::from_str("{}").unwrap(),
+    uri_parameters,
+    query_parameters,
     listings_execution::execute_get_comments_article,
   )
   .await
@@ -83,14 +86,15 @@ pub async fn wrapper_get_r_subreddit_comments_article(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
-    &serde_json::from_str("{}").unwrap(),
+    uri_parameters,
+    query_parameters,
     listings_execution::execute_get_r_subreddit_comments_article,
   )
   .await
@@ -101,14 +105,15 @@ pub async fn wrapper_get_duplicates_article(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
-    &serde_json::from_str("{}").unwrap(),
+    uri_parameters,
+    query_parameters,
     listings_execution::execute_get_duplicates_article,
   )
   .await
@@ -119,13 +124,14 @@ pub async fn wrapper_get_hot(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    &serde_json::from_str("{}").unwrap(),
+    query_parameters,
     listings_execution::execute_get_hot,
   )
   .await
@@ -136,14 +142,15 @@ pub async fn wrapper_get_r_subreddit_hot(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
-    &serde_json::from_str("{}").unwrap(),
+    uri_parameters,
+    query_parameters,
     listings_execution::execute_get_r_subreddit_hot,
   )
   .await
@@ -154,13 +161,14 @@ pub async fn wrapper_get_new(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    &serde_json::from_str("{}").unwrap(),
+    query_parameters,
     listings_execution::execute_get_new,
   )
   .await
@@ -171,14 +179,15 @@ pub async fn wrapper_get_r_subreddit_new(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
+  query_parameters: &serde_json::Value,
 ) -> Result<models::Listing<subreddit_new::Data>, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
-    &serde_json::from_str("{}").unwrap(),
+    uri_parameters,
+    query_parameters,
     listings_execution::execute_get_r_subreddit_new,
   )
   .await
@@ -206,13 +215,13 @@ pub async fn wrapper_get_r_subreddit_random(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
+    uri_parameters,
     &serde_json::from_str("{}").unwrap(),
     listings_execution::execute_get_r_subreddit_random,
   )
@@ -224,13 +233,14 @@ pub async fn wrapper_get_rising(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    &serde_json::from_str("{}").unwrap(),
+    query_parameters,
     listings_execution::execute_get_rising,
   )
   .await
@@ -241,14 +251,15 @@ pub async fn wrapper_get_r_subreddit_rising(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
-    &serde_json::from_str("{}").unwrap(),
+    uri_parameters,
+    query_parameters,
     listings_execution::execute_get_r_subreddit_rising,
   )
   .await
@@ -259,13 +270,14 @@ pub async fn wrapper_get_top(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    &serde_json::from_str("{}").unwrap(),
+    query_parameters,
     listings_execution::execute_get_top,
   )
   .await
@@ -276,14 +288,15 @@ pub async fn wrapper_get_r_subreddit_top(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
-    &serde_json::from_str("{}").unwrap(),
+    uri_parameters,
+    query_parameters,
     listings_execution::execute_get_r_subreddit_top,
   )
   .await
@@ -294,13 +307,14 @@ pub async fn wrapper_get_controversial(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
     &HashMap::new(),
-    &serde_json::from_str("{}").unwrap(),
+    query_parameters,
     listings_execution::execute_get_controversial,
   )
   .await
@@ -311,14 +325,15 @@ pub async fn wrapper_get_r_subreddit_controversial(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
   refresh_token: &mut String,
-  parameters: &HashMap<String, String>,
+  uri_parameters: &HashMap<String, String>,
+  query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
     refresh_token,
-    parameters,
-    &serde_json::from_str("{}").unwrap(),
+    uri_parameters,
+    query_parameters,
     listings_execution::execute_get_r_subreddit_controversial,
   )
   .await

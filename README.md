@@ -8,7 +8,7 @@ WIP Rust bindings for the Reddit API
 # This is a WIP, you likely won't find it particularly useful
 
 # Set up
-Follow https://github.com/reddit-archive/reddit/wiki/OAuth2 for set up instructions.
+Follow https://github.com/reddit-archive/reddit/wiki/OAuth2 for set up instructions. You can use https://tobymurray.github.io/reddit-auth-generator/ to help generate an auth string.
 
 # Use
 Set up a script with access to a Reddit account, collect the access token, the client ID, and the client secret. Once you have that, get a refresh token. Once you have that you can do:
