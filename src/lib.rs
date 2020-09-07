@@ -4,6 +4,7 @@ mod tests {
     use std::env;
 
     const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
+    const SUBREDDIT: &str = "testingground4bots";
 
     fn build_pants() -> Pants {
         dotenv::dotenv().ok();
@@ -179,7 +180,7 @@ mod tests {
         };
 
         match tokio_test::block_on(pants.subreddit_comments_article(
-            "testingground4bots".to_string(),
+            SUBREDDIT.to_string(),
             "ins0kg".to_string(),
             query_parameters,
         )) {
@@ -214,7 +215,7 @@ mod tests {
     fn subreddit_hot() {
         let mut pants = build_pants();
 
-        match tokio_test::block_on(pants.subreddit_hot("testingground4bots")) {
+        match tokio_test::block_on(pants.subreddit_hot(SUBREDDIT)) {
             Ok(response) => println!("Response to hot is: {:#?}", response),
             Err(e) => panic!("An error ocurred: {}", e),
         };
@@ -234,7 +235,7 @@ mod tests {
     fn subreddit_new() {
         let mut pants = build_pants();
 
-        match tokio_test::block_on(pants.subreddit_new("testingground4bots")) {
+        match tokio_test::block_on(pants.subreddit_new(SUBREDDIT)) {
             Ok(response) => println!(
                 "Response to new is: {}",
                 serde_json::to_string_pretty(&response).unwrap()
@@ -257,7 +258,7 @@ mod tests {
     fn subreddit_random() {
         let mut pants = build_pants();
 
-        match tokio_test::block_on(pants.subreddit_random("testingground4bots")) {
+        match tokio_test::block_on(pants.subreddit_random(SUBREDDIT)) {
             Ok(response) => println!("Response to random is: {:#?}", response),
             Err(e) => panic!("An error ocurred: {}", e),
         };
@@ -277,7 +278,7 @@ mod tests {
     fn subreddit_rising() {
         let mut pants = build_pants();
 
-        match tokio_test::block_on(pants.subreddit_rising("testingground4bots")) {
+        match tokio_test::block_on(pants.subreddit_rising(SUBREDDIT)) {
             Ok(response) => println!("Response to rising is: {:#?}", response),
             Err(e) => panic!("An error ocurred: {}", e),
         };
@@ -297,7 +298,7 @@ mod tests {
     fn subreddit_top() {
         let mut pants = build_pants();
 
-        match tokio_test::block_on(pants.subreddit_top("testingground4bots")) {
+        match tokio_test::block_on(pants.subreddit_top(SUBREDDIT)) {
             Ok(response) => println!("Response to top is: {:#?}", response),
             Err(e) => panic!("An error ocurred: {}", e),
         };
@@ -317,7 +318,7 @@ mod tests {
     fn subreddit_controversial() {
         let mut pants = build_pants();
 
-        match tokio_test::block_on(pants.subreddit_controversial("testingground4bots")) {
+        match tokio_test::block_on(pants.subreddit_controversial(SUBREDDIT)) {
             Ok(response) => println!("Response to controversial is: {:#?}", response),
             Err(e) => panic!("An error ocurred: {}", e),
         };
@@ -347,7 +348,7 @@ mod tests {
             app: "".to_string(),
             flair_id: "".to_string(),
             event_tz: "".to_string(),
-            sr: "testingground4bots".to_string(),
+            sr: SUBREDDIT.to_string(),
             spoiler: "".to_string(),
             text: "Sample text".to_string(),
         };
