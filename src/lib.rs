@@ -6,6 +6,24 @@ mod tests {
     const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
     const SUBREDDIT: &str = "testingground4bots";
 
+    fn setup_logger() -> Result<(), fern::InitError> {
+        fern::Dispatch::new()
+            .format(|out, message, record| {
+                out.finish(format_args!(
+                    "{}[{}][{}] {}",
+                    chrono::Local::now().format("[%Y-%m-%d][%H:%M:%S]"),
+                    record.target(),
+                    record.level(),
+                    message
+                ))
+            })
+            .level(log::LevelFilter::Trace)
+            .chain(std::io::stdout())
+            .chain(fern::log_file("output.log")?)
+            .apply()?;
+        Ok(())
+    }
+
     fn build_pants() -> Pants {
         dotenv::dotenv().ok();
 
@@ -185,7 +203,7 @@ mod tests {
             query_parameters,
         )) {
             Ok(response) => println!(
-                "Response to best is: {}",
+                "Response to subreddit_comments_article is: {}",
                 serde_json::to_string_pretty(&response).unwrap()
             ),
             Err(e) => panic!("An error ocurred: {}", e),

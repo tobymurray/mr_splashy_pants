@@ -4,6 +4,9 @@ use std::future::Future;
 use crate::api::generated::wrapper::oauth;
 use crate::client::client;
 
+use log::Level::Trace;
+use log::{log_enabled, trace};
+
 pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize<'de>>(
   client: &'a reqwest::Client,
   client_configuration: &'a client::ClientConfiguration,
@@ -16,6 +19,9 @@ where
   F: Fn(&'a reqwest::Client, String, &'a HashMap<String, String>, &'a serde_json::Value) -> Fut,
   Fut: Future<Output = std::result::Result<reqwest::Response, reqwest::Error>>,
 {
+  trace!("Request fields: {}", request_fields);
+  trace!("Parameters: {:?}", parameters);
+  trace!("Initial refresh token: {}", refresh_token);
   match f(client, refresh_token.clone(), parameters, request_fields).await {
     Ok(response) => match response.error_for_status() {
       Ok(response) => return Ok(deserialize(response).await?),
@@ -34,6 +40,8 @@ where
         {
           string => string,
         };
+
+        trace!("The renewed refresh token is: {}", new_refresh_token);
         *refresh_token = new_refresh_token;
         let second_response = f(client, refresh_token.clone(), parameters, request_fields).await?;
         return deserialize(second_response).await;
@@ -49,7 +57,16 @@ where
 pub async fn deserialize<T: for<'de> serde::Deserialize<'de>>(
   response: reqwest::Response,
 ) -> Result<T, reqwest::Error> {
-  response.json::<T>().await
+  if log_enabled!(Trace) {
+    let response_as_text = response.text().await.unwrap();
+    trace!("Response: {}", response_as_text);
+    match serde_json::from_str(&response_as_text) {
+      Ok(result) => Ok(result),
+      Err(err) => panic!("{}", err),
+    }
+  } else {
+    response.json::<T>().await
+  }
 }
 
 pub async fn execute_get_api(
@@ -57,11 +74,7 @@ pub async fn execute_get_api(
   client: &reqwest::Client,
   refresh_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  client
-    .get(uri)
-    .bearer_auth(&refresh_token)
-    .send()
-    .await
+  client.get(uri).bearer_auth(&refresh_token).send().await
 }
 
 pub async fn execute_post_api(
