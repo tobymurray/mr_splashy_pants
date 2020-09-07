@@ -8,10 +8,10 @@ pub struct Listing<T> {
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ListingData<T> {
-    pub after: String,
+    pub after: Option<String>,
     pub before: ::serde_json::Value,
     pub children: Vec<Children<T>>,
-    pub dist: i64,
+    pub dist: Option<i64>,
     pub modhash: ::serde_json::Value,
 }
 

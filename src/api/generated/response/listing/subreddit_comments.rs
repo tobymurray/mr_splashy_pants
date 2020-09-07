@@ -1,23 +1,6 @@
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Data {
-  pub after: Option<::serde_json::Value>,
-  pub before: Option<::serde_json::Value>,
-  pub children: Option<Vec<Children>>,
-  pub dist: Option<i64>,
-  pub modhash: Option<::serde_json::Value>,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Children {
-  pub data: Data2,
-  pub kind: String,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Data2 {
   #[serde(rename = "all_awardings")]
   pub all_awardings: Vec<::serde_json::Value>,
   #[serde(rename = "allow_live_comments")]
@@ -57,17 +40,17 @@ pub struct Data2 {
   pub can_gild: bool,
   #[serde(rename = "can_mod_post")]
   pub can_mod_post: bool,
-  pub category: ::serde_json::Value,
+  pub category: Option<::serde_json::Value>,
   pub clicked: Option<bool>,
   #[serde(rename = "content_categories")]
-  pub content_categories: ::serde_json::Value,
+  pub content_categories: Option<::serde_json::Value>,
   #[serde(rename = "contest_mode")]
   pub contest_mode: Option<bool>,
   pub created: f64,
   #[serde(rename = "created_utc")]
   pub created_utc: f64,
   #[serde(rename = "discussion_type")]
-  pub discussion_type: ::serde_json::Value,
+  pub discussion_type: Option<::serde_json::Value>,
   pub distinguished: ::serde_json::Value,
   pub domain: Option<String>,
   pub downs: i64,
@@ -96,18 +79,18 @@ pub struct Data2 {
   #[serde(rename = "link_flair_background_color")]
   pub link_flair_background_color: Option<String>,
   #[serde(rename = "link_flair_css_class")]
-  pub link_flair_css_class: ::serde_json::Value,
+  pub link_flair_css_class: Option<::serde_json::Value>,
   #[serde(rename = "link_flair_richtext")]
   #[serde(default)]
   pub link_flair_richtext: Vec<::serde_json::Value>,
   #[serde(rename = "link_flair_text")]
-  pub link_flair_text: ::serde_json::Value,
+  pub link_flair_text: Option<::serde_json::Value>,
   #[serde(rename = "link_flair_text_color")]
   pub link_flair_text_color: Option<String>,
   #[serde(rename = "link_flair_type")]
   pub link_flair_type: Option<String>,
   pub locked: bool,
-  pub media: ::serde_json::Value,
+  pub media: Option<::serde_json::Value>,
   #[serde(rename = "media_embed")]
   pub media_embed: Option<MediaEmbed>,
   #[serde(rename = "media_only")]
@@ -142,20 +125,20 @@ pub struct Data2 {
   #[serde(rename = "removal_reason")]
   pub removal_reason: ::serde_json::Value,
   #[serde(rename = "removed_by")]
-  pub removed_by: ::serde_json::Value,
+  pub removed_by: Option<::serde_json::Value>,
   #[serde(rename = "removed_by_category")]
-  pub removed_by_category: ::serde_json::Value,
+  pub removed_by_category: Option<::serde_json::Value>,
   #[serde(rename = "report_reasons")]
   pub report_reasons: ::serde_json::Value,
   pub saved: bool,
   pub score: i64,
   #[serde(rename = "secure_media")]
-  pub secure_media: ::serde_json::Value,
+  pub secure_media: Option<::serde_json::Value>,
   #[serde(rename = "secure_media_embed")]
   pub secure_media_embed: Option<SecureMediaEmbed>,
   pub selftext: Option<String>,
   #[serde(rename = "selftext_html")]
-  pub selftext_html: ::serde_json::Value,
+  pub selftext_html: Option<::serde_json::Value>,
   #[serde(rename = "send_replies")]
   pub send_replies: bool,
   pub spoiler: Option<bool>,
@@ -170,12 +153,12 @@ pub struct Data2 {
   #[serde(rename = "subreddit_type")]
   pub subreddit_type: String,
   #[serde(rename = "suggested_sort")]
-  pub suggested_sort: ::serde_json::Value,
+  pub suggested_sort: Option<::serde_json::Value>,
   pub thumbnail: Option<String>,
   #[serde(rename = "thumbnail_height")]
-  pub thumbnail_height: ::serde_json::Value,
+  pub thumbnail_height: Option<::serde_json::Value>,
   #[serde(rename = "thumbnail_width")]
-  pub thumbnail_width: ::serde_json::Value,
+  pub thumbnail_width: Option<::serde_json::Value>,
   pub title: Option<String>,
   #[serde(rename = "top_awarded_type")]
   pub top_awarded_type: ::serde_json::Value,
@@ -190,21 +173,21 @@ pub struct Data2 {
   #[serde(rename = "user_reports")]
   pub user_reports: Vec<::serde_json::Value>,
   #[serde(rename = "view_count")]
-  pub view_count: ::serde_json::Value,
+  pub view_count: Option<::serde_json::Value>,
   pub visited: Option<bool>,
   #[serde(rename = "whitelist_status")]
   pub whitelist_status: Option<String>,
   pub wls: Option<i64>,
   #[serde(rename = "associated_award")]
-  pub associated_award: ::serde_json::Value,
+  pub associated_award: Option<::serde_json::Value>,
   pub body: Option<String>,
   #[serde(rename = "body_html")]
   pub body_html: Option<String>,
   pub collapsed: Option<bool>,
   #[serde(rename = "collapsed_because_crowd_control")]
-  pub collapsed_because_crowd_control: ::serde_json::Value,
+  pub collapsed_because_crowd_control: Option<::serde_json::Value>,
   #[serde(rename = "collapsed_reason")]
-  pub collapsed_reason: ::serde_json::Value,
+  pub collapsed_reason: Option<::serde_json::Value>,
   pub controversiality: Option<i64>,
   pub depth: Option<i64>,
   #[serde(rename = "is_submitter")]
