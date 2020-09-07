@@ -30,7 +30,7 @@ pub struct ByIdName {
 }
 
 // API is: '/comments/{{article}}'
-#[derive(Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct CommentsArticle {
   // (optional) ID36 of a comment
   comment: String,
@@ -67,40 +67,40 @@ pub struct CommentsArticle {
 }
 
 // API is: '/r/{{subreddit}}/comments/{{article}}'
-#[derive(Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct RSubredditCommentsArticle {
   // (optional) ID36 of a comment
-  comment: String,
+  pub comment: String,
 
   // boolean value
-  showedits: String,
+  pub showedits: String,
 
   // (optional) expand subreddits
-  sr_detail: String,
+  pub sr_detail: String,
 
   // boolean value
-  threaded: String,
+  pub threaded: String,
 
   // an integer between 0 and 50
-  truncate: String,
+  pub truncate: String,
 
   // (optional) an integer
-  depth: String,
+  pub depth: String,
 
   // one of (<code>confidence</code>, <code>top</code>, <code>new</code>, <code>controversial</code>, <code>old</code>, <code>random</code>, <code>qa</code>, <code>live</code>)
-  sort: String,
+  pub sort: String,
 
   // ID36 of a link
-  article: String,
+  pub article: String,
 
   // an integer between 0 and 8
-  context: String,
+  pub context: String,
 
   // boolean value
-  showmore: String,
+  pub showmore: String,
 
   // (optional) an integer
-  limit: String,
+  pub limit: String,
 }
 
 // API is: '/duplicates/{{article}}'

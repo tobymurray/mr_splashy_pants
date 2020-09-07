@@ -160,14 +160,36 @@ mod tests {
     //     };
     // }
 
-    // fn subreddit_comments_article() {
-    //     let mut pants = build_pants();
-    //     // TODO: Figure this out
-    //     match tokio_test::block_on(pants.subreddit_comments_article(subreddit: String, article: String)) {
-    //         Ok(response) => println!("Response to best is: {:#?}", response),
-    //         Err(e) => panic!("An error ocurred: {}", e),
-    //     };
-    // }
+    #[test]
+    fn subreddit_comments_article() {
+        let mut pants = build_pants();
+
+        let query_parameters = listings_request::RSubredditCommentsArticle {
+            comment: "".to_string(),
+            showedits: "".to_string(),
+            sr_detail: "".to_string(),
+            threaded: "".to_string(),
+            truncate: "".to_string(),
+            depth: "".to_string(),
+            sort: "".to_string(),
+            article: "".to_string(),
+            context: "".to_string(),
+            showmore: "".to_string(),
+            limit: "".to_string(),
+        };
+
+        match tokio_test::block_on(pants.subreddit_comments_article(
+            "testingground4bots".to_string(),
+            "ins0kg".to_string(),
+            query_parameters,
+        )) {
+            Ok(response) => println!(
+                "Response to best is: {}",
+                serde_json::to_string_pretty(&response).unwrap()
+            ),
+            Err(e) => panic!("An error ocurred: {}", e),
+        };
+    }
 
     // fn duplicates_article() {
     //     let mut pants = build_pants();
@@ -360,7 +382,9 @@ mod client;
 
 use crate::api::generated::response::links_and_comments::ApiSubmitResponse;
 use api::generated::request::links_and_comments;
+use api::generated::request::listings as listings_request;
 use api::generated::response::account;
+use api::generated::response::listing::subreddit_comments as subreddit_comments_response;
 use api::generated::response::listing::subreddit_new as listing_response;
 use api::generated::wrapper::account as account_wrapper;
 use api::generated::wrapper::links_and_comments as links_and_comments_wrapper;
@@ -527,7 +551,10 @@ impl Pants {
         .await
     }
 
-    pub async fn comments_article(&mut self, article: String) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn comments_article(
+        &mut self,
+        article: String,
+    ) -> Result<Vec<models::Listing<subreddit_comments_response::Data>>, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("article".to_string(), article);
         listing_wrapper::wrapper_get_comments_article(
@@ -544,7 +571,8 @@ impl Pants {
         &mut self,
         subreddit: String,
         article: String,
-    ) -> Result<serde_json::Value, reqwest::Error> {
+        query_parameters: listings_request::RSubredditCommentsArticle,
+    ) -> Result<Vec<models::Listing<subreddit_comments_response::Data>>, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("subreddit".to_string(), subreddit);
         parameters.insert("article".to_string(), article);
@@ -553,7 +581,7 @@ impl Pants {
             &self.client_configuration,
             &mut self.refresh_token,
             &parameters,
-            &serde_json::from_str("{}").unwrap(),
+            &serde_json::to_value(query_parameters).unwrap(),
         )
         .await
     }

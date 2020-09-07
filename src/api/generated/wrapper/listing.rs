@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use crate::api::generated::execution::listings as listings_execution;
+use crate::api::generated::response::listing::subreddit_comments as subreddit_comments_response;
 use crate::api::generated::response::listing::subreddit_new;
 use crate::api::response::models;
 use crate::api::utils::utils;
@@ -69,7 +70,7 @@ pub async fn wrapper_get_comments_article(
   refresh_token: &mut String,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
-) -> Result<serde_json::Value, reqwest::Error> {
+) -> Result<Vec<models::Listing<subreddit_comments_response::Data>>, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
@@ -88,7 +89,7 @@ pub async fn wrapper_get_r_subreddit_comments_article(
   refresh_token: &mut String,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
-) -> Result<serde_json::Value, reqwest::Error> {
+) -> Result<Vec<models::Listing<subreddit_comments_response::Data>>, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
