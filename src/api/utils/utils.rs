@@ -5,7 +5,7 @@ use crate::api::generated::wrapper::oauth;
 use crate::client::client;
 
 use log::Level::Trace;
-use log::{log_enabled, trace};
+use log::{error, log_enabled, trace};
 
 pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize<'de>>(
   client: &'a reqwest::Client,
@@ -47,9 +47,12 @@ where
         return deserialize(second_response).await;
       }
     },
-    Err(error) => {
-      println!("Everything failed! {:#?}", error);
-      panic!("Panic!");
+    Err(e) => {
+      error!(
+        "While trying to execute an API, both initial attempt and retry failed due to: {}",
+        e
+      );
+      return Err(e);
     }
   };
 }

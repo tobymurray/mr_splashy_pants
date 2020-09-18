@@ -670,20 +670,23 @@ impl Pants {
     pub fn stream_subreddit_new<'a, 'b>(
         &'a mut self,
         subreddit: &'a str,
-    ) -> impl Stream<Item = api::generated::response::listing::subreddit_new::Data> + 'a {
+    ) -> impl Stream<Item = Result<api::generated::response::listing::subreddit_new::Data, reqwest::Error>> + 'a {
         let mut responses_so_far = HashSet::new();
         stream! {
             loop {
-                let response;
-                match self.subreddit_new(subreddit).await {
-                    Ok(whatever) => {response = whatever},
-                    Err(e) => {panic!("Error streaming: {}", e)},
+                let response = match self.subreddit_new(subreddit).await {
+                    Ok(response) => {response},
+                    Err(e) => {
+                        yield Err(e);
+                        thread::sleep(time::Duration::from_secs(30));
+                        continue;
+                    },
                 };
 
                 for entry in response.data.children {
                     // If it hasn't been seen yet
                     if responses_so_far.insert(entry.data.id.clone()) {
-                        yield entry.data;
+                        yield Ok(entry.data);
                     }
                 }
                 thread::sleep(time::Duration::from_secs(30));

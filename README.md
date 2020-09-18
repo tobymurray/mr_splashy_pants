@@ -142,7 +142,15 @@ let stream = pants.stream_subreddit_new("testingground4bots");
 pin_mut!(stream);
 
 while let Some(value) = tokio_test::block_on(stream.next()) {
-    println!("New post: {}", value);
+    match value {
+        Ok(data) => {
+            println!("New post: {}", data);
+        }
+        Err(e) => {
+            // Note, this can get noisy if the failure persists
+            println!("Encountered an error: {}", e);
+        }
+    }
 }
 ```
 
