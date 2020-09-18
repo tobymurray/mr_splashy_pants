@@ -5,16 +5,16 @@ use log::Level::Trace;
 use log::{log_enabled, trace};
 
 #[derive(Deserialize)]
-pub struct RefreshToken {
+pub struct RefreshAccessTokenResponse {
     pub access_token: String,
     pub token_type: String,
     pub expires_in: u32,
     pub scope: String,
 }
 
-impl fmt::Debug for RefreshToken {
+impl fmt::Debug for RefreshAccessTokenResponse {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("RefreshToken")
+        f.debug_struct("RefreshAccessTokenResponse")
             .field("access_token", &self.access_token)
             .field("token_type", &self.token_type)
             .field("expires_in", &self.expires_in)
@@ -39,7 +39,7 @@ pub async fn refresh_access_token(
     refresh_token: &str,
     client_id: &str,
     client_password: &str,
-) -> RefreshToken {
+) -> RefreshAccessTokenResponse {
     match invoke_refresh_access_token(client, refresh_token, client_id, client_password).await {
         Ok(refresh_access_token) => refresh_access_token,
         Err(err) => panic!("Panic! {:#?}", err),
@@ -51,7 +51,7 @@ async fn invoke_refresh_access_token(
     refresh_token: &str,
     client_id: &str,
     client_password: &str,
-) -> Result<RefreshToken, Box<dyn std::error::Error>> {
+) -> Result<RefreshAccessTokenResponse, Box<dyn std::error::Error>> {
     let response = execute_post_api_v1_access_token(client, refresh_token, client_id, client_password).await?;
 
     let result;
@@ -63,7 +63,7 @@ async fn invoke_refresh_access_token(
             Err(err) => panic!("{}", err),
         }
     } else {
-        result = response.json::<RefreshToken>().await?;
+        result = response.json::<RefreshAccessTokenResponse>().await?;
     }
 
     Ok(result)

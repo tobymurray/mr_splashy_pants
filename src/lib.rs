@@ -29,8 +29,8 @@ mod tests {
 
         Pants::new(
             USER_AGENT,
-            &env::var("ACCESS_TOKEN").unwrap(),
-            env::var("REFRESH_TOKEN").unwrap(),
+            env::var("ACCESS_TOKEN").unwrap(),
+            &env::var("REFRESH_TOKEN").unwrap(),
             &env::var("CLIENT_ID").unwrap(),
             &env::var("CLIENT_SECRET").unwrap(),
         )
@@ -424,23 +424,23 @@ use std::{thread, time};
 pub struct Pants {
     client: Client,
     client_configuration: pants_client::ClientConfiguration,
-    refresh_token: String,
+    access_token: String,
 }
 
 impl Pants {
     pub fn new(
         user_agent: &str,
-        access_token: &str,
-        refresh_token: String,
+        access_token: String,
+        refresh_token: &str,
         client_id: &str,
         client_password: &str,
     ) -> Pants {
         Pants {
             client: reqwest::Client::builder().user_agent(user_agent).build().unwrap(),
-            refresh_token,
+            access_token,
             client_configuration: pants_client::ClientConfiguration::new(
                 user_agent,
-                access_token,
+                refresh_token,
                 client_id,
                 client_password,
             ),
@@ -449,11 +449,11 @@ impl Pants {
 
     // ACCOUNT
     pub async fn me(&mut self) -> Result<account::MeResponse, reqwest::Error> {
-        account_wrapper::wrapper_get_api_v1_me(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        account_wrapper::wrapper_get_api_v1_me(&self.client, &self.client_configuration, &mut self.access_token).await
     }
 
     pub async fn me_karma(&mut self) -> Result<account::MeKarmaResponse, reqwest::Error> {
-        account_wrapper::wrapper_get_api_v1_me_karma(&self.client, &self.client_configuration, &mut self.refresh_token)
+        account_wrapper::wrapper_get_api_v1_me_karma(&self.client, &self.client_configuration, &mut self.access_token)
             .await
     }
 
@@ -461,7 +461,7 @@ impl Pants {
         account_wrapper::wrapper_get_api_v1_me_prefs(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -471,7 +471,7 @@ impl Pants {
         account_wrapper::wrapper_get_api_v1_me_trophies(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
         )
         .await
     }
@@ -480,7 +480,7 @@ impl Pants {
         account_wrapper::wrapper_get_prefs_friends(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -490,7 +490,7 @@ impl Pants {
         account_wrapper::wrapper_get_prefs_blocked(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -500,7 +500,7 @@ impl Pants {
         account_wrapper::wrapper_get_prefs_messaging(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -510,7 +510,7 @@ impl Pants {
         account_wrapper::wrapper_get_prefs_trusted(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -520,7 +520,7 @@ impl Pants {
         account_wrapper::wrapper_get_api_v1_me_friends(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -530,7 +530,7 @@ impl Pants {
         account_wrapper::wrapper_get_api_v1_me_blocked(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -542,7 +542,7 @@ impl Pants {
         listing_wrapper::wrapper_get_api_trending_subreddits(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
         )
         .await
     }
@@ -551,7 +551,7 @@ impl Pants {
         listing_wrapper::wrapper_get_best(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -563,7 +563,7 @@ impl Pants {
         listing_wrapper::wrapper_get_by_id_names(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
@@ -579,7 +579,7 @@ impl Pants {
         listing_wrapper::wrapper_get_comments_article(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
@@ -598,7 +598,7 @@ impl Pants {
         listing_wrapper::wrapper_get_r_subreddit_comments_article(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
             &serde_json::to_value(query_parameters).unwrap(),
         )
@@ -611,7 +611,7 @@ impl Pants {
         listing_wrapper::wrapper_get_duplicates_article(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
@@ -622,7 +622,7 @@ impl Pants {
         listing_wrapper::wrapper_get_hot(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -634,7 +634,7 @@ impl Pants {
         listing_wrapper::wrapper_get_r_subreddit_hot(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
@@ -645,7 +645,7 @@ impl Pants {
         listing_wrapper::wrapper_get_new(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -660,7 +660,7 @@ impl Pants {
         listing_wrapper::wrapper_get_r_subreddit_new(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
@@ -695,7 +695,7 @@ impl Pants {
     }
 
     pub async fn random(&mut self) -> Result<serde_json::Value, reqwest::Error> {
-        listing_wrapper::wrapper_get_random(&self.client, &self.client_configuration, &mut self.refresh_token).await
+        listing_wrapper::wrapper_get_random(&self.client, &self.client_configuration, &mut self.access_token).await
     }
 
     pub async fn subreddit_random(&mut self, subreddit: &str) -> Result<serde_json::Value, reqwest::Error> {
@@ -704,7 +704,7 @@ impl Pants {
         listing_wrapper::wrapper_get_r_subreddit_random(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
         )
         .await
@@ -714,7 +714,7 @@ impl Pants {
         listing_wrapper::wrapper_get_rising(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -726,7 +726,7 @@ impl Pants {
         listing_wrapper::wrapper_get_r_subreddit_rising(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
@@ -737,7 +737,7 @@ impl Pants {
         listing_wrapper::wrapper_get_controversial(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -749,7 +749,7 @@ impl Pants {
         listing_wrapper::wrapper_get_r_subreddit_controversial(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
@@ -760,7 +760,7 @@ impl Pants {
         listing_wrapper::wrapper_get_top(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -772,7 +772,7 @@ impl Pants {
         listing_wrapper::wrapper_get_r_subreddit_top(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
@@ -787,7 +787,7 @@ impl Pants {
         links_and_comments_wrapper::wrapper_post_api_submit(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             request_fields,
         )
         .await
@@ -800,20 +800,20 @@ impl Pants {
         links_and_comments_wrapper::wrapper_post_api_del(
             &self.client,
             &self.client_configuration,
-            &mut self.refresh_token,
+            &mut self.access_token,
             request_fields,
         )
         .await
     }
 
     // OTHER
-    pub async fn refresh_access_token(&self, refresh_token: &str) -> Result<oauth::RefreshToken, reqwest::Error> {
+    pub async fn refresh_access_token(&self, refresh_token: &str) -> Result<oauth::RefreshAccessTokenResponse, reqwest::Error> {
         let client = reqwest::Client::builder()
             .user_agent(&self.client_configuration.user_agent)
             .build()
             .unwrap();
 
-        let refresh_token = oauth::refresh_access_token(
+        let access_token = oauth::refresh_access_token(
             &client,
             refresh_token,
             &self.client_configuration.client_id,
@@ -821,6 +821,6 @@ impl Pants {
         )
         .await;
 
-        Ok(refresh_token)
+        Ok(access_token)
     }
 }

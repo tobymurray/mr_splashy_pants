@@ -28,8 +28,8 @@ For example, if you're using dotenv and reading values from the environment:
 // pants is mutable so the refresh token can be updated
 let mut pants = Pants::new(
     USER_AGENT,
-    &env::var("ACCESS_TOKEN").unwrap(),
-    env::var("REFRESH_TOKEN").unwrap(),
+    env::var("ACCESS_TOKEN").unwrap(),
+    &env::var("REFRESH_TOKEN").unwrap(),
     &env::var("CLIENT_ID").unwrap(),
     &env::var("CLIENT_SECRET").unwrap(),
 );
@@ -131,6 +131,8 @@ pants.del(delete_request_body).await;
 ```
 
 Streaming support for:
+
+**Disclaimer:** This implementation of streaming is not compatible with very high traffic subreddits. If more than 25 posts are submitted within any 30 second period, this streaming method will miss some.
 
 - GET [/r/{subreddit}/new](https://www.reddit.com/dev/api#GET_new)
 

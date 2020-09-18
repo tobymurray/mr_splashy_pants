@@ -10,7 +10,7 @@ use log::{error, log_enabled, trace};
 pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize<'de>>(
   client: &'a reqwest::Client,
   client_configuration: &'a client::ClientConfiguration,
-  refresh_token: &'a mut String,
+  access_token: &'a mut String,
   parameters: &'a HashMap<String, String>,
   request_fields: &'a serde_json::Value,
   f: F,
@@ -21,8 +21,8 @@ where
 {
   trace!("Request fields: {}", request_fields);
   trace!("Parameters: {:?}", parameters);
-  trace!("Initial refresh token: {}", refresh_token);
-  match f(client, refresh_token.clone(), parameters, request_fields).await {
+  trace!("Initial access token: {}", access_token);
+  match f(client, access_token.clone(), parameters, request_fields).await {
     Ok(response) => match response.error_for_status() {
       Ok(response) => return Ok(deserialize(response).await?),
       Err(error) => {
@@ -30,9 +30,9 @@ where
           panic!("Panic! Unrecognized error status: {:#?}", error.status());
         }
 
-        let new_refresh_token = match oauth::refresh_access_token_string(
+        let new_access_token = match oauth::refresh_access_token_string(
           &client,
-          refresh_token,
+          &client_configuration.refresh_token,
           &client_configuration.client_id,
           &client_configuration.client_password,
         )
@@ -41,9 +41,9 @@ where
           string => string,
         };
 
-        trace!("The renewed refresh token is: {}", new_refresh_token);
-        *refresh_token = new_refresh_token;
-        let second_response = f(client, refresh_token.clone(), parameters, request_fields).await?;
+        trace!("The renewed access token is: {}", new_access_token);
+        *access_token = new_access_token;
+        let second_response = f(client, access_token.clone(), parameters, request_fields).await?;
         return deserialize(second_response).await;
       }
     },
@@ -75,21 +75,21 @@ pub async fn deserialize<T: for<'de> serde::Deserialize<'de>>(
 pub async fn execute_get_api(
   uri: &str,
   client: &reqwest::Client,
-  refresh_token: String,
+  access_token: String,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
-  client.get(uri).bearer_auth(&refresh_token).send().await
+  client.get(uri).bearer_auth(&access_token).send().await
 }
 
 pub async fn execute_post_api(
   uri_segment: &str,
   client: &reqwest::Client,
-  refresh_token: String,
+  access_token: String,
   request_fields: &HashMap<String, String>,
 ) -> std::result::Result<reqwest::Response, reqwest::Error> {
   client
     .get(&("https://oauth.reddit.com/".to_string() + uri_segment))
     .json(&request_fields)
-    .bearer_auth(&refresh_token)
+    .bearer_auth(&access_token)
     .send()
     .await
 }

@@ -10,13 +10,13 @@ use std::collections::HashMap;
 pub async fn wrapper_post_api_submit(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
   request_fields: ApiSubmit,
 ) -> Result<ApiSubmitResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     &serde_json::to_value(request_fields).unwrap(),
     links_and_comments_execution::execute_post_api_submit,
@@ -28,13 +28,13 @@ pub async fn wrapper_post_api_submit(
 pub async fn wrapper_post_api_del(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
   request_fields: ApiDel,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     &serde_json::to_value(request_fields).unwrap(),
     links_and_comments_execution::execute_post_api_del,

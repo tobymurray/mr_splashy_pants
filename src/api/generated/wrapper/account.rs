@@ -11,12 +11,12 @@ use serde_json;
 pub async fn wrapper_get_api_v1_me(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
 ) -> Result<account::MeResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     &serde_json::from_str("{}").unwrap(),
     account_execution::execute_get_api_v1_me,
@@ -28,12 +28,12 @@ pub async fn wrapper_get_api_v1_me(
 pub async fn wrapper_get_api_v1_me_karma(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
 ) -> Result<account::MeKarmaResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     &serde_json::from_str("{}").unwrap(),
     account_execution::execute_get_api_v1_me_karma,
@@ -45,13 +45,13 @@ pub async fn wrapper_get_api_v1_me_karma(
 pub async fn wrapper_get_api_v1_me_prefs(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
   query_parameters: &serde_json::Value,
 ) -> Result<account::MePrefsResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     query_parameters,
     account_execution::execute_get_api_v1_me_prefs,
@@ -63,12 +63,12 @@ pub async fn wrapper_get_api_v1_me_prefs(
 pub async fn wrapper_get_api_v1_me_trophies(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     &serde_json::from_str("{}").unwrap(),
     account_execution::execute_get_api_v1_me_trophies,
@@ -80,13 +80,13 @@ pub async fn wrapper_get_api_v1_me_trophies(
 pub async fn wrapper_get_prefs_friends(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
   query_parameters: &serde_json::Value,
 ) -> Result<Vec<account::PrefsFriendsResponse>, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     query_parameters,
     account_execution::execute_get_prefs_friends,
@@ -98,13 +98,13 @@ pub async fn wrapper_get_prefs_friends(
 pub async fn wrapper_get_prefs_blocked(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     query_parameters,
     account_execution::execute_get_prefs_blocked,
@@ -116,13 +116,13 @@ pub async fn wrapper_get_prefs_blocked(
 pub async fn wrapper_get_prefs_messaging(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     query_parameters,
     account_execution::execute_get_prefs_messaging,
@@ -134,13 +134,13 @@ pub async fn wrapper_get_prefs_messaging(
 pub async fn wrapper_get_prefs_trusted(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     query_parameters,
     account_execution::execute_get_prefs_trusted,
@@ -152,13 +152,13 @@ pub async fn wrapper_get_prefs_trusted(
 pub async fn wrapper_get_api_v1_me_friends(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     query_parameters,
     account_execution::execute_get_api_v1_me_friends,
@@ -170,13 +170,13 @@ pub async fn wrapper_get_api_v1_me_friends(
 pub async fn wrapper_get_api_v1_me_blocked(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: &mut String,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     query_parameters,
     account_execution::execute_get_api_v1_me_blocked,
