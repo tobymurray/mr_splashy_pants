@@ -1,6 +1,9 @@
 use serde::Deserialize;
 use std::fmt;
 
+use log::Level::Trace;
+use log::{log_enabled, trace};
+
 #[derive(Deserialize)]
 pub struct RefreshToken {
     pub access_token: String,
@@ -49,12 +52,21 @@ async fn invoke_refresh_access_token(
     client_id: &str,
     client_password: &str,
 ) -> Result<RefreshToken, Box<dyn std::error::Error>> {
-    let resp = execute_post_api_v1_access_token(client, refresh_token, client_id, client_password)
-        .await?
-        .json::<RefreshToken>()
-        .await?;
+    let response = execute_post_api_v1_access_token(client, refresh_token, client_id, client_password).await?;
 
-    Ok(resp)
+    let result;
+    if log_enabled!(Trace) {
+        let response_as_text = response.text().await.unwrap();
+        trace!("Response: {}", response_as_text);
+        result = match serde_json::from_str(&response_as_text) {
+            Ok(result) => result,
+            Err(err) => panic!("{}", err),
+        }
+    } else {
+        result = response.json::<RefreshToken>().await?;
+    }
+
+    Ok(result)
 }
 
 // This is manually written, as API documentation doesn't contain it
