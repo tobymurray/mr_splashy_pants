@@ -157,3 +157,8 @@ while let Some(value) = tokio_test::block_on(stream.next()) {
 ```
 
 All other APIs are not implemented
+
+# Path to version 1.0
+As it stands, I'm making arbitrary changes to the library to support whatever I happen to be working on at the time. Additionally, I'm new to Rust, so I generally don't have a good sense of what I'm doing. To that end, this library's interface should be considered unstable and often _not good_. Until 1.0, it's entirely possible that every new release will introduce breaking changes. I'm not clear on where I want to end up with this library - should it be a "low level" API wrapper that just provides types to the Reddit API? Should it try and provide some usability improvement over the raw API? Should it focus on streamlining the most common use cases for bots to interact with Reddit?
+
+Until I have some clarity myself around these questions, this library should be expected to change dramatically.
