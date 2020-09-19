@@ -22,29 +22,27 @@ where
   trace!("Request fields: {}", request_fields);
   trace!("Parameters: {:?}", parameters);
   trace!("Initial access token: {}", access_token);
+
   match f(client, access_token.clone(), parameters, request_fields).await {
     Ok(response) => match response.error_for_status() {
-      Ok(response) => return Ok(deserialize(response).await?),
+      Ok(response) => Ok(deserialize(response).await?),
       Err(error) => {
         if !error.is_status() || error.status() != Some(reqwest::StatusCode::UNAUTHORIZED) {
           panic!("Panic! Unrecognized error status: {:#?}", error.status());
         }
 
-        let new_access_token = match oauth::refresh_access_token_string(
+        let new_access_token = oauth::refresh_access_token_string(
           &client,
           &client_configuration.refresh_token,
           &client_configuration.client_id,
           &client_configuration.client_password,
         )
-        .await
-        {
-          string => string,
-        };
+        .await;
 
         trace!("The renewed access token is: {}", new_access_token);
         *access_token = new_access_token;
         let second_response = f(client, access_token.clone(), parameters, request_fields).await?;
-        return deserialize(second_response).await;
+        deserialize(second_response).await
       }
     },
     Err(e) => {
@@ -52,9 +50,9 @@ where
         "While trying to execute an API, both initial attempt and retry failed due to: {}",
         e
       );
-      return Err(e);
+      Err(e)
     }
-  };
+  }
 }
 
 pub async fn deserialize<T: for<'de> serde::Deserialize<'de>>(
