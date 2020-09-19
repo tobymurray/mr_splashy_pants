@@ -2,8 +2,8 @@ use std::collections::HashMap;
 
 use crate::api::generated::execution::account as account_execution;
 use crate::api::generated::response::account;
-use crate::api::utils::utils;
-use crate::client::client;
+use crate::api::utils;
+use crate::pants::client;
 
 // API is: '/api/v1/me'
 pub async fn wrapper_get_api_v1_me(

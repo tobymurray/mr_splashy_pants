@@ -1,4 +1,4 @@
-use crate::api::utils::utils;
+use crate::api::utils;
 use std::collections::HashMap;
 
 // API is: '/api/v1/me'
