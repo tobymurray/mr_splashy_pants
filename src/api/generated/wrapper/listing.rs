@@ -4,8 +4,8 @@ use crate::api::generated::execution::listings as listings_execution;
 use crate::api::generated::response::listing::subreddit_comments as subreddit_comments_response;
 use crate::api::generated::response::listing::subreddit_new;
 use crate::api::response::models;
-use crate::api::utils::utils;
-use crate::client::client;
+use crate::api::utils;
+use crate::client;
 
 // API is: '/api/trending_subreddits'
 pub async fn wrapper_get_api_trending_subreddits(

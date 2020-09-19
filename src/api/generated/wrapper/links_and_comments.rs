@@ -2,8 +2,8 @@ use crate::api::generated::execution::links_and_comments as links_and_comments_e
 use crate::api::generated::request::links_and_comments::ApiDel;
 use crate::api::generated::request::links_and_comments::ApiSubmit;
 use crate::api::generated::response::links_and_comments::ApiSubmitResponse;
-use crate::api::utils::utils;
-use crate::client::client;
+use crate::api::utils;
+use crate::client;
 use std::collections::HashMap;
 
 // API is: '/api/submit'
