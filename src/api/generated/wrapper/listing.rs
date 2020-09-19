@@ -7,8 +7,6 @@ use crate::api::response::models;
 use crate::api::utils::utils;
 use crate::client::client;
 
-use serde_json;
-
 // API is: '/api/trending_subreddits'
 pub async fn wrapper_get_api_trending_subreddits(
   client: &reqwest::Client,

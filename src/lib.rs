@@ -667,7 +667,7 @@ impl Pants {
         .await
     }
 
-    pub fn stream_subreddit_new<'a, 'b>(
+    pub fn stream_subreddit_new<'a>(
         &'a mut self,
         subreddit: &'a str,
     ) -> impl Stream<Item = Result<api::generated::response::listing::subreddit_new::Data, reqwest::Error>> + 'a {
@@ -807,7 +807,10 @@ impl Pants {
     }
 
     // OTHER
-    pub async fn refresh_access_token(&self, refresh_token: &str) -> Result<oauth::RefreshAccessTokenResponse, reqwest::Error> {
+    pub async fn refresh_access_token(
+        &self,
+        refresh_token: &str,
+    ) -> Result<oauth::RefreshAccessTokenResponse, reqwest::Error> {
         let client = reqwest::Client::builder()
             .user_agent(&self.client_configuration.user_agent)
             .build()

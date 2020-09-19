@@ -5,8 +5,6 @@ use crate::api::generated::response::account;
 use crate::api::utils::utils;
 use crate::client::client;
 
-use serde_json;
-
 // API is: '/api/v1/me'
 pub async fn wrapper_get_api_v1_me(
   client: &reqwest::Client,
