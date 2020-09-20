@@ -1,10 +1,16 @@
-use crate::api::generated::execution::links_and_comments as links_and_comments_execution;
-use crate::api::generated::request::links_and_comments::ApiDel;
-use crate::api::generated::request::links_and_comments::ApiSubmit;
-use crate::api::generated::response::links_and_comments::ApiSubmitResponse;
-use crate::api::utils;
-use crate::pants::client;
 use std::collections::HashMap;
+
+use crate::{
+  api::{
+    generated::{
+      execution::links_and_comments as links_and_comments_execution,
+      request::{links_and_comments::ApiDel, links_and_comments::ApiSubmit},
+      response::links_and_comments::ApiSubmitResponse,
+    },
+    utils,
+  },
+  pants::client,
+};
 
 // API is: '/api/submit'
 pub async fn wrapper_post_api_submit(

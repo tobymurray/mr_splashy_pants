@@ -7,16 +7,17 @@ use client::ClientConfiguration;
 use front_page::FrontPage;
 use subreddit::Subreddit;
 
-use crate::api::generated::request::links_and_comments;
-use crate::api::generated::response::account;
-use crate::api::generated::response::links_and_comments::ApiSubmitResponse;
-use crate::api::generated::response::listing::subreddit_new as listing_response;
-use crate::api::generated::wrapper::account as account_wrapper;
-use crate::api::generated::wrapper::links_and_comments as links_and_comments_wrapper;
-use crate::api::generated::wrapper::listing as listing_wrapper;
-use crate::api::generated::wrapper::oauth;
-
-use crate::pants::client as pants_client;
+use crate::{
+    api::generated::{
+        request::links_and_comments,
+        response::{account, links_and_comments::ApiSubmitResponse, listing::subreddit_new as listing_response},
+        wrapper::{
+            account as account_wrapper, links_and_comments as links_and_comments_wrapper, listing as listing_wrapper,
+            oauth,
+        },
+    },
+    pants::client as pants_client,
+};
 
 use async_stream::stream;
 use futures_core::stream::Stream;

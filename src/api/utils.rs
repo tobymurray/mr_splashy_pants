@@ -1,11 +1,8 @@
-use std::collections::HashMap;
-use std::future::Future;
+use std::{collections::HashMap, future::Future};
 
-use crate::api::generated::wrapper::oauth;
-use crate::pants::client;
+use crate::{api::generated::wrapper::oauth, pants::client};
 
-use log::Level::Trace;
-use log::{error, log_enabled, trace};
+use log::{error, log_enabled, trace, Level::Trace};
 
 pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize<'de>>(
   client: &'a reqwest::Client,
@@ -22,6 +19,7 @@ where
   trace!("Request fields: {}", request_fields);
   trace!("Parameters: {:?}", parameters);
   trace!("Initial access token: {}", access_token);
+
   match f(client, access_token.clone(), parameters, request_fields).await {
     Ok(response) => match response.error_for_status() {
       Ok(response) => Ok(deserialize(response).await?),

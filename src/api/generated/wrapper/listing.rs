@@ -1,11 +1,16 @@
 use std::collections::HashMap;
 
-use crate::api::generated::execution::listings as listings_execution;
-use crate::api::generated::response::listing::subreddit_comments as subreddit_comments_response;
-use crate::api::generated::response::listing::subreddit_new;
-use crate::api::response::models;
-use crate::api::utils;
-use crate::pants::client;
+use crate::{
+  api::{
+    generated::{
+      execution::listings as listings_execution,
+      response::listing::{subreddit_comments as subreddit_comments_response, subreddit_new},
+    },
+    response::models,
+    utils,
+  },
+  pants::client,
+};
 
 // API is: '/api/trending_subreddits'
 pub async fn wrapper_get_api_trending_subreddits(

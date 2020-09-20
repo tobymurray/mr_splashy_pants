@@ -1,8 +1,7 @@
 use serde::Deserialize;
 use std::fmt;
 
-use log::Level::Trace;
-use log::{log_enabled, trace};
+use log::{log_enabled, trace, Level::Trace};
 
 #[derive(Deserialize)]
 pub struct RefreshAccessTokenResponse {
