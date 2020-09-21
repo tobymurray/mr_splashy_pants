@@ -1,6 +1,6 @@
 pub mod client;
-mod front_page;
-mod subreddit;
+pub mod front_page;
+pub mod subreddit;
 pub mod utils;
 
 use client::ClientConfiguration;

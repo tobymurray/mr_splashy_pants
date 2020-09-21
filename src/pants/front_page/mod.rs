@@ -1,8 +1,12 @@
-use crate::api::generated::response::listing::subreddit_comments as subreddit_comments_response;
-use crate::api::generated::wrapper::listing as listing_wrapper;
-use crate::api::response::models;
-use crate::pants::utils::Fullname;
-use crate::pants::Pants;
+//! API interactions with the front page (all subreddits)
+
+use crate::{
+  api::generated::{
+    response::listing::subreddit_comments as subreddit_comments_response, wrapper::listing as listing_wrapper,
+  },
+  api::response::models,
+  pants::{utils::Fullname, Pants},
+};
 
 use std::collections::HashMap;
 

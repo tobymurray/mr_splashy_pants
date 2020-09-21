@@ -1,9 +1,15 @@
-use crate::api::generated::response::listing::subreddit_comments as subreddit_comments_response;
-use crate::api::generated::response::listing::subreddit_new as listing_response;
-use crate::api::generated::wrapper::listing as listing_wrapper;
-use crate::api::response::models;
-use crate::pants::utils::Fullname;
-use crate::pants::Pants;
+//! API interactions with a specific subreddit
+
+use crate::{
+  api::{
+    generated::{
+      response::listing::{subreddit_comments as subreddit_comments_response, subreddit_new as listing_response},
+      wrapper::listing as listing_wrapper,
+    },
+    response::models,
+  },
+  pants::{utils::Fullname, Pants},
+};
 
 use std::collections::HashMap;
 
@@ -24,7 +30,7 @@ impl<'a> Subreddit<'a> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     parameters.insert("article".to_string(), article.value.clone());
-    listing_wrapper::wrapper_get_comments_article(
+    listing_wrapper::wrapper_get_r_subreddit_comments_article(
       &self.pants.client,
       &self.pants.client_configuration,
       &mut self.pants.access_token,

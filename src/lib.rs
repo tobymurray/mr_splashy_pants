@@ -1,4 +1,4 @@
-pub mod api;
+mod api;
 pub mod pants;
 
 #[cfg(test)]

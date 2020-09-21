@@ -11,10 +11,10 @@ WIP Rust bindings for the Reddit API
 Follow https://github.com/reddit-archive/reddit/wiki/OAuth2 for set up instructions. You can use https://tobymurray.github.io/reddit-auth-generator/ to help generate an auth string.
 
 # Use
-Set up a script with access to a Reddit account, collect the access token, the client ID, and the client secret. Once you have that, get a refresh token. Once you have that you can do:
+Set up a script with access to a Reddit account, collect the access token, the client ID, and the client secret. Once you have that, get a refresh token and an access token. Once you have that you can do:
 
 ```
-// pants is mutable so the refresh token can be updated
+// pants is mutable so the access token can be updated
 let mut pants = Pants::new(
     USER_AGENT,
     "<access-token>",
@@ -25,7 +25,7 @@ let mut pants = Pants::new(
 ```
 For example, if you're using dotenv and reading values from the environment:
 ```
-// pants is mutable so the refresh token can be updated
+// pants is mutable so the access token can be updated
 let mut pants = Pants::new(
     USER_AGENT,
     env::var("ACCESS_TOKEN").unwrap(),
@@ -40,7 +40,7 @@ Then you can invoke things, e.g:
 pants.me()
 ```
 
-If your refresh token expires, it should automatically refresh.
+If your access token expires, it should automatically refresh.
 
 Currently implemented with (partially) structured response:
 
