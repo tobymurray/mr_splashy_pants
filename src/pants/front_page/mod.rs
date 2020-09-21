@@ -100,3 +100,109 @@ impl<'a> FrontPage<'a> {
     .await
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use std::env;
+
+  use crate::pants::Pants;
+
+  const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
+
+  fn build_pants() -> Pants {
+    dotenv::dotenv().ok();
+
+    Pants::new(
+      USER_AGENT,
+      env::var("ACCESS_TOKEN").unwrap(),
+      &env::var("REFRESH_TOKEN").unwrap(),
+      &env::var("CLIENT_ID").unwrap(),
+      &env::var("CLIENT_SECRET").unwrap(),
+    )
+  }
+
+  #[test]
+  fn comments() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().comments(&crate::pants::utils::Fullname {
+      value: "ins0kg".to_string(),
+    })) {
+      Ok(response) => println!(
+        "Response to comments is: {}",
+        serde_json::to_string_pretty(&response).unwrap()
+      ),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn hot() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().hot()) {
+      Ok(response) => println!("Response to hot is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn new() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().new()) {
+      Ok(response) => println!("Response to new is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn random() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().random()) {
+      Ok(response) => println!("Response to random is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn rising() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().rising()) {
+      Ok(response) => println!("Response to rising is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn top() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().top()) {
+      Ok(response) => println!("Response to top is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn controversial() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().controversial()) {
+      Ok(response) => println!("Response to controversial is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn best() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().best()) {
+      Ok(response) => println!("Response to best is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+}

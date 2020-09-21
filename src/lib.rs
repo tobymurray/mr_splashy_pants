@@ -6,7 +6,6 @@ mod tests {
     use std::env;
 
     use crate::api::generated::request::links_and_comments;
-    use crate::api::generated::request::listings as listings_request;
     use crate::pants::Pants;
 
     const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
@@ -158,16 +157,6 @@ mod tests {
         };
     }
 
-    #[test]
-    fn best() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.front_page().best()) {
-            Ok(response) => println!("Response to best is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
     // fn by_id_names() {
     //     let mut pants = build_pants();
     //     // TODO: Figure this out
@@ -186,35 +175,6 @@ mod tests {
     //     };
     // }
 
-    #[test]
-    fn subreddit_comments_article() {
-        let mut pants = build_pants();
-
-        let query_parameters = listings_request::RSubredditCommentsArticle {
-            comment: "".to_string(),
-            showedits: "".to_string(),
-            sr_detail: "".to_string(),
-            threaded: "".to_string(),
-            truncate: "".to_string(),
-            depth: "".to_string(),
-            sort: "".to_string(),
-            article: "".to_string(),
-            context: "".to_string(),
-            showmore: "".to_string(),
-            limit: "".to_string(),
-        };
-
-        match tokio_test::block_on(pants.subreddit(SUBREDDIT).comments(&crate::pants::utils::Fullname {
-            value: "ins0kg".to_string(),
-        })) {
-            Ok(response) => println!(
-                "Response to subreddit_comments_article is: {}",
-                serde_json::to_string_pretty(&response).unwrap()
-            ),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
     // fn duplicates_article() {
     //     let mut pants = build_pants();
     //     // TODO: Figure this out
@@ -223,129 +183,6 @@ mod tests {
     //         Err(e) => panic!("An error ocurred: {}", e),
     //     };
     // }
-
-    #[test]
-    fn hot() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.front_page().hot()) {
-            Ok(response) => println!("Response to hot is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn subreddit_hot() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.subreddit(SUBREDDIT).hot()) {
-            Ok(response) => println!("Response to hot is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn get_new() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.front_page().new()) {
-            Ok(response) => println!("Response to get_new is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn subreddit_new() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.subreddit(SUBREDDIT).new()) {
-            Ok(response) => println!(
-                "Response to new is: {}",
-                serde_json::to_string_pretty(&response).unwrap()
-            ),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn random() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.front_page().random()) {
-            Ok(response) => println!("Response to random is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn subreddit_random() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.subreddit(SUBREDDIT).random()) {
-            Ok(response) => println!("Response to random is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn rising() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.front_page().rising()) {
-            Ok(response) => println!("Response to rising is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn subreddit_rising() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.subreddit(SUBREDDIT).rising()) {
-            Ok(response) => println!("Response to rising is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn top() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.front_page().top()) {
-            Ok(response) => println!("Response to top is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn subreddit_top() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.subreddit(SUBREDDIT).top()) {
-            Ok(response) => println!("Response to top is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn controversial() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.front_page().controversial()) {
-            Ok(response) => println!("Response to controversial is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
-
-    #[test]
-    fn subreddit_controversial() {
-        let mut pants = build_pants();
-
-        match tokio_test::block_on(pants.subreddit(SUBREDDIT).controversial()) {
-            Ok(response) => println!("Response to controversial is: {:#?}", response),
-            Err(e) => panic!("An error ocurred: {}", e),
-        };
-    }
 
     #[test]
     fn submit() {
