@@ -8,7 +8,7 @@ use crate::{
     },
     response::models,
   },
-  pants::{utils::Fullname, Pants},
+  pants::Pants,
 };
 
 use std::collections::HashMap;
@@ -25,11 +25,11 @@ impl<'a> Subreddit<'a> {
 
   pub async fn comments(
     &mut self,
-    article: &Fullname,
+    article: &str,
   ) -> Result<Vec<models::Listing<subreddit_comments_response::Data>>, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
-    parameters.insert("article".to_string(), article.value.clone());
+    parameters.insert("article".to_string(), article.to_string());
     listing_wrapper::wrapper_get_r_subreddit_comments_article(
       &self.pants.client,
       &self.pants.client_configuration,
@@ -143,9 +143,7 @@ mod tests {
   fn subreddit_comments() {
     let mut pants = build_pants();
 
-    match tokio_test::block_on(pants.subreddit(SUBREDDIT).comments(&crate::pants::utils::Fullname {
-      value: "ins0kg".to_string(),
-    })) {
+    match tokio_test::block_on(pants.subreddit(SUBREDDIT).comments("ins0kg")) {
       Ok(response) => println!(
         "Response to subreddit_comments_article is: {}",
         serde_json::to_string_pretty(&response).unwrap()

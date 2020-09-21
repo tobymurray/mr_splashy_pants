@@ -1,7 +1,8 @@
+//! A client built from the API wrapper for easy of use
+
 pub mod client;
 pub mod front_page;
 pub mod subreddit;
-pub mod utils;
 
 use client::ClientConfiguration;
 use front_page::FrontPage;
