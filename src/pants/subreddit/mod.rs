@@ -11,7 +11,11 @@ use crate::{
   pants::Pants,
 };
 
+use async_stream::stream;
+use futures_core::stream::Stream;
 use std::collections::HashMap;
+use std::collections::HashSet;
+use std::{thread, time};
 
 pub struct Subreddit<'a> {
   name: String,
@@ -64,6 +68,27 @@ impl<'a> Subreddit<'a> {
       &serde_json::from_str("{}").unwrap(),
     )
     .await
+  }
+
+  pub fn stream_new(&'a mut self) -> impl Stream<Item = listing_response::Data> + 'a {
+    let mut responses_so_far = HashSet::new();
+    stream! {
+        loop {
+            let response;
+            match self.new().await {
+                Ok(whatever) => {response = whatever},
+                Err(e) => {panic!("Error streaming: {}", e)},
+            };
+
+            for entry in response.data.children {
+                // If it hasn't been seen yet
+                if responses_so_far.insert(entry.data.id.clone()) {
+                    yield entry.data;
+                }
+            }
+            thread::sleep(time::Duration::from_secs(30));
+        }
+    }
   }
 
   pub async fn random(&mut self) -> Result<serde_json::Value, reqwest::Error> {

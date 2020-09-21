@@ -140,7 +140,7 @@ Streaming support for:
 use futures_util::pin_mut;
 use futures_util::stream::StreamExt;
 ...
-let stream = pants.stream_subreddit_new("testingground4bots");
+let stream = pants.subreddit("testingground4bots").stream_new();
 pin_mut!(stream);
 
 while let Some(value) = tokio_test::block_on(stream.next()) {
