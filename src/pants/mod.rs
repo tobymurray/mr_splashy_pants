@@ -189,6 +189,19 @@ impl Pants {
         .await
     }
 
+    pub async fn crosspost(
+        &mut self,
+        request_fields: links_and_comments::ApiSubmitCrosspost,
+    ) -> Result<ApiSubmitResponse, reqwest::Error> {
+        links_and_comments_wrapper::wrapper_post_api_submit_crosspost(
+            &self.client,
+            &self.client_configuration,
+            &mut self.access_token,
+            request_fields,
+        )
+        .await
+    }
+
     pub async fn del(
         &mut self,
         request_fields: links_and_comments::ApiDel,

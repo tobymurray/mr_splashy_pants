@@ -82,6 +82,7 @@ Currently kind of implemented (no query parameters), with JSON response:
 
 **Links and Comments**
 - POST [/api/submit](https://www.reddit.com/dev/api#POST_api_submit)
+    - Crossposting is also implemented (same API, different request body)
 - POST [/api/del](https://www.reddit.com/dev/api#POST_api_del)
 
 To submit a post to Reddit:

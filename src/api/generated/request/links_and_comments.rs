@@ -293,6 +293,25 @@ pub struct ApiSubmit {
   pub spoiler: String,
 }
 
+// API is: '/api/submit'
+// This is undocumented, observed from network traffic
+#[derive(Serialize)]
+pub struct ApiSubmitCrosspost {
+  pub api_type: String,
+  pub crosspost_fullname: String,
+  pub kind: String,
+  pub nsfw: String,
+  pub original_content: String,
+  pub post_to_twitter: String,
+  pub sendreplies: String,
+  pub show_error_list: String,
+  pub spoiler: String,
+  pub sr: String,
+  pub submit_type: String,
+  pub title: String,
+  pub validate_on_submit: String,
+}
+
 // API is: '/api/unhide'
 #[derive(Serialize)]
 pub struct ApiUnhide {

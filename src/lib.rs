@@ -238,4 +238,48 @@ mod tests {
             Err(e) => panic!("An error ocurred: {}", e),
         };
     }
+
+    #[test]
+    fn crosspost() {
+        let mut pants = build_pants();
+
+        let request_body = links_and_comments::ApiSubmitCrosspost {
+            api_type: "json".to_string(),
+            crosspost_fullname: "t3_iv6nom".to_string(),
+            kind: "crosspost".to_string(),
+            nsfw: "false".to_string(),
+            original_content: "false".to_string(),
+            post_to_twitter: "false".to_string(),
+            sendreplies: "true".to_string(),
+            show_error_list: "true".to_string(),
+            spoiler: "false".to_string(),
+            sr: "testingground4bots".to_string(),
+            submit_type: "subreddit".to_string(),
+            title: "MK3S now, or Mini with the intention of upgrading to MK4 / XL in a couple years?".to_string(),
+            validate_on_submit: "true".to_string(),
+        };
+
+        let response = match tokio_test::block_on(pants.crosspost(request_body)) {
+            Ok(response) => response,
+            Err(e) => panic!("An error ocurred: {}", e),
+        };
+
+        println!(
+            "Response to submit is: {}",
+            serde_json::to_string_pretty(&response).unwrap()
+        );
+
+        let submission_name = response.json.data.name;
+        println!("The name of the submission is '{}'", submission_name);
+
+        let delete_request_body = links_and_comments::ApiDel { id: submission_name };
+
+        match tokio_test::block_on(pants.del(delete_request_body)) {
+            Ok(response) => println!(
+                "Response to del is: {}",
+                serde_json::to_string_pretty(&response).unwrap()
+            ),
+            Err(e) => panic!("An error ocurred: {}", e),
+        };
+    }
 }
