@@ -11,7 +11,7 @@ mod tests {
     const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
     const SUBREDDIT: &str = "testingground4bots";
 
-    #[allow(clippy::dead_code)]
+    #[allow(dead_code)]
     fn setup_logger() -> Result<(), fern::InitError> {
         fern::Dispatch::new()
             .format(|out, message, record| {
