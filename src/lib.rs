@@ -1,6 +1,6 @@
 //! A partially implemented wrapper for the Reddit API, as declared here: https://www.reddit.com/dev/api
 
-mod api;
+pub mod api;
 pub mod pants;
 
 #[cfg(test)]
