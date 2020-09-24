@@ -3,10 +3,12 @@
 pub mod client;
 pub mod front_page;
 pub mod subreddit;
+pub mod users;
 
 use client::ClientConfiguration;
 use front_page::FrontPage;
 use subreddit::Subreddit;
+use users::Users;
 
 use crate::{
     api::generated::{
@@ -244,5 +246,9 @@ impl Pants {
 
     pub fn front_page(&mut self) -> FrontPage {
         FrontPage::build(self)
+    }
+
+    pub fn users(&mut self) -> Users {
+        Users::build(self)
     }
 }
