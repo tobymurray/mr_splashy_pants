@@ -1,4 +1,4 @@
-use crate::{api::generated::wrapper::users as users_wrapper, pants::Pants};
+use crate::pants::Pants;
 
 pub struct Users<'a> {
   pants: &'a mut Pants,

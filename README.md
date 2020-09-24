@@ -85,6 +85,17 @@ Currently kind of implemented (no query parameters), with JSON response:
     - Crossposting is also implemented (same API, different request body)
 - POST [/api/del](https://www.reddit.com/dev/api#POST_api_del)
 
+**Users**
+- GET [/user/{username}/about](https://www.reddit.com/dev/api#GET_user_{username}_about)
+- GET [/user/{username}/overview](https://www.reddit.com/dev/api#GET_user_{username}_{where})
+- GET [/user/{username}/submitted](https://www.reddit.com/dev/api#GET_user_{username}_{where})
+- GET [/user/{username}/comments](https://www.reddit.com/dev/api#GET_user_{username}_{where})
+- GET [/user/{username}/upvoted](https://www.reddit.com/dev/api#GET_user_{username}_{where})
+- GET [/user/{username}/downvoted](https://www.reddit.com/dev/api#GET_user_{username}_{where})
+- GET [/user/{username}/hidden](https://www.reddit.com/dev/api#GET_user_{username}_{where})
+- GET [/user/{username}/saved](https://www.reddit.com/dev/api#GET_user_{username}_{where})
+- GET [/user/{username}/gilded](https://www.reddit.com/dev/api#GET_user_{username}_{where})
+
 To submit a post to Reddit:
 
 ```
