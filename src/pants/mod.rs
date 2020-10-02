@@ -15,6 +15,7 @@ use users::Users;
 use crate::{
     api::generated::{
         request::links_and_comments,
+        response::listing::subreddit_new as listing_response,
         response::{account, links_and_comments::ApiSubmitResponse},
         wrapper::{
             account as account_wrapper, links_and_comments as links_and_comments_wrapper, listing as listing_wrapper,
@@ -24,8 +25,12 @@ use crate::{
     pants::client as pants_client,
 };
 
+use async_stream::stream;
+use futures_core::stream::Stream;
 use reqwest::Client;
 use std::collections::HashMap;
+use std::collections::HashSet;
+use std::{thread, time};
 
 pub struct Pants {
     pub client: Client,
@@ -238,6 +243,32 @@ impl Pants {
         .await;
 
         Ok(access_token)
+    }
+
+    /// Stream any new posts to any of the provided subreddits
+    /// There are significant limitations to this method:
+    ///     - requests are made to each subreddit every 30s * subreddits.len()
+    ///     - if traffic is sufficiently high (> 25 posts in 30s * subreddits.len()), posts will be skipped
+    pub fn stream_new<'a>(&'a mut self, subreddits: Vec<&'a str>) -> impl Stream<Item = listing_response::Data> + 'a {
+        let mut responses_so_far = HashSet::new();
+        stream! {
+            loop {
+                for subreddit in &subreddits {
+                    let response;
+                    match Subreddit::build(subreddit.to_string(), self).new().await {
+                        Ok(whatever) => {response = whatever},
+                        Err(e) => {panic!("Error streaming: {}", e)},
+                    };
+                    for entry in response.data.children {
+                        // If it hasn't been seen yet
+                        if responses_so_far.insert(entry.data.id.clone()) {
+                            yield entry.data;
+                        }
+                    }
+                    thread::sleep(time::Duration::from_secs(30));
+                }
+            }
+        }
     }
 
     ///////////////////
