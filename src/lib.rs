@@ -241,11 +241,13 @@ mod tests {
 
     #[test]
     fn crosspost() {
+        setup_logger();
+
         let mut pants = build_pants();
 
         let request_body = links_and_comments::ApiSubmitCrosspost {
             api_type: "json".to_string(),
-            crosspost_fullname: "t3_iv6nom".to_string(),
+            crosspost_fullname: "t3_j5hste".to_string(),
             kind: "crosspost".to_string(),
             nsfw: "false".to_string(),
             original_content: "false".to_string(),
