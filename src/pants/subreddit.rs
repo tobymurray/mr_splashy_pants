@@ -3,6 +3,7 @@
 use crate::{
   api::{
     generated::{
+      request::listings as listing_request,
       response::listing::{subreddit_comments as subreddit_comments_response, subreddit_new as listing_response},
       wrapper::listing as listing_wrapper,
     },
@@ -57,7 +58,10 @@ impl<'a> Subreddit<'a> {
     .await
   }
 
-  pub async fn new(&mut self) -> Result<models::Listing<listing_response::Data>, reqwest::Error> {
+  pub async fn new(
+    &mut self,
+    query_parameters: &listing_request::New,
+  ) -> Result<models::Listing<listing_response::Data>, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     listing_wrapper::wrapper_get_r_subreddit_new(
@@ -65,7 +69,7 @@ impl<'a> Subreddit<'a> {
       &self.pants.client_configuration,
       &mut self.pants.access_token,
       &parameters,
-      &serde_json::from_str("{}").unwrap(),
+      &serde_json::to_value(query_parameters).unwrap(),
     )
     .await
   }
@@ -75,7 +79,8 @@ impl<'a> Subreddit<'a> {
     stream! {
         loop {
             let response;
-            match self.new().await {
+
+            match self.new(&Default::default()).await {
                 Ok(whatever) => {response = whatever},
                 Err(e) => {panic!("Error streaming: {}", e)},
             };
@@ -147,6 +152,7 @@ impl<'a> Subreddit<'a> {
 mod tests {
   use std::env;
 
+  use crate::api::generated::request::listings as listing_request;
   use crate::pants::Pants;
 
   const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
@@ -191,7 +197,9 @@ mod tests {
   fn subreddit_new() {
     let mut pants = build_pants();
 
-    match tokio_test::block_on(pants.subreddit(SUBREDDIT).new()) {
+    let query_parameters = listing_request::New { ..Default::default() };
+
+    match tokio_test::block_on(pants.subreddit(SUBREDDIT).new(&query_parameters)) {
       Ok(response) => println!(
         "Response to new is: {}",
         serde_json::to_string_pretty(&response).unwrap()

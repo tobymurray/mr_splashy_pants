@@ -25,6 +25,7 @@ pub async fn execute_get_best(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/best");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -50,6 +51,7 @@ pub async fn execute_get_by_id_names(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str(&handlebars.render_template("/by_id/{{names}}", &parameters).unwrap());
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -79,6 +81,7 @@ pub async fn execute_get_comments_article(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -108,6 +111,7 @@ pub async fn execute_get_r_subreddit_comments_article(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -137,6 +141,7 @@ pub async fn execute_get_duplicates_article(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -160,6 +165,7 @@ pub async fn execute_get_hot(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/hot");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -185,6 +191,7 @@ pub async fn execute_get_r_subreddit_hot(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str(&handlebars.render_template("/r/{{subreddit}}/hot", &parameters).unwrap());
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -208,6 +215,7 @@ pub async fn execute_get_new(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/new");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -233,6 +241,7 @@ pub async fn execute_get_r_subreddit_new(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str(&handlebars.render_template("/r/{{subreddit}}/new", &parameters).unwrap());
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -288,6 +297,7 @@ pub async fn execute_get_rising(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/rising");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -317,6 +327,7 @@ pub async fn execute_get_r_subreddit_rising(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -340,6 +351,7 @@ pub async fn execute_get_top(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/top");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -365,6 +377,7 @@ pub async fn execute_get_r_subreddit_top(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str(&handlebars.render_template("/r/{{subreddit}}/top", &parameters).unwrap());
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -388,6 +401,7 @@ pub async fn execute_get_controversial(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/controversial");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -417,6 +431,7 @@ pub async fn execute_get_r_subreddit_controversial(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;

@@ -37,6 +37,7 @@ pub async fn execute_get_api_v1_me_prefs(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/api/v1/me/prefs");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -73,6 +74,7 @@ pub async fn execute_get_prefs_friends(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/prefs/friends");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -96,6 +98,7 @@ pub async fn execute_get_prefs_blocked(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/prefs/blocked");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -119,6 +122,7 @@ pub async fn execute_get_prefs_messaging(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/prefs/messaging");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -142,6 +146,7 @@ pub async fn execute_get_prefs_trusted(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/prefs/trusted");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -165,6 +170,7 @@ pub async fn execute_get_api_v1_me_friends(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/api/v1/me/friends");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -188,6 +194,7 @@ pub async fn execute_get_api_v1_me_blocked(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/api/v1/me/blocked");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;

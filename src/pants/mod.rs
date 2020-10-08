@@ -255,7 +255,7 @@ impl Pants {
             loop {
                 for subreddit in &subreddits {
                     let response;
-                    match Subreddit::build(subreddit.to_string(), self).new().await {
+                    match Subreddit::build(subreddit.to_string(), self).new(&Default::default()).await {
                         Ok(whatever) => {response = whatever},
                         Err(e) => {panic!("Error streaming: {}", e)},
                     };
