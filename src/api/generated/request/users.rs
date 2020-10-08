@@ -1,97 +1,94 @@
 // API is: '/api/block_user'
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct ApiBlockUser {
-  // <a href="#fullnames">fullname</a> of a account
-  pub account_id: String,
-
   // A valid, existing reddit username
   pub name: String,
 
+  // <a href="#fullnames">fullname</a> of a account
+  pub account_id: String,
+
   // the string <code>json</code>
   pub api_type: String,
-
 }
 
 // API is: '/api/friend'
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct ApiFriend {
-  // the string <code>json</code>
-  pub api_type: String,
-
-  // one of (<code>friend</code>, <code>moderator</code>, <code>moderator_invite</code>, <code>contributor</code>, <code>banned</code>, <code>muted</code>, <code>wikibanned</code>, <code>wikicontributor</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
-
-  // the name of an existing user
-  pub name: String,
-
-  // a string no longer than 100 characters
-  pub ban_reason: String,
-
   // <a href="#fullnames">fullname</a> of a thing
   pub ban_context: String,
 
   pub container: String,
 
-  // an integer between 1 and 999
-  pub duration: String,
-
-  // a string no longer than 300 characters
-  pub note: String,
+  // the name of an existing user
+  pub name: String,
 
   pub permissions: String,
 
   // raw markdown text
   pub ban_message: String,
 
+  // the string <code>json</code>
+  pub api_type: String,
+
+  // a string no longer than 300 characters
+  pub note: String,
+
+  // one of (<code>friend</code>, <code>moderator</code>, <code>moderator_invite</code>, <code>contributor</code>, <code>banned</code>, <code>muted</code>, <code>wikibanned</code>, <code>wikicontributor</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
+
+  // a string no longer than 100 characters
+  pub ban_reason: String,
+
+  // an integer between 1 and 999
+  pub duration: String,
 }
 
 // API is: '/r/{{subreddit}}/api/friend'
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct RSubredditApiFriend {
-  // the string <code>json</code>
-  pub api_type: String,
-
-  // one of (<code>friend</code>, <code>moderator</code>, <code>moderator_invite</code>, <code>contributor</code>, <code>banned</code>, <code>muted</code>, <code>wikibanned</code>, <code>wikicontributor</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
-
-  // the name of an existing user
-  pub name: String,
-
-  // a string no longer than 100 characters
-  pub ban_reason: String,
-
   // <a href="#fullnames">fullname</a> of a thing
   pub ban_context: String,
 
   pub container: String,
 
-  // an integer between 1 and 999
-  pub duration: String,
-
-  // a string no longer than 300 characters
-  pub note: String,
+  // the name of an existing user
+  pub name: String,
 
   pub permissions: String,
 
   // raw markdown text
   pub ban_message: String,
 
+  // the string <code>json</code>
+  pub api_type: String,
+
+  // a string no longer than 300 characters
+  pub note: String,
+
+  // one of (<code>friend</code>, <code>moderator</code>, <code>moderator_invite</code>, <code>contributor</code>, <code>banned</code>, <code>muted</code>, <code>wikibanned</code>, <code>wikicontributor</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
+
+  // a string no longer than 100 characters
+  pub ban_reason: String,
+
+  // an integer between 1 and 999
+  pub duration: String,
 }
 
 // API is: '/api/report_user'
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct ApiReportUser {
-  // JSON data
-  pub details: String,
-
   // a string no longer than 100 characters
   pub reason: String,
 
   // A valid, existing reddit username
+  // This isn't right, it's supposed to be a username as the JSON property
   pub user: String,
 
+  // JSON data
+  pub details: String,
 }
 
 // API is: '/api/setpermissions'
@@ -102,12 +99,11 @@ pub struct ApiSetpermission {
   // the name of an existing user
   pub name: String,
 
-  #[serde(rename = "type")]
-  pub r#type: String,
-
   // the string <code>json</code>
   pub api_type: String,
 
+  #[serde(rename = "type")]
+  pub r#type: String,
 }
 
 // API is: '/r/{{subreddit}}/api/setpermissions'
@@ -118,19 +114,16 @@ pub struct RSubredditApiSetpermission {
   // the name of an existing user
   pub name: String,
 
-  #[serde(rename = "type")]
-  pub r#type: String,
-
   // the string <code>json</code>
   pub api_type: String,
 
+  #[serde(rename = "type")]
+  pub r#type: String,
 }
 
 // API is: '/api/unfriend'
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct ApiUnfriend {
-  pub container: String,
-
   // <a href="#fullnames">fullname</a> of a thing
   pub id: String,
 
@@ -141,13 +134,12 @@ pub struct ApiUnfriend {
   // the name of an existing user
   pub name: String,
 
+  pub container: String,
 }
 
 // API is: '/r/{{subreddit}}/api/unfriend'
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct RSubredditApiUnfriend {
-  pub container: String,
-
   // <a href="#fullnames">fullname</a> of a thing
   pub id: String,
 
@@ -158,6 +150,7 @@ pub struct RSubredditApiUnfriend {
   // the name of an existing user
   pub name: String,
 
+  pub container: String,
 }
 
 // API is: '/api/user_data_by_account_ids'
@@ -165,7 +158,6 @@ pub struct RSubredditApiUnfriend {
 pub struct ApiUserDataByAccountId {
   // A comma-separated list of account <a href="#fullnames">fullnames</a>
   pub ids: String,
-
 }
 
 // API is: '/api/username_available'
@@ -173,7 +165,6 @@ pub struct ApiUserDataByAccountId {
 pub struct ApiUsernameAvailable {
   // a valid, unused, username
   pub user: String,
-
 }
 
 // API is: '/api/v1/user/{{username}}/trophies'
@@ -181,7 +172,6 @@ pub struct ApiUsernameAvailable {
 pub struct ApiV1UserUsernameTrophy {
   // A valid, existing reddit username
   pub id: String,
-
 }
 
 // API is: '/user/{{username}}/about'
@@ -189,7 +179,6 @@ pub struct ApiV1UserUsernameTrophy {
 pub struct UserUsernameAbout {
   // the name of an existing user
   pub username: String,
-
 }
 
 // API is: '/user/{{username}}/overview'
@@ -198,14 +187,15 @@ pub struct UserUsernameOverview {
   // one of (<code>given</code>)
   pub show: String,
 
-  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
-  pub sort: String,
-
-  // a positive integer (default: 0)
-  pub count: String,
+  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
+  pub t: String,
 
   // the name of an existing user
   pub username: String,
+
+  // one of (<code>links</code>, <code>comments</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
 
   // <a href="#fullnames">fullname</a> of a thing
   pub after: String,
@@ -213,22 +203,20 @@ pub struct UserUsernameOverview {
   // <a href="#fullnames">fullname</a> of a thing
   pub before: String,
 
-  // an integer between 2 and 10
-  pub context: String,
-
-  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
-  pub t: String,
-
-  // one of (<code>links</code>, <code>comments</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
+  // a positive integer (default: 0)
+  pub count: String,
 
   // the maximum number of items desired (default: 25, maximum: 100)
   pub limit: String,
 
+  // an integer between 2 and 10
+  pub context: String,
+
+  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
+  pub sort: String,
+
   // (optional) expand subreddits
   pub sr_detail: String,
-
 }
 
 // API is: '/user/{{username}}/submitted'
@@ -237,14 +225,15 @@ pub struct UserUsernameSubmitted {
   // one of (<code>given</code>)
   pub show: String,
 
-  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
-  pub sort: String,
-
-  // a positive integer (default: 0)
-  pub count: String,
+  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
+  pub t: String,
 
   // the name of an existing user
   pub username: String,
+
+  // one of (<code>links</code>, <code>comments</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
 
   // <a href="#fullnames">fullname</a> of a thing
   pub after: String,
@@ -252,22 +241,20 @@ pub struct UserUsernameSubmitted {
   // <a href="#fullnames">fullname</a> of a thing
   pub before: String,
 
-  // an integer between 2 and 10
-  pub context: String,
-
-  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
-  pub t: String,
-
-  // one of (<code>links</code>, <code>comments</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
+  // a positive integer (default: 0)
+  pub count: String,
 
   // the maximum number of items desired (default: 25, maximum: 100)
   pub limit: String,
 
+  // an integer between 2 and 10
+  pub context: String,
+
+  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
+  pub sort: String,
+
   // (optional) expand subreddits
   pub sr_detail: String,
-
 }
 
 // API is: '/user/{{username}}/comments'
@@ -276,14 +263,15 @@ pub struct UserUsernameComment {
   // one of (<code>given</code>)
   pub show: String,
 
-  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
-  pub sort: String,
-
-  // a positive integer (default: 0)
-  pub count: String,
+  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
+  pub t: String,
 
   // the name of an existing user
   pub username: String,
+
+  // one of (<code>links</code>, <code>comments</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
 
   // <a href="#fullnames">fullname</a> of a thing
   pub after: String,
@@ -291,22 +279,20 @@ pub struct UserUsernameComment {
   // <a href="#fullnames">fullname</a> of a thing
   pub before: String,
 
-  // an integer between 2 and 10
-  pub context: String,
-
-  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
-  pub t: String,
-
-  // one of (<code>links</code>, <code>comments</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
+  // a positive integer (default: 0)
+  pub count: String,
 
   // the maximum number of items desired (default: 25, maximum: 100)
   pub limit: String,
 
+  // an integer between 2 and 10
+  pub context: String,
+
+  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
+  pub sort: String,
+
   // (optional) expand subreddits
   pub sr_detail: String,
-
 }
 
 // API is: '/user/{{username}}/upvoted'
@@ -315,14 +301,15 @@ pub struct UserUsernameUpvoted {
   // one of (<code>given</code>)
   pub show: String,
 
-  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
-  pub sort: String,
-
-  // a positive integer (default: 0)
-  pub count: String,
+  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
+  pub t: String,
 
   // the name of an existing user
   pub username: String,
+
+  // one of (<code>links</code>, <code>comments</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
 
   // <a href="#fullnames">fullname</a> of a thing
   pub after: String,
@@ -330,22 +317,20 @@ pub struct UserUsernameUpvoted {
   // <a href="#fullnames">fullname</a> of a thing
   pub before: String,
 
-  // an integer between 2 and 10
-  pub context: String,
-
-  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
-  pub t: String,
-
-  // one of (<code>links</code>, <code>comments</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
+  // a positive integer (default: 0)
+  pub count: String,
 
   // the maximum number of items desired (default: 25, maximum: 100)
   pub limit: String,
 
+  // an integer between 2 and 10
+  pub context: String,
+
+  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
+  pub sort: String,
+
   // (optional) expand subreddits
   pub sr_detail: String,
-
 }
 
 // API is: '/user/{{username}}/downvoted'
@@ -354,14 +339,15 @@ pub struct UserUsernameDownvoted {
   // one of (<code>given</code>)
   pub show: String,
 
-  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
-  pub sort: String,
-
-  // a positive integer (default: 0)
-  pub count: String,
+  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
+  pub t: String,
 
   // the name of an existing user
   pub username: String,
+
+  // one of (<code>links</code>, <code>comments</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
 
   // <a href="#fullnames">fullname</a> of a thing
   pub after: String,
@@ -369,22 +355,20 @@ pub struct UserUsernameDownvoted {
   // <a href="#fullnames">fullname</a> of a thing
   pub before: String,
 
-  // an integer between 2 and 10
-  pub context: String,
-
-  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
-  pub t: String,
-
-  // one of (<code>links</code>, <code>comments</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
+  // a positive integer (default: 0)
+  pub count: String,
 
   // the maximum number of items desired (default: 25, maximum: 100)
   pub limit: String,
 
+  // an integer between 2 and 10
+  pub context: String,
+
+  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
+  pub sort: String,
+
   // (optional) expand subreddits
   pub sr_detail: String,
-
 }
 
 // API is: '/user/{{username}}/hidden'
@@ -393,14 +377,15 @@ pub struct UserUsernameHidden {
   // one of (<code>given</code>)
   pub show: String,
 
-  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
-  pub sort: String,
-
-  // a positive integer (default: 0)
-  pub count: String,
+  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
+  pub t: String,
 
   // the name of an existing user
   pub username: String,
+
+  // one of (<code>links</code>, <code>comments</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
 
   // <a href="#fullnames">fullname</a> of a thing
   pub after: String,
@@ -408,22 +393,20 @@ pub struct UserUsernameHidden {
   // <a href="#fullnames">fullname</a> of a thing
   pub before: String,
 
-  // an integer between 2 and 10
-  pub context: String,
-
-  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
-  pub t: String,
-
-  // one of (<code>links</code>, <code>comments</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
+  // a positive integer (default: 0)
+  pub count: String,
 
   // the maximum number of items desired (default: 25, maximum: 100)
   pub limit: String,
 
+  // an integer between 2 and 10
+  pub context: String,
+
+  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
+  pub sort: String,
+
   // (optional) expand subreddits
   pub sr_detail: String,
-
 }
 
 // API is: '/user/{{username}}/saved'
@@ -432,14 +415,15 @@ pub struct UserUsernameSaved {
   // one of (<code>given</code>)
   pub show: String,
 
-  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
-  pub sort: String,
-
-  // a positive integer (default: 0)
-  pub count: String,
+  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
+  pub t: String,
 
   // the name of an existing user
   pub username: String,
+
+  // one of (<code>links</code>, <code>comments</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
 
   // <a href="#fullnames">fullname</a> of a thing
   pub after: String,
@@ -447,22 +431,20 @@ pub struct UserUsernameSaved {
   // <a href="#fullnames">fullname</a> of a thing
   pub before: String,
 
-  // an integer between 2 and 10
-  pub context: String,
-
-  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
-  pub t: String,
-
-  // one of (<code>links</code>, <code>comments</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
+  // a positive integer (default: 0)
+  pub count: String,
 
   // the maximum number of items desired (default: 25, maximum: 100)
   pub limit: String,
 
+  // an integer between 2 and 10
+  pub context: String,
+
+  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
+  pub sort: String,
+
   // (optional) expand subreddits
   pub sr_detail: String,
-
 }
 
 // API is: '/user/{{username}}/gilded'
@@ -471,14 +453,15 @@ pub struct UserUsernameGilded {
   // one of (<code>given</code>)
   pub show: String,
 
-  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
-  pub sort: String,
-
-  // a positive integer (default: 0)
-  pub count: String,
+  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
+  pub t: String,
 
   // the name of an existing user
   pub username: String,
+
+  // one of (<code>links</code>, <code>comments</code>)
+  #[serde(rename = "type")]
+  pub r#type: String,
 
   // <a href="#fullnames">fullname</a> of a thing
   pub after: String,
@@ -486,20 +469,18 @@ pub struct UserUsernameGilded {
   // <a href="#fullnames">fullname</a> of a thing
   pub before: String,
 
-  // an integer between 2 and 10
-  pub context: String,
-
-  // one of (<code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>, <code>year</code>, <code>all</code>)
-  pub t: String,
-
-  // one of (<code>links</code>, <code>comments</code>)
-  #[serde(rename = "type")]
-  pub r#type: String,
+  // a positive integer (default: 0)
+  pub count: String,
 
   // the maximum number of items desired (default: 25, maximum: 100)
   pub limit: String,
 
+  // an integer between 2 and 10
+  pub context: String,
+
+  // one of (<code>hot</code>, <code>new</code>, <code>top</code>, <code>controversial</code>)
+  pub sort: String,
+
   // (optional) expand subreddits
   pub sr_detail: String,
-
 }
