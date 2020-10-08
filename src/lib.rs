@@ -241,8 +241,6 @@ mod tests {
 
     #[test]
     fn crosspost() {
-        setup_logger();
-
         let mut pants = build_pants();
 
         let request_body = links_and_comments::ApiSubmitCrosspost {
