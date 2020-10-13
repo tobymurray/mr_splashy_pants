@@ -247,8 +247,8 @@ impl Pants {
 
     /// Stream any new posts to any of the provided subreddits
     /// There are significant limitations to this method:
-    ///     - requests are made to each subreddit every 30s * subreddits.len()
-    ///     - if traffic is sufficiently high (> 25 posts in 30s * subreddits.len()), posts will be skipped
+    ///     - requests are made to each subreddit every 1s * subreddits.len()
+    ///     - if traffic is sufficiently high (> 25 posts in 1s * subreddits.len()), posts will be skipped
     pub fn stream_new<'a>(&'a mut self, subreddits: Vec<&'a str>) -> impl Stream<Item = listing_response::Data> + 'a {
         let mut responses_so_far = HashSet::new();
         stream! {
@@ -265,7 +265,7 @@ impl Pants {
                             yield entry.data;
                         }
                     }
-                    thread::sleep(time::Duration::from_secs(30));
+                    thread::sleep(time::Duration::from_secs(1));
                 }
             }
         }
