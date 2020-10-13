@@ -74,6 +74,9 @@ impl<'a> Subreddit<'a> {
     .await
   }
 
+  /// NOTE: This stream does not terminate!
+  /// Create a stream of any new posts. Continually emits new posts as they're posted for as long
+  /// as the program executes.
   pub fn stream_new(&'a mut self) -> impl Stream<Item = listing_response::Data> + 'a {
     let mut responses_so_far = HashSet::new();
     stream! {
@@ -93,6 +96,48 @@ impl<'a> Subreddit<'a> {
             }
             thread::sleep(time::Duration::from_secs(30));
         }
+    }
+  }
+
+  /// Create a stream of the most recent ~1000 posts, from newest to oldest. The stream will
+  /// terminate once all available posts have been emitted.
+  pub fn stream_historical(&'a mut self) -> impl Stream<Item = listing_response::Data> + 'a {
+    stream! {
+      let mut query_parameters = listing_request::New { ..Default::default() };
+      let mut num_pages = 1;
+
+      let mut page_of_posts = match self.new(&query_parameters).await {
+        Ok(response) => response,
+        Err(e) => panic!("An error ocurred: {}", e),
+      };
+
+      for existing_post in page_of_posts.data.children {
+        yield existing_post.data;
+      }
+
+      let mut after = page_of_posts.data.after;
+      num_pages = num_pages + 1;
+      thread::sleep(time::Duration::from_secs(1));
+
+      while let Some(next_after) = after {
+        query_parameters = listing_request::New {
+          after: next_after,
+          ..Default::default()
+        };
+
+        page_of_posts = match self.new(&query_parameters).await {
+          Ok(response) => response,
+          Err(e) => panic!("An error ocurred: {}", e),
+        };
+
+        after = page_of_posts.data.after;
+        for existing_post in page_of_posts.data.children {
+          yield existing_post.data;
+        }
+
+        thread::sleep(time::Duration::from_secs(1));
+        num_pages = num_pages + 1;
+      }
     }
   }
 
