@@ -3,6 +3,7 @@
 use crate::{
   api::generated::{
     response::listing::subreddit_comments as subreddit_comments_response, wrapper::listing as listing_wrapper,
+    wrapper::moderation as moderation_wrapper,
   },
   api::response::models,
   pants::Pants,
@@ -100,6 +101,75 @@ impl<'a> FrontPage<'a> {
       &self.pants.client_configuration,
       &mut self.pants.access_token,
       &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_edited(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    moderation_wrapper::wrapper_get_about_edited(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_log(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    moderation_wrapper::wrapper_get_about_log(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_modqueue(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    moderation_wrapper::wrapper_get_about_modqueue(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_reports(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    moderation_wrapper::wrapper_get_about_reports(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_spam(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    moderation_wrapper::wrapper_get_about_spam(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_unmoderated(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    moderation_wrapper::wrapper_get_about_unmoderated(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn stylesheet(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    moderation_wrapper::wrapper_get_stylesheet(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
     )
     .await
   }
@@ -204,6 +274,63 @@ mod tests {
 
     match tokio_test::block_on(pants.front_page().best()) {
       Ok(response) => println!("Response to best is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn about_edited() {
+    let mut pants = build_pants();
+    match tokio_test::block_on(pants.front_page().about_edited()) {
+      Ok(response) => println!("Response to about_edited is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn about_log() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().about_log()) {
+      Ok(response) => println!("Response to about_log is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+  #[test]
+  fn about_reports() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().about_reports()) {
+      Ok(response) => println!("Response to about_reports is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn about_spam() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().about_spam()) {
+      Ok(response) => println!("Response to about_spam is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+  #[test]
+  fn about_unmoderated() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().about_unmoderated()) {
+      Ok(response) => println!("Response to about_unmoderated is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn stylesheet() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.front_page().stylesheet()) {
+      Ok(response) => println!("Response to stylesheet is: {:#?}", response),
       Err(e) => panic!("An error ocurred: {}", e),
     };
   }

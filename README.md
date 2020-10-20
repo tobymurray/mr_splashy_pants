@@ -85,6 +85,22 @@ Currently kind of implemented (no query parameters), with JSON response:
     - Crossposting is also implemented (same API, different request body)
 - POST [/api/del](https://www.reddit.com/dev/api#POST_api_del)
 
+**Moderation**
+- GET [/about/log](https://www.reddit.com/dev/api#GET_about_log)
+- GET [/about/reports](https://www.reddit.com/dev/api#GET_about_reports)
+- GET [/about/spam](https://www.reddit.com/dev/api#GET_about_spam)
+- GET [/about/modqueue](https://www.reddit.com/dev/api#GET_about_modqueue)
+- GET [/about/unmoderated](https://www.reddit.com/dev/api#GET_about_unmoderated)
+- GET [/about/edited](https://www.reddit.com/dev/api#GET_about_edited)
+- GET [/stylesheet](https://www.reddit.com/dev/api#GET_stylesheet)
+- GET [/r/{subreddit}/about/log](https://www.reddit.com/dev/api#GET_about_log)
+- GET [/r/{subreddit}/about/reports](https://www.reddit.com/dev/api#GET_about_reports)
+- GET [/r/{subreddit}/about/spam](https://www.reddit.com/dev/api#GET_about_spam)
+- GET [/r/{subreddit}/about/modqueue](https://www.reddit.com/dev/api#GET_about_modqueue)
+- GET [/r/{subreddit}/about/unmoderated](https://www.reddit.com/dev/api#GET_about_unmoderated)
+- GET [/r/{subreddit}/about/edited](https://www.reddit.com/dev/api#GET_about_edited)
+- GET [/r/{subreddit}/stylesheet](https://www.reddit.com/dev/api#GET_stylesheet)
+
 **Users**
 - GET [/user/{username}/about](https://www.reddit.com/dev/api#GET_user_{username}_about)
 - GET [/user/{username}/overview](https://www.reddit.com/dev/api#GET_user_{username}_{where})

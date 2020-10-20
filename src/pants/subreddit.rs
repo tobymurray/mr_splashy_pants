@@ -6,6 +6,7 @@ use crate::{
       request::listings as listing_request,
       response::listing::{subreddit_comments as subreddit_comments_response, subreddit_new as listing_response},
       wrapper::listing as listing_wrapper,
+      wrapper::moderation as moderation_wrapper,
     },
     response::models,
   },
@@ -191,6 +192,96 @@ impl<'a> Subreddit<'a> {
     )
     .await
   }
+
+  pub async fn about_log(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    let mut parameters = HashMap::new();
+    parameters.insert("subreddit".to_string(), self.name.clone());
+    moderation_wrapper::wrapper_get_r_subreddit_about_log(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &parameters,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_reports(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    let mut parameters = HashMap::new();
+    parameters.insert("subreddit".to_string(), self.name.clone());
+    moderation_wrapper::wrapper_get_r_subreddit_about_reports(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &parameters,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_spam(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    let mut parameters = HashMap::new();
+    parameters.insert("subreddit".to_string(), self.name.clone());
+    moderation_wrapper::wrapper_get_r_subreddit_about_spam(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &parameters,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_modqueue(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    let mut parameters = HashMap::new();
+    parameters.insert("subreddit".to_string(), self.name.clone());
+    moderation_wrapper::wrapper_get_r_subreddit_about_modqueue(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &parameters,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_unmoderated(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    let mut parameters = HashMap::new();
+    parameters.insert("subreddit".to_string(), self.name.clone());
+    moderation_wrapper::wrapper_get_r_subreddit_about_unmoderated(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &parameters,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn about_edited(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    let mut parameters = HashMap::new();
+    parameters.insert("subreddit".to_string(), self.name.clone());
+    moderation_wrapper::wrapper_get_r_subreddit_about_edited(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &parameters,
+      &serde_json::from_str("{}").unwrap(),
+    )
+    .await
+  }
+
+  pub async fn stylesheet(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    let mut parameters = HashMap::new();
+    parameters.insert("subreddit".to_string(), self.name.clone());
+    moderation_wrapper::wrapper_get_r_subreddit_stylesheet(
+      &self.pants.client,
+      &self.pants.client_configuration,
+      &mut self.pants.access_token,
+      &parameters,
+    )
+    .await
+  }
 }
 
 #[cfg(test)]
@@ -202,6 +293,7 @@ mod tests {
 
   const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
   const SUBREDDIT: &str = "testingground4bots";
+  const MODERATED_SUBREDDIT: &str = "multimaterial";
 
   fn build_pants() -> Pants {
     dotenv::dotenv().ok();
@@ -289,6 +381,76 @@ mod tests {
 
     match tokio_test::block_on(pants.subreddit(SUBREDDIT).controversial()) {
       Ok(response) => println!("Response to controversial is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn subreddit_about_log() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_log()) {
+      Ok(response) => println!("Response to about_log is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn subreddit_about_reports() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_reports()) {
+      Ok(response) => println!("Response to about_reports is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn subreddit_about_spam() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_spam()) {
+      Ok(response) => println!("Response to about_spam is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn subreddit_about_modqueue() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_modqueue()) {
+      Ok(response) => println!("Response to about_modqueue is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn subreddit_about_unmoderated() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_unmoderated()) {
+      Ok(response) => println!("Response to about_unmoderated is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn subreddit_about_edited() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_edited()) {
+      Ok(response) => println!("Response to about_edited is: {:#?}", response),
+      Err(e) => panic!("An error ocurred: {}", e),
+    };
+  }
+
+  #[test]
+  fn subreddit_stylesheet() {
+    let mut pants = build_pants();
+
+    match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).stylesheet()) {
+      Ok(response) => println!("Response to stylesheet is: {:#?}", response),
       Err(e) => panic!("An error ocurred: {}", e),
     };
   }
