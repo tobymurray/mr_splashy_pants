@@ -117,7 +117,7 @@ impl<'a> Subreddit<'a> {
       }
 
       let mut after = page_of_posts.data.after;
-      num_pages = num_pages + 1;
+      num_pages += 1;
       thread::sleep(time::Duration::from_secs(1));
 
       while let Some(next_after) = after {
@@ -137,7 +137,7 @@ impl<'a> Subreddit<'a> {
         }
 
         thread::sleep(time::Duration::from_secs(1));
-        num_pages = num_pages + 1;
+        num_pages += 1;
       }
     }
   }
