@@ -12,6 +12,7 @@ pub async fn execute_get_about_log(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/about/log");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -41,6 +42,7 @@ pub async fn execute_get_r_subreddit_about_log(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -64,6 +66,7 @@ pub async fn execute_get_about_reports(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/about/reports");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -93,6 +96,7 @@ pub async fn execute_get_r_subreddit_about_reports(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -116,6 +120,7 @@ pub async fn execute_get_about_spam(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/about/spam");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -145,6 +150,7 @@ pub async fn execute_get_r_subreddit_about_spam(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -155,8 +161,6 @@ pub async fn execute_get_r_subreddit_about_spam(
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
     resolved_api_path.push_str("&");
   }
-
-  println!("Here's the output: {}", &resolved_api_path);
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
 
@@ -170,6 +174,7 @@ pub async fn execute_get_about_modqueue(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/about/modqueue");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -199,6 +204,7 @@ pub async fn execute_get_r_subreddit_about_modqueue(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -222,6 +228,7 @@ pub async fn execute_get_about_unmoderated(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/about/unmoderated");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -251,6 +258,7 @@ pub async fn execute_get_r_subreddit_about_unmoderated(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -274,6 +282,7 @@ pub async fn execute_get_about_edited(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/about/edited");
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
@@ -303,6 +312,7 @@ pub async fn execute_get_r_subreddit_about_edited(
       .unwrap(),
   );
 
+  resolved_api_path.push_str("?");
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
