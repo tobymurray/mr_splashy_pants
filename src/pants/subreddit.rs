@@ -4,7 +4,11 @@ use crate::{
   api::{
     generated::{
       request::listings as listing_request,
-      response::listing::{subreddit_comments as subreddit_comments_response, subreddit_new as listing_response},
+      request::moderation as moderation_request,
+      response::{
+        listing::{subreddit_comments as subreddit_comments_response, subreddit_new as listing_response},
+        moderation::about_spam,
+      },
       wrapper::listing as listing_wrapper,
       wrapper::moderation as moderation_wrapper,
     },
@@ -105,8 +109,6 @@ impl<'a> Subreddit<'a> {
   pub fn stream_historical(&'a mut self) -> impl Stream<Item = listing_response::Data> + 'a {
     stream! {
       let mut query_parameters = listing_request::New { ..Default::default() };
-      let mut num_pages = 1;
-
       let mut page_of_posts = match self.new(&query_parameters).await {
         Ok(response) => response,
         Err(e) => panic!("An error ocurred: {}", e),
@@ -117,7 +119,6 @@ impl<'a> Subreddit<'a> {
       }
 
       let mut after = page_of_posts.data.after;
-      num_pages += 1;
       thread::sleep(time::Duration::from_secs(1));
 
       while let Some(next_after) = after {
@@ -137,7 +138,44 @@ impl<'a> Subreddit<'a> {
         }
 
         thread::sleep(time::Duration::from_secs(1));
-        num_pages += 1;
+      }
+    }
+  }
+
+  /// Create a stream of the most recent ~1000 posts, from newest to oldest. The stream will
+  /// terminate once all available posts have been emitted.
+  pub fn stream_spam(&'a mut self) -> impl Stream<Item = about_spam::Data> + 'a {
+    stream! {
+      let mut query_parameters = moderation_request::AboutSpam { ..Default::default() };
+      let mut page_of_posts = match self.about_spam(&query_parameters).await {
+        Ok(response) => response,
+        Err(e) => panic!("An error ocurred: {}", e),
+      };
+
+      for existing_post in page_of_posts.data.children {
+        yield existing_post.data;
+      }
+
+      let mut after = page_of_posts.data.after;
+      thread::sleep(time::Duration::from_secs(1));
+
+      while let Some(next_after) = after {
+        query_parameters = moderation_request::AboutSpam {
+          after: next_after,
+          ..Default::default()
+        };
+
+        page_of_posts = match self.about_spam(&query_parameters).await {
+          Ok(response) => response,
+          Err(e) => panic!("An error ocurred: {}", e),
+        };
+
+        after = page_of_posts.data.after;
+        for existing_post in page_of_posts.data.children {
+          yield existing_post.data;
+        }
+
+        thread::sleep(time::Duration::from_secs(1));
       }
     }
   }
@@ -219,7 +257,10 @@ impl<'a> Subreddit<'a> {
     .await
   }
 
-  pub async fn about_spam(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn about_spam(
+    &mut self,
+    query_parameters: &moderation_request::AboutSpam,
+  ) -> Result<models::Listing<about_spam::Data>, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     moderation_wrapper::wrapper_get_r_subreddit_about_spam(
@@ -227,7 +268,7 @@ impl<'a> Subreddit<'a> {
       &self.pants.client_configuration,
       &mut self.pants.access_token,
       &parameters,
-      &serde_json::from_str("{}").unwrap(),
+      &serde_json::to_value(query_parameters).unwrap(),
     )
     .await
   }
@@ -289,6 +330,7 @@ mod tests {
   use std::env;
 
   use crate::api::generated::request::listings as listing_request;
+  use crate::api::generated::request::moderation as moderation_request;
   use crate::pants::Pants;
 
   const USER_AGENT: &str = "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)";
@@ -408,8 +450,9 @@ mod tests {
   #[test]
   fn subreddit_about_spam() {
     let mut pants = build_pants();
+    let query_parameters = moderation_request::AboutSpam { ..Default::default() };
 
-    match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_spam()) {
+    match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_spam(&query_parameters)) {
       Ok(response) => println!("Response to about_spam is: {:#?}", response),
       Err(e) => panic!("An error ocurred: {}", e),
     };

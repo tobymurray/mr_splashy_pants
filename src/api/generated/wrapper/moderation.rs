@@ -9,7 +9,9 @@ use crate::{
         ApiMuteMessageAuthor, ApiRemove, ApiShowComment, ApiUnignoreReport, ApiUnmuteMessageAuthor,
         ApiUpdateCrowdControlLevel, RSubredditApiAcceptModeratorInvite,
       },
+      response::moderation::about_spam,
     },
+    response::models,
     utils,
   },
   pants::client,
@@ -114,7 +116,7 @@ pub async fn wrapper_get_r_subreddit_about_spam(
   access_token: &mut String,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
-) -> Result<serde_json::Value, reqwest::Error> {
+) -> Result<models::Listing<about_spam::Data>, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
