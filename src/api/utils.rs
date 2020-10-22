@@ -55,15 +55,15 @@ where
 pub async fn deserialize<T: for<'de> serde::Deserialize<'de>>(
   response: reqwest::Response,
 ) -> Result<T, reqwest::Error> {
+  let response_as_text = response.text().await.unwrap();
+  let deserializer = &mut serde_json::Deserializer::from_str(&response_as_text);
+
   if log_enabled!(Trace) {
-    let response_as_text = response.text().await.unwrap();
     trace!("Response: {}", response_as_text);
-    match serde_json::from_str(&response_as_text) {
-      Ok(result) => Ok(result),
-      Err(err) => panic!("{}", err),
-    }
-  } else {
-    response.json::<T>().await
+  }
+  match serde_path_to_error::deserialize(deserializer) {
+    Ok(result) => Ok(result),
+    Err(err) => panic!("{}", err),
   }
 }
 
