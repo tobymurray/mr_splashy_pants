@@ -482,8 +482,8 @@ pub struct CrosspostParentList {
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LinkFlairRichtext {
-    pub e: String,
-    pub t: String,
+    pub e: Option<String>,
+    pub t: Option<String>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
