@@ -2,7 +2,8 @@ use std::{collections::HashMap, future::Future};
 
 use crate::{api::generated::wrapper::oauth, pants::client};
 
-use log::{error, log_enabled, trace, Level::Trace};
+use log::{debug, error, log_enabled, trace, warn, Level::Trace};
+use std::{thread, time};
 
 pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize<'de>>(
   client: &'a reqwest::Client,
@@ -24,20 +25,34 @@ where
     Ok(response) => match response.error_for_status() {
       Ok(response) => Ok(deserialize(response).await?),
       Err(error) => {
-        if !error.is_status() || error.status() != Some(reqwest::StatusCode::UNAUTHORIZED) {
-          panic!("Panic! Unrecognized error status: {:#?}", error.status());
+        if !error.is_status() {
+          panic!("Unrecognized error: {}", error);
         }
 
-        let new_access_token = oauth::refresh_access_token_string(
-          &client,
-          &client_configuration.refresh_token,
-          &client_configuration.client_id,
-          &client_configuration.client_password,
-        )
-        .await;
+        let error_status = error.status().unwrap();
 
-        trace!("The renewed access token is: {}", new_access_token);
-        *access_token = new_access_token;
+        if error_status.is_server_error() {
+          warn!("Encountered server error: {}. Delaying before retrying", error_status);
+          // Ideally this would be an exponentional backoff. Maybe someday...
+          thread::sleep(time::Duration::from_secs(10));
+        } else if error_status == reqwest::StatusCode::UNAUTHORIZED {
+          debug!(
+            "Encountered {}, assuming access token has expired so refreshing",
+            reqwest::StatusCode::UNAUTHORIZED
+          );
+
+          let new_access_token = oauth::refresh_access_token_string(
+            &client,
+            &client_configuration.refresh_token,
+            &client_configuration.client_id,
+            &client_configuration.client_password,
+          )
+          .await;
+
+          trace!("The renewed access token is: {}", new_access_token);
+          *access_token = new_access_token;
+        }
+
         let second_response = f(client, access_token.clone(), parameters, request_fields).await?;
         deserialize(second_response).await
       }
