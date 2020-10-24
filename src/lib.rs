@@ -25,7 +25,8 @@ mod tests {
                     message
                 ))
             })
-            .level(log::LevelFilter::Trace)
+            .level(log::LevelFilter::Info)
+            .level_for("mr_splashy_pants", log::LevelFilter::Trace)
             .chain(std::io::stdout())
             .chain(fern::log_file("output.log")?)
             .apply()?;
