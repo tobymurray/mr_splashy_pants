@@ -86,6 +86,41 @@ where
 pub async fn deserialize<T: for<'de> serde::Deserialize<'de>>(
   response: reqwest::Response,
 ) -> Result<T, reqwest::Error> {
+  let rate_limit: Option<RateLimit>;
+  {
+    let headers = response.headers();
+
+    rate_limit = match headers.get("x-ratelimit-remaining") {
+      Some(remaining) => {
+        if log_enabled!(Trace) {
+          trace!(
+            "Rate limit: {:10?} | {:10?} | {:10?}",
+            headers["x-ratelimit-remaining"],
+            headers["x-ratelimit-used"],
+            headers["x-ratelimit-reset"],
+          );
+        };
+
+        Some(RateLimit {
+          remaining: remaining.to_str().unwrap().parse::<f32>().unwrap() as i32,
+          used: headers["x-ratelimit-used"].to_str().unwrap().parse::<i32>().unwrap(),
+          secs_until_reset: headers["x-ratelimit-reset"].to_str().unwrap().parse::<i32>().unwrap(),
+        })
+      }
+      None => None,
+    };
+
+    if log_enabled!(Trace) && rate_limit.is_some() {
+      let rate_limit = rate_limit.unwrap();
+      trace!(
+        "Rate limit: {:10} | {:10} | {:10}",
+        rate_limit.remaining,
+        rate_limit.used,
+        rate_limit.secs_until_reset,
+      );
+    }
+  }
+
   let response_as_text = response.text().await.unwrap();
   let deserializer = &mut serde_json::Deserializer::from_str(&response_as_text);
 
