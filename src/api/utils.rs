@@ -3,7 +3,23 @@ use std::{collections::HashMap, future::Future};
 use crate::{api::generated::wrapper::oauth, pants::client};
 
 use log::{debug, error, log_enabled, trace, warn, Level::Trace};
-use std::{thread, time};
+use std::{fmt, thread, time};
+
+pub struct RateLimit {
+  pub remaining: i32,
+  pub used: i32,
+  pub secs_until_reset: i32,
+}
+
+impl fmt::Display for RateLimit {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(
+      f,
+      "Remaining: {}, used: {}, seconds until reset: {}",
+      self.remaining, self.used, self.secs_until_reset
+    )
+  }
+}
 
 pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize<'de>>(
   client: &'a reqwest::Client,
