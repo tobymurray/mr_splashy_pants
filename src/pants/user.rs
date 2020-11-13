@@ -4,12 +4,12 @@ use crate::{api::generated::wrapper::users as users_wrapper, pants::Pants};
 use std::collections::HashMap;
 
 pub struct User<'a> {
-  pants: &'a mut Pants,
+  pants: &'a Pants,
   name: String,
 }
 
 impl<'a> User<'a> {
-  pub fn build(name: String, pants: &'a mut Pants) -> User {
+  pub fn build(name: String, pants: &'a Pants) -> User {
     User { name, pants }
   }
 
@@ -19,7 +19,7 @@ impl<'a> User<'a> {
     users_wrapper::wrapper_get_user_username_about(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &uri_parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -32,7 +32,7 @@ impl<'a> User<'a> {
     users_wrapper::wrapper_get_user_username_comments(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &uri_parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -45,7 +45,7 @@ impl<'a> User<'a> {
     users_wrapper::wrapper_get_user_username_downvoted(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &uri_parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -58,7 +58,7 @@ impl<'a> User<'a> {
     users_wrapper::wrapper_get_user_username_gilded(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &uri_parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -71,7 +71,7 @@ impl<'a> User<'a> {
     users_wrapper::wrapper_get_user_username_hidden(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &uri_parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -84,7 +84,7 @@ impl<'a> User<'a> {
     users_wrapper::wrapper_get_user_username_overview(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &uri_parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -97,7 +97,7 @@ impl<'a> User<'a> {
     users_wrapper::wrapper_get_user_username_saved(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &uri_parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -110,7 +110,7 @@ impl<'a> User<'a> {
     users_wrapper::wrapper_get_user_username_submitted(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &uri_parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -123,7 +123,7 @@ impl<'a> User<'a> {
     users_wrapper::wrapper_get_user_username_upvoted(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &uri_parameters,
       &serde_json::from_str("{}").unwrap(),
     )

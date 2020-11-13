@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
 
 use crate::{
   api::{
@@ -21,7 +22,7 @@ use crate::{
 pub async fn wrapper_get_about_log(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -39,7 +40,7 @@ pub async fn wrapper_get_about_log(
 pub async fn wrapper_get_r_subreddit_about_log(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -58,7 +59,7 @@ pub async fn wrapper_get_r_subreddit_about_log(
 pub async fn wrapper_get_about_reports(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -76,7 +77,7 @@ pub async fn wrapper_get_about_reports(
 pub async fn wrapper_get_r_subreddit_about_reports(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -95,7 +96,7 @@ pub async fn wrapper_get_r_subreddit_about_reports(
 pub async fn wrapper_get_about_spam(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -113,7 +114,7 @@ pub async fn wrapper_get_about_spam(
 pub async fn wrapper_get_r_subreddit_about_spam(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<models::Listing<about_spam::Data>, reqwest::Error> {
@@ -132,7 +133,7 @@ pub async fn wrapper_get_r_subreddit_about_spam(
 pub async fn wrapper_get_about_modqueue(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -150,7 +151,7 @@ pub async fn wrapper_get_about_modqueue(
 pub async fn wrapper_get_r_subreddit_about_modqueue(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -169,7 +170,7 @@ pub async fn wrapper_get_r_subreddit_about_modqueue(
 pub async fn wrapper_get_about_unmoderated(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -187,7 +188,7 @@ pub async fn wrapper_get_about_unmoderated(
 pub async fn wrapper_get_r_subreddit_about_unmoderated(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -206,7 +207,7 @@ pub async fn wrapper_get_r_subreddit_about_unmoderated(
 pub async fn wrapper_get_about_edited(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -224,7 +225,7 @@ pub async fn wrapper_get_about_edited(
 pub async fn wrapper_get_r_subreddit_about_edited(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -243,7 +244,7 @@ pub async fn wrapper_get_r_subreddit_about_edited(
 pub async fn wrapper_post_api_accept_moderator_invite(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiAcceptModeratorInvite,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -261,7 +262,7 @@ pub async fn wrapper_post_api_accept_moderator_invite(
 pub async fn wrapper_post_r_subreddit_api_accept_moderator_invite(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   parameters: &HashMap<String, String>,
   request_fields: RSubredditApiAcceptModeratorInvite,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -280,7 +281,7 @@ pub async fn wrapper_post_r_subreddit_api_accept_moderator_invite(
 pub async fn wrapper_post_api_approve(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiApprove,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -298,7 +299,7 @@ pub async fn wrapper_post_api_approve(
 pub async fn wrapper_post_api_distinguish(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiDistinguish,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -316,7 +317,7 @@ pub async fn wrapper_post_api_distinguish(
 pub async fn wrapper_post_api_ignore_reports(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiIgnoreReport,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -334,7 +335,7 @@ pub async fn wrapper_post_api_ignore_reports(
 pub async fn wrapper_post_api_leavecontributor(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiLeavecontributor,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -352,7 +353,7 @@ pub async fn wrapper_post_api_leavecontributor(
 pub async fn wrapper_post_api_leavemoderator(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiLeavemoderator,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -370,7 +371,7 @@ pub async fn wrapper_post_api_leavemoderator(
 pub async fn wrapper_post_api_mute_message_author(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiMuteMessageAuthor,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -388,7 +389,7 @@ pub async fn wrapper_post_api_mute_message_author(
 pub async fn wrapper_post_api_remove(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiRemove,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -406,7 +407,7 @@ pub async fn wrapper_post_api_remove(
 pub async fn wrapper_post_api_show_comment(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiShowComment,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -424,7 +425,7 @@ pub async fn wrapper_post_api_show_comment(
 pub async fn wrapper_post_api_unignore_reports(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiUnignoreReport,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -442,7 +443,7 @@ pub async fn wrapper_post_api_unignore_reports(
 pub async fn wrapper_post_api_unmute_message_author(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiUnmuteMessageAuthor,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -460,7 +461,7 @@ pub async fn wrapper_post_api_unmute_message_author(
 pub async fn wrapper_post_api_update_crowd_control_level(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiUpdateCrowdControlLevel,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -478,7 +479,7 @@ pub async fn wrapper_post_api_update_crowd_control_level(
 pub async fn wrapper_get_stylesheet(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
@@ -495,7 +496,7 @@ pub async fn wrapper_get_stylesheet(
 pub async fn wrapper_get_r_subreddit_stylesheet(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(

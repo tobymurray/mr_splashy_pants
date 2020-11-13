@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
 
 use crate::{
   api::{
@@ -16,7 +17,7 @@ use crate::{
 pub async fn wrapper_get_api_trending_subreddits(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
@@ -33,7 +34,7 @@ pub async fn wrapper_get_api_trending_subreddits(
 pub async fn wrapper_get_best(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -51,7 +52,7 @@ pub async fn wrapper_get_best(
 pub async fn wrapper_get_by_id_names(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -70,7 +71,7 @@ pub async fn wrapper_get_by_id_names(
 pub async fn wrapper_get_comments_article(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<Vec<models::Listing<subreddit_comments_response::Data>>, reqwest::Error> {
@@ -89,7 +90,7 @@ pub async fn wrapper_get_comments_article(
 pub async fn wrapper_get_r_subreddit_comments_article(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<Vec<models::Listing<subreddit_comments_response::Data>>, reqwest::Error> {
@@ -108,7 +109,7 @@ pub async fn wrapper_get_r_subreddit_comments_article(
 pub async fn wrapper_get_duplicates_article(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -127,7 +128,7 @@ pub async fn wrapper_get_duplicates_article(
 pub async fn wrapper_get_hot(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -145,7 +146,7 @@ pub async fn wrapper_get_hot(
 pub async fn wrapper_get_r_subreddit_hot(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -164,7 +165,7 @@ pub async fn wrapper_get_r_subreddit_hot(
 pub async fn wrapper_get_new(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -182,7 +183,7 @@ pub async fn wrapper_get_new(
 pub async fn wrapper_get_r_subreddit_new(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<models::Listing<subreddit_new::Data>, reqwest::Error> {
@@ -201,7 +202,7 @@ pub async fn wrapper_get_r_subreddit_new(
 pub async fn wrapper_get_random(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
@@ -218,7 +219,7 @@ pub async fn wrapper_get_random(
 pub async fn wrapper_get_r_subreddit_random(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -236,7 +237,7 @@ pub async fn wrapper_get_r_subreddit_random(
 pub async fn wrapper_get_rising(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -254,7 +255,7 @@ pub async fn wrapper_get_rising(
 pub async fn wrapper_get_r_subreddit_rising(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -273,7 +274,7 @@ pub async fn wrapper_get_r_subreddit_rising(
 pub async fn wrapper_get_top(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -291,7 +292,7 @@ pub async fn wrapper_get_top(
 pub async fn wrapper_get_r_subreddit_top(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -310,7 +311,7 @@ pub async fn wrapper_get_r_subreddit_top(
 pub async fn wrapper_get_controversial(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -328,7 +329,7 @@ pub async fn wrapper_get_controversial(
 pub async fn wrapper_get_r_subreddit_controversial(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {

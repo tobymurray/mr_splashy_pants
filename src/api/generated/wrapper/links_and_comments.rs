@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
 
 use crate::{
   api::{
@@ -19,7 +20,7 @@ use crate::{
 pub async fn wrapper_post_api_submit(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiSubmit,
 ) -> Result<ApiSubmitResponse, reqwest::Error> {
   utils::execute_with_refresh(
@@ -37,7 +38,7 @@ pub async fn wrapper_post_api_submit(
 pub async fn wrapper_post_api_submit_crosspost(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiSubmitCrosspost,
 ) -> Result<ApiSubmitResponse, reqwest::Error> {
   utils::execute_with_refresh(
@@ -55,7 +56,7 @@ pub async fn wrapper_post_api_submit_crosspost(
 pub async fn wrapper_post_api_del(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiDel,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(

@@ -1,3 +1,4 @@
+use std::sync::{Arc, Mutex};
 use std::{collections::HashMap, future::Future};
 
 use crate::{api::generated::wrapper::oauth, pants::client};
@@ -24,7 +25,7 @@ impl fmt::Display for RateLimit {
 pub async fn execute_with_refresh<'a, 'b, F, Fut, R: for<'de> serde::Deserialize<'de>>(
   client: &'a reqwest::Client,
   client_configuration: &'a client::ClientConfiguration,
-  access_token: &'a mut String,
+  access_token: Arc<Mutex<String>>,
   parameters: &'a HashMap<String, String>,
   request_fields: &'a serde_json::Value,
   f: F,
@@ -35,9 +36,11 @@ where
 {
   trace!("Request fields: {}", request_fields);
   trace!("Parameters: {:?}", parameters);
-  trace!("Initial access token: {}", access_token);
 
-  match f(client, access_token.clone(), parameters, request_fields).await {
+  let mut guard = access_token.lock().unwrap();
+  trace!("Initial access token: {:?}", access_token);
+
+  match f(client, (*guard).clone().to_string(), parameters, request_fields).await {
     Ok(response) => match response.error_for_status() {
       Ok(response) => Ok(deserialize(response).await?),
       Err(error) => {
@@ -66,13 +69,13 @@ where
           .await;
 
           trace!("The renewed access token is: {}", new_access_token);
-          *access_token = new_access_token;
+          *guard = new_access_token;
         }
 
-        let second_response = f(client, access_token.clone(), parameters, request_fields).await?;
+        let second_response = f(client, (*guard).clone().to_string(), parameters, request_fields).await?;
         deserialize(second_response).await
       }
-    },
+  },
     Err(e) => {
       error!(
         "While trying to execute an API, both initial attempt and retry failed due to: {}",

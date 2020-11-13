@@ -30,12 +30,13 @@ use futures_core::stream::Stream;
 use reqwest::Client;
 use std::collections::HashMap;
 use std::collections::HashSet;
+use std::sync::{Arc, Mutex};
 use std::{thread, time};
 
 pub struct Pants {
     pub client: Client,
     pub client_configuration: ClientConfiguration,
-    pub access_token: String,
+    pub access_token: Arc<Mutex<String>>,
 }
 
 impl Pants {
@@ -48,7 +49,7 @@ impl Pants {
     ) -> Pants {
         Pants {
             client: reqwest::Client::builder().user_agent(user_agent).build().unwrap(),
-            access_token,
+            access_token: Arc::new(Mutex::new(access_token)),
             client_configuration: pants_client::ClientConfiguration::new(
                 user_agent,
                 refresh_token,
@@ -59,89 +60,94 @@ impl Pants {
     }
 
     // ACCOUNT
-    pub async fn me(&mut self) -> Result<account::MeResponse, reqwest::Error> {
-        account_wrapper::wrapper_get_api_v1_me(&self.client, &self.client_configuration, &mut self.access_token).await
-    }
-
-    pub async fn me_karma(&mut self) -> Result<account::MeKarmaResponse, reqwest::Error> {
-        account_wrapper::wrapper_get_api_v1_me_karma(&self.client, &self.client_configuration, &mut self.access_token)
+    pub async fn me(&self) -> Result<account::MeResponse, reqwest::Error> {
+        account_wrapper::wrapper_get_api_v1_me(&self.client, &self.client_configuration, self.access_token.clone())
             .await
     }
 
-    pub async fn me_prefs(&mut self) -> Result<account::MePrefsResponse, reqwest::Error> {
+    pub async fn me_karma(&self) -> Result<account::MeKarmaResponse, reqwest::Error> {
+        account_wrapper::wrapper_get_api_v1_me_karma(
+            &self.client,
+            &self.client_configuration,
+            self.access_token.clone(),
+        )
+        .await
+    }
+
+    pub async fn me_prefs(&self) -> Result<account::MePrefsResponse, reqwest::Error> {
         account_wrapper::wrapper_get_api_v1_me_prefs(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
-    pub async fn me_trophies(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn me_trophies(&self) -> Result<serde_json::Value, reqwest::Error> {
         account_wrapper::wrapper_get_api_v1_me_trophies(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
         )
         .await
     }
 
-    pub async fn prefs_friends(&mut self) -> Result<Vec<account::PrefsFriendsResponse>, reqwest::Error> {
+    pub async fn prefs_friends(&self) -> Result<Vec<account::PrefsFriendsResponse>, reqwest::Error> {
         account_wrapper::wrapper_get_prefs_friends(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
-    pub async fn prefs_blocked(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn prefs_blocked(&self) -> Result<serde_json::Value, reqwest::Error> {
         account_wrapper::wrapper_get_prefs_blocked(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
-    pub async fn prefs_messaging(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn prefs_messaging(&self) -> Result<serde_json::Value, reqwest::Error> {
         account_wrapper::wrapper_get_prefs_messaging(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
-    pub async fn prefs_trusted(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn prefs_trusted(&self) -> Result<serde_json::Value, reqwest::Error> {
         account_wrapper::wrapper_get_prefs_trusted(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
-    pub async fn me_friends(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn me_friends(&self) -> Result<serde_json::Value, reqwest::Error> {
         account_wrapper::wrapper_get_api_v1_me_friends(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
-    pub async fn me_blocked(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn me_blocked(&self) -> Result<serde_json::Value, reqwest::Error> {
         account_wrapper::wrapper_get_api_v1_me_blocked(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             &serde_json::from_str("{}").unwrap(),
         )
         .await
@@ -149,35 +155,35 @@ impl Pants {
 
     // Listings
 
-    pub async fn trending_subreddits(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn trending_subreddits(&self) -> Result<serde_json::Value, reqwest::Error> {
         listing_wrapper::wrapper_get_api_trending_subreddits(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
         )
         .await
     }
 
-    pub async fn by_id_names(&mut self, fullnames: Vec<String>) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn by_id_names(&self, fullnames: Vec<String>) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("names".to_string(), fullnames.into_iter().collect());
         listing_wrapper::wrapper_get_by_id_names(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
         .await
     }
 
-    pub async fn duplicates_article(&mut self, article: String) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn duplicates_article(&self, article: String) -> Result<serde_json::Value, reqwest::Error> {
         let mut parameters = HashMap::new();
         parameters.insert("article".to_string(), article);
         listing_wrapper::wrapper_get_duplicates_article(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             &parameters,
             &serde_json::from_str("{}").unwrap(),
         )
@@ -186,39 +192,36 @@ impl Pants {
 
     // LINKS AND COMMENTS
     pub async fn submit(
-        &mut self,
+        &self,
         request_fields: links_and_comments::ApiSubmit,
     ) -> Result<ApiSubmitResponse, reqwest::Error> {
         links_and_comments_wrapper::wrapper_post_api_submit(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             request_fields,
         )
         .await
     }
 
     pub async fn crosspost(
-        &mut self,
+        &self,
         request_fields: links_and_comments::ApiSubmitCrosspost,
     ) -> Result<ApiSubmitResponse, reqwest::Error> {
         links_and_comments_wrapper::wrapper_post_api_submit_crosspost(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             request_fields,
         )
         .await
     }
 
-    pub async fn del(
-        &mut self,
-        request_fields: links_and_comments::ApiDel,
-    ) -> Result<serde_json::Value, reqwest::Error> {
+    pub async fn del(&self, request_fields: links_and_comments::ApiDel) -> Result<serde_json::Value, reqwest::Error> {
         links_and_comments_wrapper::wrapper_post_api_del(
             &self.client,
             &self.client_configuration,
-            &mut self.access_token,
+            self.access_token.clone(),
             request_fields,
         )
         .await
@@ -249,7 +252,7 @@ impl Pants {
     /// There are significant limitations to this method:
     ///     - requests are made to each subreddit every 1s * subreddits.len()
     ///     - if traffic is sufficiently high (> 25 posts in 1s * subreddits.len()), posts will be skipped
-    pub fn stream_new<'a>(&'a mut self, subreddits: Vec<&'a str>) -> impl Stream<Item = listing_response::Data> + 'a {
+    pub fn stream_new<'a>(&'a self, subreddits: Vec<&'a str>) -> impl Stream<Item = listing_response::Data> + 'a {
         let mut responses_so_far = HashSet::new();
         stream! {
             loop {
@@ -273,19 +276,19 @@ impl Pants {
 
     ///////////////////
 
-    pub fn subreddit(&mut self, name: &str) -> Subreddit {
+    pub fn subreddit(&self, name: &str) -> Subreddit {
         Subreddit::build(name.to_string(), self)
     }
 
-    pub fn front_page(&mut self) -> FrontPage {
+    pub fn front_page(&self) -> FrontPage {
         FrontPage::build(self)
     }
 
-    pub fn user(&mut self, name: &str) -> User {
+    pub fn user(&self, name: &str) -> User {
         User::build(name.to_string(), self)
     }
 
-    pub fn users(&mut self) -> Users {
+    pub fn users(&self) -> Users {
         Users::build(self)
     }
 }

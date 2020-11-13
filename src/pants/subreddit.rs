@@ -25,16 +25,16 @@ use std::{thread, time};
 
 pub struct Subreddit<'a> {
   name: String,
-  pants: &'a mut Pants,
+  pants: &'a Pants,
 }
 
 impl<'a> Subreddit<'a> {
-  pub fn build(name: String, pants: &'a mut Pants) -> Subreddit {
+  pub fn build(name: String, pants: &'a Pants) -> Subreddit {
     Subreddit { name, pants }
   }
 
   pub async fn comments(
-    &mut self,
+    &self,
     article: &str,
   ) -> Result<Vec<models::Listing<subreddit_comments_response::Data>>, reqwest::Error> {
     let mut parameters = HashMap::new();
@@ -43,20 +43,20 @@ impl<'a> Subreddit<'a> {
     listing_wrapper::wrapper_get_r_subreddit_comments_article(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
     .await
   }
 
-  pub async fn hot(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn hot(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     listing_wrapper::wrapper_get_r_subreddit_hot(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -64,7 +64,7 @@ impl<'a> Subreddit<'a> {
   }
 
   pub async fn new(
-    &mut self,
+    &self,
     query_parameters: &listing_request::New,
   ) -> Result<models::Listing<listing_response::Data>, reqwest::Error> {
     let mut parameters = HashMap::new();
@@ -72,7 +72,7 @@ impl<'a> Subreddit<'a> {
     listing_wrapper::wrapper_get_r_subreddit_new(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::to_value(query_parameters).unwrap(),
     )
@@ -82,7 +82,7 @@ impl<'a> Subreddit<'a> {
   /// NOTE: This stream does not terminate!
   /// Create a stream of any new posts. Continually emits new posts as they're posted for as long
   /// as the program executes.
-  pub fn stream_new(&'a mut self) -> impl Stream<Item = listing_response::Data> + 'a {
+  pub fn stream_new(&'a self) -> impl Stream<Item = listing_response::Data> + 'a {
     let mut responses_so_far = HashSet::new();
     stream! {
         loop {
@@ -106,7 +106,7 @@ impl<'a> Subreddit<'a> {
 
   /// Create a stream of the most recent ~1000 posts, from newest to oldest. The stream will
   /// terminate once all available posts have been emitted.
-  pub fn stream_historical(&'a mut self) -> impl Stream<Item = listing_response::Data> + 'a {
+  pub fn stream_historical(&'a self) -> impl Stream<Item = listing_response::Data> + 'a {
     stream! {
       let mut query_parameters = listing_request::New { ..Default::default() };
       let mut page_of_posts = match self.new(&query_parameters).await {
@@ -144,7 +144,7 @@ impl<'a> Subreddit<'a> {
 
   /// Create a stream of the most recent ~1000 posts, from newest to oldest. The stream will
   /// terminate once all available posts have been emitted.
-  pub fn stream_spam(&'a mut self) -> impl Stream<Item = about_spam::Data> + 'a {
+  pub fn stream_spam(&'a self) -> impl Stream<Item = about_spam::Data> + 'a {
     stream! {
       let mut query_parameters = moderation_request::AboutSpam { ..Default::default() };
       let mut page_of_posts = match self.about_spam(&query_parameters).await {
@@ -180,77 +180,77 @@ impl<'a> Subreddit<'a> {
     }
   }
 
-  pub async fn random(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn random(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     listing_wrapper::wrapper_get_r_subreddit_random(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
     )
     .await
   }
 
-  pub async fn rising(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn rising(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     listing_wrapper::wrapper_get_r_subreddit_rising(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
     .await
   }
 
-  pub async fn top(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn top(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     listing_wrapper::wrapper_get_r_subreddit_top(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
     .await
   }
 
-  pub async fn controversial(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn controversial(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     listing_wrapper::wrapper_get_r_subreddit_controversial(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
     .await
   }
 
-  pub async fn about_log(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn about_log(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     moderation_wrapper::wrapper_get_r_subreddit_about_log(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
     .await
   }
 
-  pub async fn about_reports(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn about_reports(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     moderation_wrapper::wrapper_get_r_subreddit_about_reports(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -258,7 +258,7 @@ impl<'a> Subreddit<'a> {
   }
 
   pub async fn about_spam(
-    &mut self,
+    &self,
     query_parameters: &moderation_request::AboutSpam,
   ) -> Result<models::Listing<about_spam::Data>, reqwest::Error> {
     let mut parameters = HashMap::new();
@@ -266,59 +266,59 @@ impl<'a> Subreddit<'a> {
     moderation_wrapper::wrapper_get_r_subreddit_about_spam(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::to_value(query_parameters).unwrap(),
     )
     .await
   }
 
-  pub async fn about_modqueue(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn about_modqueue(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     moderation_wrapper::wrapper_get_r_subreddit_about_modqueue(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
     .await
   }
 
-  pub async fn about_unmoderated(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn about_unmoderated(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     moderation_wrapper::wrapper_get_r_subreddit_about_unmoderated(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
     .await
   }
 
-  pub async fn about_edited(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn about_edited(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     moderation_wrapper::wrapper_get_r_subreddit_about_edited(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
     .await
   }
 
-  pub async fn stylesheet(&mut self) -> Result<serde_json::Value, reqwest::Error> {
+  pub async fn stylesheet(&self) -> Result<serde_json::Value, reqwest::Error> {
     let mut parameters = HashMap::new();
     parameters.insert("subreddit".to_string(), self.name.clone());
     moderation_wrapper::wrapper_get_r_subreddit_stylesheet(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
     )
     .await

@@ -12,11 +12,11 @@ use crate::{
 use std::collections::HashMap;
 
 pub struct FrontPage<'a> {
-  pants: &'a mut Pants,
+  pants: &'a Pants,
 }
 
 impl<'a> FrontPage<'a> {
-  pub fn build(pants: &'a mut Pants) -> FrontPage<'a> {
+  pub fn build(pants: &'a Pants) -> FrontPage<'a> {
     FrontPage { pants }
   }
 
@@ -29,7 +29,7 @@ impl<'a> FrontPage<'a> {
     listing_wrapper::wrapper_get_comments_article(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &parameters,
       &serde_json::from_str("{}").unwrap(),
     )
@@ -40,7 +40,7 @@ impl<'a> FrontPage<'a> {
     listing_wrapper::wrapper_get_hot(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -50,7 +50,7 @@ impl<'a> FrontPage<'a> {
     listing_wrapper::wrapper_get_new(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -60,7 +60,7 @@ impl<'a> FrontPage<'a> {
     listing_wrapper::wrapper_get_random(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
     )
     .await
   }
@@ -69,7 +69,7 @@ impl<'a> FrontPage<'a> {
     listing_wrapper::wrapper_get_rising(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -79,7 +79,7 @@ impl<'a> FrontPage<'a> {
     listing_wrapper::wrapper_get_top(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -89,7 +89,7 @@ impl<'a> FrontPage<'a> {
     listing_wrapper::wrapper_get_controversial(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -99,7 +99,7 @@ impl<'a> FrontPage<'a> {
     listing_wrapper::wrapper_get_best(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -109,7 +109,7 @@ impl<'a> FrontPage<'a> {
     moderation_wrapper::wrapper_get_about_edited(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -119,7 +119,7 @@ impl<'a> FrontPage<'a> {
     moderation_wrapper::wrapper_get_about_log(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -129,7 +129,7 @@ impl<'a> FrontPage<'a> {
     moderation_wrapper::wrapper_get_about_modqueue(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -139,7 +139,7 @@ impl<'a> FrontPage<'a> {
     moderation_wrapper::wrapper_get_about_reports(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -149,7 +149,7 @@ impl<'a> FrontPage<'a> {
     moderation_wrapper::wrapper_get_about_spam(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -159,7 +159,7 @@ impl<'a> FrontPage<'a> {
     moderation_wrapper::wrapper_get_about_unmoderated(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
       &serde_json::from_str("{}").unwrap(),
     )
     .await
@@ -169,7 +169,7 @@ impl<'a> FrontPage<'a> {
     moderation_wrapper::wrapper_get_stylesheet(
       &self.pants.client,
       &self.pants.client_configuration,
-      &mut self.pants.access_token,
+      self.pants.access_token.clone(),
     )
     .await
   }
@@ -197,7 +197,7 @@ mod tests {
 
   #[test]
   fn comments() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().comments("ins0kg")) {
       Ok(response) => println!(
@@ -210,7 +210,7 @@ mod tests {
 
   #[test]
   fn hot() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().hot()) {
       Ok(response) => println!("Response to hot is: {:#?}", response),
@@ -220,7 +220,7 @@ mod tests {
 
   #[test]
   fn new() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().new()) {
       Ok(response) => println!("Response to new is: {:#?}", response),
@@ -230,7 +230,7 @@ mod tests {
 
   #[test]
   fn random() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().random()) {
       Ok(response) => println!("Response to random is: {:#?}", response),
@@ -240,7 +240,7 @@ mod tests {
 
   #[test]
   fn rising() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().rising()) {
       Ok(response) => println!("Response to rising is: {:#?}", response),
@@ -250,7 +250,7 @@ mod tests {
 
   #[test]
   fn top() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().top()) {
       Ok(response) => println!("Response to top is: {:#?}", response),
@@ -260,7 +260,7 @@ mod tests {
 
   #[test]
   fn controversial() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().controversial()) {
       Ok(response) => println!("Response to controversial is: {:#?}", response),
@@ -270,7 +270,7 @@ mod tests {
 
   #[test]
   fn best() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().best()) {
       Ok(response) => println!("Response to best is: {:#?}", response),
@@ -280,7 +280,7 @@ mod tests {
 
   #[test]
   fn about_edited() {
-    let mut pants = build_pants();
+    let pants = build_pants();
     match tokio_test::block_on(pants.front_page().about_edited()) {
       Ok(response) => println!("Response to about_edited is: {:#?}", response),
       Err(e) => panic!("An error ocurred: {}", e),
@@ -289,7 +289,7 @@ mod tests {
 
   #[test]
   fn about_log() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().about_log()) {
       Ok(response) => println!("Response to about_log is: {:#?}", response),
@@ -298,7 +298,7 @@ mod tests {
   }
   #[test]
   fn about_reports() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().about_reports()) {
       Ok(response) => println!("Response to about_reports is: {:#?}", response),
@@ -308,7 +308,7 @@ mod tests {
 
   #[test]
   fn about_spam() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().about_spam()) {
       Ok(response) => println!("Response to about_spam is: {:#?}", response),
@@ -317,7 +317,7 @@ mod tests {
   }
   #[test]
   fn about_unmoderated() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().about_unmoderated()) {
       Ok(response) => println!("Response to about_unmoderated is: {:#?}", response),
@@ -327,7 +327,7 @@ mod tests {
 
   #[test]
   fn stylesheet() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.front_page().stylesheet()) {
       Ok(response) => println!("Response to stylesheet is: {:#?}", response),

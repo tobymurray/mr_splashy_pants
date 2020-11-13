@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
 
 use crate::{
   api::{
@@ -18,7 +19,7 @@ use crate::{
 pub async fn wrapper_post_api_block_user(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiBlockUser,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -36,7 +37,7 @@ pub async fn wrapper_post_api_block_user(
 pub async fn wrapper_post_api_friend(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiFriend,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -54,7 +55,7 @@ pub async fn wrapper_post_api_friend(
 pub async fn wrapper_post_r_subreddit_api_friend(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   parameters: &HashMap<String, String>,
   request_fields: RSubredditApiFriend,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -73,7 +74,7 @@ pub async fn wrapper_post_r_subreddit_api_friend(
 pub async fn wrapper_post_api_report_user(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiReportUser,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -91,7 +92,7 @@ pub async fn wrapper_post_api_report_user(
 pub async fn wrapper_post_api_setpermissions(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiSetpermission,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -109,7 +110,7 @@ pub async fn wrapper_post_api_setpermissions(
 pub async fn wrapper_post_r_subreddit_api_setpermissions(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   parameters: &HashMap<String, String>,
   request_fields: RSubredditApiSetpermission,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -128,7 +129,7 @@ pub async fn wrapper_post_r_subreddit_api_setpermissions(
 pub async fn wrapper_post_api_unfriend(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   request_fields: ApiUnfriend,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -146,7 +147,7 @@ pub async fn wrapper_post_api_unfriend(
 pub async fn wrapper_post_r_subreddit_api_unfriend(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   parameters: &HashMap<String, String>,
   request_fields: RSubredditApiUnfriend,
 ) -> Result<serde_json::Value, reqwest::Error> {
@@ -165,13 +166,13 @@ pub async fn wrapper_post_r_subreddit_api_unfriend(
 pub async fn wrapper_get_api_user_data_by_account_ids(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     query_parameters,
     users_execution::execute_get_api_user_data_by_account_ids,
@@ -183,13 +184,13 @@ pub async fn wrapper_get_api_user_data_by_account_ids(
 pub async fn wrapper_get_api_username_available(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     &HashMap::new(),
     query_parameters,
     users_execution::execute_get_api_username_available,
@@ -201,14 +202,14 @@ pub async fn wrapper_get_api_username_available(
 pub async fn wrapper_get_api_v1_user_username_trophies(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_api_v1_user_username_trophies,
@@ -220,14 +221,14 @@ pub async fn wrapper_get_api_v1_user_username_trophies(
 pub async fn wrapper_get_user_username_about(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_user_username_about,
@@ -239,14 +240,14 @@ pub async fn wrapper_get_user_username_about(
 pub async fn wrapper_get_user_username_overview(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_user_username_overview,
@@ -258,14 +259,14 @@ pub async fn wrapper_get_user_username_overview(
 pub async fn wrapper_get_user_username_submitted(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_user_username_submitted,
@@ -277,14 +278,14 @@ pub async fn wrapper_get_user_username_submitted(
 pub async fn wrapper_get_user_username_comments(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_user_username_comments,
@@ -296,14 +297,14 @@ pub async fn wrapper_get_user_username_comments(
 pub async fn wrapper_get_user_username_upvoted(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_user_username_upvoted,
@@ -315,14 +316,14 @@ pub async fn wrapper_get_user_username_upvoted(
 pub async fn wrapper_get_user_username_downvoted(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_user_username_downvoted,
@@ -334,14 +335,14 @@ pub async fn wrapper_get_user_username_downvoted(
 pub async fn wrapper_get_user_username_hidden(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_user_username_hidden,
@@ -353,14 +354,14 @@ pub async fn wrapper_get_user_username_hidden(
 pub async fn wrapper_get_user_username_saved(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_user_username_saved,
@@ -372,14 +373,14 @@ pub async fn wrapper_get_user_username_saved(
 pub async fn wrapper_get_user_username_gilded(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  refresh_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   uri_parameters: &HashMap<String, String>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
     client_configuration,
-    refresh_token,
+    access_token,
     uri_parameters,
     query_parameters,
     users_execution::execute_get_user_username_gilded,

@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
 
 use crate::{
   api::{
@@ -12,7 +13,7 @@ use crate::{
 pub async fn wrapper_get_api_v1_me(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
 ) -> Result<account::MeResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
@@ -29,7 +30,7 @@ pub async fn wrapper_get_api_v1_me(
 pub async fn wrapper_get_api_v1_me_karma(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
 ) -> Result<account::MeKarmaResponse, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
@@ -46,7 +47,7 @@ pub async fn wrapper_get_api_v1_me_karma(
 pub async fn wrapper_get_api_v1_me_prefs(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<account::MePrefsResponse, reqwest::Error> {
   utils::execute_with_refresh(
@@ -64,7 +65,7 @@ pub async fn wrapper_get_api_v1_me_prefs(
 pub async fn wrapper_get_api_v1_me_trophies(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
     &client,
@@ -81,7 +82,7 @@ pub async fn wrapper_get_api_v1_me_trophies(
 pub async fn wrapper_get_prefs_friends(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<Vec<account::PrefsFriendsResponse>, reqwest::Error> {
   utils::execute_with_refresh(
@@ -99,7 +100,7 @@ pub async fn wrapper_get_prefs_friends(
 pub async fn wrapper_get_prefs_blocked(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -117,7 +118,7 @@ pub async fn wrapper_get_prefs_blocked(
 pub async fn wrapper_get_prefs_messaging(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -135,7 +136,7 @@ pub async fn wrapper_get_prefs_messaging(
 pub async fn wrapper_get_prefs_trusted(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -153,7 +154,7 @@ pub async fn wrapper_get_prefs_trusted(
 pub async fn wrapper_get_api_v1_me_friends(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
@@ -171,7 +172,7 @@ pub async fn wrapper_get_api_v1_me_friends(
 pub async fn wrapper_get_api_v1_me_blocked(
   client: &reqwest::Client,
   client_configuration: &client::ClientConfiguration,
-  access_token: &mut String,
+  access_token: Arc<Mutex<String>>,
   query_parameters: &serde_json::Value,
 ) -> Result<serde_json::Value, reqwest::Error> {
   utils::execute_with_refresh(
