@@ -16,8 +16,7 @@ Alternatively, you can follow https://github.com/reddit-archive/reddit/wiki/OAut
 Set up a script with access to a Reddit account, collect the access token, the client ID, and the client secret. Once you have that, get a refresh token and an access token. Once you have that you can do:
 
 ```
-// pants is mutable so the access token can be updated
-let mut pants = Pants::new(
+let pants = Pants::new(
     USER_AGENT,
     "<access-token>",
     "<refresh_token>",
@@ -27,8 +26,7 @@ let mut pants = Pants::new(
 ```
 For example, if you're using dotenv and reading values from the environment:
 ```
-// pants is mutable so the access token can be updated
-let mut pants = Pants::new(
+let pants = Pants::new(
     USER_AGENT,
     env::var("ACCESS_TOKEN").unwrap(),
     &env::var("REFRESH_TOKEN").unwrap(),
