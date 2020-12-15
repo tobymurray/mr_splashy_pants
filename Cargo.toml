@@ -23,7 +23,7 @@ async-stream = "0.3"
 log = "0.4"
 
 [dev-dependencies]
-tokio-test = "0.2"
+tokio-test = "0.3"
 dotenv = "0.15"
 futures-util = "0.3"
 fern = "0.6"
