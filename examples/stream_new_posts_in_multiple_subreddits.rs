@@ -10,7 +10,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   // Unfortunately, you must supply your own credentials to submit a post
   dotenv::dotenv().ok();
 
-  let mut pants = Pants::new(
+  let pants = Pants::new(
     "Microsoft Windows 10 Home:ca.technicallyrural.testapp:0.0.1 (by /u/ample_bird)",
     env::var("ACCESS_TOKEN").unwrap(),
     &env::var("REFRESH_TOKEN").unwrap(),
