@@ -351,7 +351,7 @@ mod tests {
 
   #[test]
   fn subreddit_comments() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(SUBREDDIT).comments("ins0kg")) {
       Ok(response) => println!(
@@ -364,7 +364,7 @@ mod tests {
 
   #[test]
   fn subreddit_hot() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(SUBREDDIT).hot()) {
       Ok(response) => println!("Response to hot is: {:#?}", response),
@@ -374,7 +374,7 @@ mod tests {
 
   #[test]
   fn subreddit_new() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     let query_parameters = listing_request::New { ..Default::default() };
 
@@ -389,7 +389,7 @@ mod tests {
 
   #[test]
   fn subreddit_random() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(SUBREDDIT).random()) {
       Ok(response) => println!("Response to random is: {:#?}", response),
@@ -399,7 +399,7 @@ mod tests {
 
   #[test]
   fn subreddit_rising() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(SUBREDDIT).rising()) {
       Ok(response) => println!("Response to rising is: {:#?}", response),
@@ -409,7 +409,7 @@ mod tests {
 
   #[test]
   fn subreddit_top() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(SUBREDDIT).top()) {
       Ok(response) => println!("Response to top is: {:#?}", response),
@@ -419,7 +419,7 @@ mod tests {
 
   #[test]
   fn subreddit_controversial() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(SUBREDDIT).controversial()) {
       Ok(response) => println!("Response to controversial is: {:#?}", response),
@@ -429,7 +429,7 @@ mod tests {
 
   #[test]
   fn subreddit_about_log() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_log()) {
       Ok(response) => println!("Response to about_log is: {:#?}", response),
@@ -439,7 +439,7 @@ mod tests {
 
   #[test]
   fn subreddit_about_reports() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_reports()) {
       Ok(response) => println!("Response to about_reports is: {:#?}", response),
@@ -449,7 +449,7 @@ mod tests {
 
   #[test]
   fn subreddit_about_spam() {
-    let mut pants = build_pants();
+    let pants = build_pants();
     let query_parameters = moderation_request::AboutSpam { ..Default::default() };
 
     match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_spam(&query_parameters)) {
@@ -460,7 +460,7 @@ mod tests {
 
   #[test]
   fn subreddit_about_modqueue() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_modqueue()) {
       Ok(response) => println!("Response to about_modqueue is: {:#?}", response),
@@ -470,7 +470,7 @@ mod tests {
 
   #[test]
   fn subreddit_about_unmoderated() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_unmoderated()) {
       Ok(response) => println!("Response to about_unmoderated is: {:#?}", response),
@@ -480,7 +480,7 @@ mod tests {
 
   #[test]
   fn subreddit_about_edited() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).about_edited()) {
       Ok(response) => println!("Response to about_edited is: {:#?}", response),
@@ -490,7 +490,7 @@ mod tests {
 
   #[test]
   fn subreddit_stylesheet() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.subreddit(MODERATED_SUBREDDIT).stylesheet()) {
       Ok(response) => println!("Response to stylesheet is: {:#?}", response),

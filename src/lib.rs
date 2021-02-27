@@ -48,7 +48,7 @@ mod tests {
     // Accounts
     #[test]
     fn me() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.me()) {
             Ok(response) => println!("Successfully got response on first invocation: {:#?}", response),
@@ -58,7 +58,7 @@ mod tests {
 
     #[test]
     fn me_karma() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.me_karma()) {
             Ok(response) => println!("Response to me_karma is: {:#?}", response),
@@ -68,7 +68,7 @@ mod tests {
 
     #[test]
     fn me_prefs() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.me_prefs()) {
             Ok(response) => println!("Response to me_prefs is: {:#?}", response),
@@ -78,7 +78,7 @@ mod tests {
 
     #[test]
     fn me_trophies() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.me_trophies()) {
             Ok(response) => println!("Response to me_trophies is: {:#?}", response),
@@ -88,7 +88,7 @@ mod tests {
 
     #[test]
     fn prefs_friends() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.prefs_friends()) {
             Ok(response) => println!("Response to prefs_friends is: {:#?}", response),
@@ -98,7 +98,7 @@ mod tests {
 
     #[test]
     fn prefs_blocked() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.prefs_blocked()) {
             Ok(response) => println!("Response to prefs_blocked is: {:#?}", response),
@@ -108,7 +108,7 @@ mod tests {
 
     #[test]
     fn prefs_messaging() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.prefs_messaging()) {
             Ok(response) => println!("Response to prefs_messaging is: {:#?}", response),
@@ -118,7 +118,7 @@ mod tests {
 
     #[test]
     fn prefs_trusted() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.prefs_trusted()) {
             Ok(response) => println!("Response to prefs_trusted is: {:#?}", response),
@@ -128,7 +128,7 @@ mod tests {
 
     #[test]
     fn me_friends() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.me_friends()) {
             Ok(response) => println!("Response to me_friends is: {:#?}", response),
@@ -138,7 +138,7 @@ mod tests {
 
     #[test]
     fn me_blocked() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.me_blocked()) {
             Ok(response) => println!("Response to me_blocked is: {:#?}", response),
@@ -152,7 +152,7 @@ mod tests {
     fn trending_subreddits() {
         dotenv::dotenv().ok();
 
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         match tokio_test::block_on(pants.trending_subreddits()) {
             Ok(response) => println!("Response to trending_subreddits is: {:#?}", response),
@@ -189,7 +189,7 @@ mod tests {
 
     #[test]
     fn submit() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         let request_body = links_and_comments::ApiSubmit {
             url: "".to_string(),
@@ -242,7 +242,7 @@ mod tests {
 
     #[test]
     fn crosspost() {
-        let mut pants = build_pants();
+        let pants = build_pants();
 
         let request_body = links_and_comments::ApiSubmitCrosspost {
             api_type: "json".to_string(),

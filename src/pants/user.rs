@@ -154,7 +154,7 @@ mod tests {
 
   #[test]
   fn about() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.user(USER).about()) {
       Ok(response) => println!(
@@ -167,7 +167,7 @@ mod tests {
 
   #[test]
   fn comments() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.user(USER).comments()) {
       Ok(response) => println!(
@@ -180,7 +180,7 @@ mod tests {
 
   #[test]
   fn downvoted() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.user(USER).downvoted()) {
       Ok(response) => println!(
@@ -193,7 +193,7 @@ mod tests {
 
   #[test]
   fn gilded() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.user(USER).gilded()) {
       Ok(response) => println!(
@@ -206,7 +206,7 @@ mod tests {
 
   #[test]
   fn hidden() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.user(USER).hidden()) {
       Ok(response) => println!(
@@ -219,7 +219,7 @@ mod tests {
 
   #[test]
   fn overview() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.user(USER).overview()) {
       Ok(response) => println!(
@@ -232,7 +232,7 @@ mod tests {
 
   #[test]
   fn saved() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.user(USER).saved()) {
       Ok(response) => println!(
@@ -245,7 +245,7 @@ mod tests {
 
   #[test]
   fn submitted() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.user(USER).submitted()) {
       Ok(response) => println!(
@@ -258,7 +258,7 @@ mod tests {
 
   #[test]
   fn upvoted() {
-    let mut pants = build_pants();
+    let pants = build_pants();
 
     match tokio_test::block_on(pants.user(USER).upvoted()) {
       Ok(response) => println!(
