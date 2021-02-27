@@ -153,16 +153,16 @@ pub async fn execute_get_api_user_data_by_account_ids(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/api/user_data_by_account_ids");
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -177,16 +177,16 @@ pub async fn execute_get_api_username_available(
   let mut resolved_api_path = "https://oauth.reddit.com".to_string();
   resolved_api_path.push_str("/api/username_available");
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -207,16 +207,16 @@ pub async fn execute_get_api_v1_user_username_trophies(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -237,16 +237,16 @@ pub async fn execute_get_user_username_about(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -267,16 +267,16 @@ pub async fn execute_get_user_username_overview(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -297,16 +297,16 @@ pub async fn execute_get_user_username_submitted(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -327,16 +327,16 @@ pub async fn execute_get_user_username_comments(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -357,16 +357,16 @@ pub async fn execute_get_user_username_upvoted(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -387,16 +387,16 @@ pub async fn execute_get_user_username_downvoted(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -417,16 +417,16 @@ pub async fn execute_get_user_username_hidden(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -447,16 +447,16 @@ pub async fn execute_get_user_username_saved(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
@@ -477,16 +477,16 @@ pub async fn execute_get_user_username_gilded(
       .unwrap(),
   );
 
-  resolved_api_path.push_str("?");
+  resolved_api_path.push('?');
   for request_field in request_fields.as_object().unwrap() {
     if request_field.1.is_null() {
       continue;
     }
 
     resolved_api_path.push_str(request_field.0);
-    resolved_api_path.push_str("=");
+    resolved_api_path.push('=');
     resolved_api_path.push_str(request_field.1.as_str().unwrap());
-    resolved_api_path.push_str("&");
+    resolved_api_path.push('&');
   }
   utils::execute_get_api(&resolved_api_path, client, access_token).await
 }
