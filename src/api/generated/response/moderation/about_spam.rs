@@ -193,7 +193,7 @@ pub struct Data {
   pub rte_mode: Option<String>,
   #[serde(rename = "user_reports_dismissed")]
   #[serde(default)]
-  pub user_reports_dismissed: Option<Vec<(String, i64)>>,
+  pub user_reports_dismissed: Option<Vec<::serde_json::Value>>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
